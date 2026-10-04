@@ -43,7 +43,7 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 <footer>© 2026 ToolNest. All rights reserved. · <a href="mailto:kobraking@gmail.com">✉ Email Support</a></footer>
 </div>
 
-<div id="loginModal" class="modal"><div class="modalbox" style="max-width:430px"><button class="close" onclick="closeLogin()">×</button><div class="kicker">TOOLNEST ACCOUNT</div><h2>Welcome to ToolNest</h2><p class="muted">Sign in securely with your Google account.</p><button class="google" onclick="googleLogin()">G &nbsp; Continue with Google</button></div></div>
+<div id="loginModal" class="modal"><div class="modalbox" style="max-width:430px"><button class="close" onclick="closeLogin()">×</button><div class="kicker">TOOLNEST ACCOUNT</div><h2>Welcome to ToolNest</h2><p class="muted">Sign in securely with your Google account.</p><div id="googleGis" style="display:flex;justify-content:center;min-height:44px"></div><div class="note">Secure Google sign-in with Firebase Authentication.</div></div></div>
 
 <div id="dashboard" class="dashboard"><div class="dash">
 <div class="dashTop"><div><div class="kicker">ToolNest Workspace</div><h1 id="welcome">Welcome</h1><p id="userEmail" class="muted"></p></div><div><a class="btn secondary" href="mailto:kobraking@gmail.com">✉ Email Support</a> <button class="btn secondary" onclick="logout()">Logout</button></div></div>
@@ -96,9 +96,10 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 <div id="docModal" class="modal"><div class="modalbox" style="max-width:700px"><button class="close" onclick="closeDocTool()">×</button><div class="kicker">DOCUMENT STUDIO</div><h2 id="docTitle">Create document</h2><p class="muted">Fill the fields below. The document will be saved and can be downloaded as PDF.</p><div class="formgrid"><input id="docTo" class="input" placeholder="Name / Company / Recipient"><input id="docRef" class="input" placeholder="Reference / Number"><input id="docDate" class="input" type="date"><input id="docAmount" class="input" placeholder="Amount / Salary / Value"><input id="docSubject" class="input full" placeholder="Subject / Item / Role"><textarea id="docBody" class="input full" placeholder="Document details, terms, duties, experience, expenses, letter content..."></textarea></div><div class="actionsRow"><button class="btn primary" onclick="saveCustomDoc(true)">Save & Download PDF</button><button class="btn secondary" onclick="saveCustomDoc(false)">Save only</button></div></div></div>
 <div id="toast" class="toast"></div>
 
+<script src="https://accounts.google.com/gsi/client"></script>
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-import {initializeAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut,browserLocalPersistence,browserSessionPersistence,browserPopupRedirectResolver} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import {initializeAuth,GoogleAuthProvider,signInWithCredential,onAuthStateChanged,signOut,browserLocalPersistence,browserSessionPersistence,browserPopupRedirectResolver} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import {getFirestore,collection,addDoc,getDocs,query,orderBy,deleteDoc,doc,getDoc,setDoc} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 const firebaseConfig={
  apiKey:"AIzaSyDJdRCT9uWBEBS8f3QcOikuUiPM3krqO03Y",
@@ -117,23 +118,32 @@ function toast(m){$("toast").textContent=m;$("toast").classList.add("show");setT
 function isOwner(){return (auth.currentUser?.email||"").toLowerCase()===OWNER}
 window.openLogin=()=>{if(auth.currentUser)return showDashboard(auth.currentUser);$("loginModal").classList.add("open")};
 window.closeLogin=()=>$("loginModal").classList.remove("open");
-window.googleLogin=async()=>{
- const b=document.querySelector(".google");
- const old=b?b.innerHTML:"G \u00a0 Continue with Google";
+const GOOGLE_CLIENT_ID="527978747180-tq969n0bbma3qf46hi1ndtvtev10b04p.apps.googleusercontent.com";
+window.handleGoogleCredential=async(response)=>{
  try{
-  if(b){b.disabled=true;b.innerHTML="Opening Google...";}
-  const r=await signInWithPopup(auth,provider,browserPopupRedirectResolver);
-  showDashboard(r.user);
+  if(!response?.credential) throw new Error("Google did not return an ID token.");
+  const credential=GoogleAuthProvider.credential(response.credential);
+  const result=await signInWithCredential(auth,credential);
+  showDashboard(result.user);
  }catch(e){
-  console.error("Google sign-in failed",e);
-  const code=e?.code||"unknown";
-  if(code==="auth/popup-blocked") alert("Google login popup blocked by Chrome. Please allow pop-ups for this site and try again.");
-  else if(code==="auth/popup-closed-by-user") alert("Google login window closed. Please tap Login and complete Google sign-in.");
-  else alert("Google Login error: "+code+"\n"+(e?.message||""));
- }finally{
-  if(b){b.disabled=false;b.innerHTML=old;}
+  console.error("Google GIS sign-in failed",e);
+  alert("Google Login error: "+(e?.code||e?.message||"unknown error"));
  }
 };
+function initGoogleIdentity(){
+ if(!window.google?.accounts?.id) return false;
+ google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:window.handleGoogleCredential,auto_select:false,cancel_on_tap_outside:true});
+ const box=$("googleGis");
+ if(box){
+  box.innerHTML="";
+  google.accounts.id.renderButton(box,{theme:"outline",size:"large",type:"standard",text:"continue_with",shape:"rectangular",width:360,logo_alignment:"left"});
+ }
+ return true;
+}
+window.googleLogin=()=>{
+ if(!initGoogleIdentity()) alert("Google sign-in is still loading. Please try again.");
+};
+setTimeout(initGoogleIdentity,300);
 window.logout=async()=>{await signOut(auth);showSite()};
 function showSite(){$("dashboard").style.display="none";$("site").style.display="block"}
 function showDashboard(u){$("site").style.display="none";$("loginModal").classList.remove("open");$("dashboard").style.display="block";$("welcome").textContent="Welcome, "+(u.displayName||"there");$("userEmail").textContent=u.email||"";loadPlan().then(updatePlanUI);loadHistory()}
