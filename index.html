@@ -122,11 +122,6 @@ window.googleLogin=async()=>{
  try{
    button.disabled=true;
    button.textContent="Signing in...";
-   const isMobile=/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-   if(isMobile){
-     await signInWithRedirect(auth,provider);
-     return;
-   }
    const r=await signInWithPopup(auth,provider);
    showDashboard(r.user);
  }catch(e){
