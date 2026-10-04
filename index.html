@@ -113,27 +113,38 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 
 <div id="history" class="panel"><h2>Document History</h2><p class="muted">Saved documents are stored in your secure cloud account.</p><div id="historyList">Loading...</div></div>
 
-<section id="plansBottom" class="panel" style="display:block;margin-top:24px">
-  <h2>Upgrade your plan</h2>
-  <p class="muted">Choose a plan for higher daily PDF limits. Payments are processed through Razorpay.</p>
-  <div class="grid" style="grid-template-columns:repeat(3,1fr)">
-    <div class="card">
-      <div class="kicker">FREE</div><h3>Basic</h3>
-      <p>5 PDF downloads per day with core document tools.</p>
-      <button class="btn secondary" onclick="toast('Basic is your current free plan.')">Current plan</button>
+<section id="plansBottom" class="pricing" style="margin:32px -24px 0;padding:70px 0">
+  <div class="center">
+    <div class="kicker">Pricing</div>
+    <h2>Start free. Upgrade when you need more.</h2>
+    <p class="sub">Every downloaded PDF counts toward the daily allowance. Saving without downloading does not consume a PDF download.</p>
+  </div>
+  <div class="pricegrid">
+    <div class="price">
+      <h3>Basic</h3>
+      <div class="amount">₹0</div>
+      <ul><li>✓ 5 PDF downloads / day</li><li>✓ Core document tools</li><li>✓ Cloud history</li></ul>
+      <button class="btn secondary" onclick="toast('Basic is your current free plan.')">Start free</button>
     </div>
-    <div class="card" style="border:2px solid #817bff">
-      <div class="kicker">POPULAR</div><h3>Platinum — ₹299 / month</h3>
-      <p>50 PDF downloads per day plus premium tools.</p>
-      <button class="btn primary" onclick="choosePlan('platinum')">Upgrade to Platinum</button>
+    <div class="price featured">
+      <span class="badge">POPULAR</span><h3>Platinum</h3>
+      <div class="amount">₹299 <small>/month</small></div>
+      <ul><li>✓ 50 PDF downloads / day</li><li>✓ All document tools</li><li>✓ Premium features</li><li>✓ Priority support</li></ul>
+      <button class="btn primary" onclick="choosePlan('platinum')">Upgrade</button>
     </div>
-    <div class="card">
-      <div class="kicker">BUSINESS</div><h3>Business — ₹999 / month</h3>
-      <p>100 PDF downloads per day with full business tools.</p>
-      <button class="btn primary" onclick="choosePlan('business')">Upgrade to Business</button>
+    <div class="price">
+      <h3>Business</h3>
+      <div class="amount">₹999 <small>/month</small></div>
+      <ul><li>✓ 100 PDF downloads / day</li><li>✓ All tools</li><li>✓ Business documents</li><li>✓ Priority support</li></ul>
+      <button class="btn primary" onclick="choosePlan('business')">Upgrade</button>
+    </div>
+    <div class="price featured">
+      <span class="badge">OWNER</span><h3>Permanent</h3>
+      <div class="amount">Lifetime</div>
+      <ul><li>✓ Unlimited PDF downloads</li><li>✓ All current tools</li><li>✓ Permanent owner access</li></ul>
+      <button class="btn primary" onclick="toast('Permanent access is reserved for the owner account.')">Get access</button>
     </div>
   </div>
-  <div class="note" style="margin-top:16px">Owner account gets permanent unlimited PDF access.</div>
 </section>
 </div></div>
 
