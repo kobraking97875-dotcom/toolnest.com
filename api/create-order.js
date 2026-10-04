@@ -5,8 +5,8 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const keyId = process.env.RAZORPAY_KEY_ID;
-  const keySecret = process.env.RAZORPAY_KEY_SECRET;
+  const keyId = process.env.RAZORPAY_KEY_ID;"TjlrAG631yHMOC"
+  const keySecret = process.env.RAZORPAY_KEY_SECRET;"UvVWPANgTHN06XuKz1aLBYs6"
   if (!keyId || !keySecret) {
     return res.status(500).json({ error: 'Razorpay server credentials are not configured.' });
   }
