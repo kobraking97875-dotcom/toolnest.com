@@ -98,7 +98,7 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut,setPersistence,browserLocalPersistence} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import {getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import {getFirestore,collection,addDoc,getDocs,query,orderBy,deleteDoc,doc,getDoc,setDoc} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 const firebaseConfig={
  apiKey:"AIzaSyDJdRCT9uWBEBS8f3QcOikuUiPM3krqO03Y",
@@ -109,7 +109,6 @@ const firebaseConfig={
  appId:"1:497105147895:web:fabb00dcd3df62edfb80f2"
 };
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),provider=new GoogleAuthProvider();provider.setCustomParameters({prompt:"select_account"});
-setPersistence(auth,browserLocalPersistence).catch(()=>{});
 const OWNER="kaammilaga.official@gmail.com",RAZORPAY_URL="https://cvlinhjhyxuntbbxrrxq.supabase.co/functions/v1/razorpay-payment";
 let currentPlan={name:"Basic",limit:5,expiresAt:null,key:"basic"},customType="";
 const $=id=>document.getElementById(id),val=id=>$(id)?.value.trim()||"";
@@ -119,17 +118,33 @@ function isOwner(){return (auth.currentUser?.email||"").toLowerCase()===OWNER}
 window.openLogin=()=>{if(auth.currentUser)return showDashboard(auth.currentUser);$("loginModal").classList.add("open")};
 window.closeLogin=()=>$("loginModal").classList.remove("open");
 window.googleLogin=async()=>{
+ const button=document.querySelector(".google");
  try{
-  const r=await signInWithPopup(auth,provider);
-  showDashboard(r.user);
+   button.disabled=true;
+   button.textContent="Signing in...";
+   const isMobile=/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+   if(isMobile){
+     await signInWithRedirect(auth,provider);
+     return;
+   }
+   const r=await signInWithPopup(auth,provider);
+   showDashboard(r.user);
  }catch(e){
-  console.error("Google sign-in failed",e);
-  alert("Google sign-in failed: "+(e.message||e.code));
+   console.error("Google sign-in error:",e);
+   button.disabled=false;
+   button.textContent="G   Continue with Google";
+   alert("Google sign-in failed: "+(e.message||e.code));
  }
 };
 window.logout=async()=>{await signOut(auth);showSite()};
 function showSite(){$("dashboard").style.display="none";$("site").style.display="block"}
 function showDashboard(u){$("site").style.display="none";$("loginModal").classList.remove("open");$("dashboard").style.display="block";$("welcome").textContent="Welcome, "+(u.displayName||"there");$("userEmail").textContent=u.email||"";loadPlan().then(updatePlanUI);loadHistory()}
+getRedirectResult(auth).then(r=>{
+  if(r && r.user) showDashboard(r.user);
+}).catch(e=>{
+  console.error("Redirect sign-in error:",e);
+  alert("Google sign-in failed: "+(e.message||e.code));
+});
 onAuthStateChanged(auth,u=>u?showDashboard(u):showSite());
 window.tab=(id,el)=>{document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));$(id).classList.add("active");el.classList.add("active");if(id==="history")loadHistory()};
 
