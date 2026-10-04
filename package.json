@@ -1,0 +1,14 @@
+{
+  "name": "toolnest-razorpay",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ToolNest with Razorpay Standard Web Checkout backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "razorpay": "^2.9.6"
+  }
+}
