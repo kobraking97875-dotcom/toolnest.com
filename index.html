@@ -52,7 +52,7 @@ import {
 
       // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDJdRCT9uWBEBS8f3Qc0ikuUiPM3krqO3Y",
+  apiKey: "AIzaSyDJdRCT9uWBEBS8f3QcOikuUiPM3krqO3Y",
   authDomain: "toolnest-febc3.firebaseapp.com",
   projectId: "toolnest-febc3",
   storageBucket: "toolnest-febc3.firebasestorage.app",
@@ -101,24 +101,24 @@ window.googleLogin = async function () {
   button.innerHTML = "<span>⏳</span> Signing in...";
 
   try {
-    // Redirect is more reliable on mobile browsers; popup is convenient on desktop.
-    const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-    if (isMobile) {
-      await signInWithRedirect(auth, provider);
-      return;
-    }
-
+    // Use popup on both mobile and desktop.
     const result = await signInWithPopup(auth, provider);
     showDashboard(result.user);
   } catch (error) {
     console.error("Google sign-in error:", error);
 
-    if (error.code === "auth/popup-blocked" || error.code === "auth/popup-closed-by-user") {
-      await signInWithRedirect(auth, provider);
-      return;
+    // If the browser blocks the popup, fall back to Firebase redirect.
+    if (error.code === "auth/popup-blocked") {
+      try {
+        await signInWithRedirect(auth, provider);
+        return;
+      } catch (redirectError) {
+        alert("Google sign-in failed: " + (redirectError.message || redirectError.code));
+      }
+    } else if (error.code !== "auth/popup-closed-by-user") {
+      alert("Google sign-in failed: " + (error.message || error.code));
     }
 
-    alert("Google sign-in failed: " + (error.message || error.code));
     button.disabled = false;
     button.innerHTML = original;
   }
