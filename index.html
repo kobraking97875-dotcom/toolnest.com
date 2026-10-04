@@ -21,7 +21,7 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 <body>
 
 <div id="site">
-<nav class="nav"><a class="logo" href="#">Tool<span>Nest</span></a><div class="navlinks"><a href="#tools">Tools</a><a href="#pricing">Pricing</a><button class="btn secondary" onclick="openLogin()">Login</button></div><button class="btn primary" onclick="openLogin()">Login</button></nav>
+<nav class="nav"><a class="logo" href="#">Tool<span>Nest</span></a><div class="navlinks"><a href="#tools">Tools</a><a href="#pricing">Pricing</a><a href="#support">Support</a><button class="btn secondary" onclick="openLogin()">Login</button></div><button class="btn primary" onclick="openLogin()">Login</button></nav>
 <section class="hero">
 <div><div class="eyebrow">⚡ Real business tools</div><h1>Get business work <span>done faster.</span></h1><p>Create invoices, quotations and professional resumes, download PDFs and keep your documents saved to your ToolNest account.</p><div class="actions"><button class="btn primary" onclick="openLogin()">Continue with Google →</button><a class="btn secondary" href="#tools">Explore tools</a></div></div>
 <div class="mock"><div class="paper"><h3>INVOICE</h3><div class="paperline"><span>Client</span><b>Acme Industries</b></div><div class="paperline"><span>Service</span><b>Business service</b></div><div class="paperline"><span>Total</span><b>₹24,500</b></div></div></div>
@@ -40,7 +40,17 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 <div class="price featured"><h3>Platinum</h3><div class="amount">₹299 <small>/month</small></div><ul><li>✓ 50 PDF downloads / day</li><li>✓ Advanced tools</li><li>✓ Priority features</li></ul><button class="btn primary" onclick="choosePlan('platinum')">Upgrade</button></div>
 <div class="price"><h3>Business</h3><div class="amount">₹999 <small>/month</small></div><ul><li>✓ 100 PDF downloads / day</li><li>✓ Team features</li><li>✓ Business support</li></ul><button class="btn primary" onclick="choosePlan('business')">Upgrade</button></div><div class="price featured"><h3>Permanent</h3><div class="amount">Lifetime</div><ul><li>✓ Permanent account</li><li>✓ Unlimited documents</li><li>✓ All current tools</li></ul><button class="btn primary" onclick="openLogin()">Get access</button></div>
 </div></section>
-<footer>© 2026 ToolNest. All rights reserved.</footer>
+
+<section class="section" id="support">
+  <div class="center">
+    <div class="kicker">Support</div>
+    <h2>Need help?</h2>
+    <p class="sub">Contact ToolNest support for payment, account, PDF or other website issues.</p>
+    <a class="btn primary" href="mailto:kobraking97875@gmail.com?subject=ToolNest%20Support">✉ Email Support</a>
+    <p class="muted" style="margin-top:12px">kobraking97875@gmail.com</p>
+  </div>
+</section>
+<footer>© 2026 ToolNest. All rights reserved. &nbsp; <a href="#support">Email Support</a></footer>
 </div>
 
 <div id="loginModal" class="modal"><div class="modalbox" style="max-width:430px"><button class="close" onclick="closeLogin()">×</button><div class="kicker">TOOLNEST ACCOUNT</div><h2>Welcome to ToolNest</h2><p class="muted">Sign in with your Google account.</p><button class="google" onclick="googleLogin()">G &nbsp; Continue with Google</button><p class="muted" style="text-align:center">Secure sign-in with Firebase Authentication.</p></div></div>
@@ -138,7 +148,7 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-import {getFirestore,collection,addDoc,getDocs,query,orderBy,deleteDoc,doc,getDoc,runTransaction} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+import {getFirestore,collection,addDoc,getDocs,query,orderBy,deleteDoc,doc,getDoc,setDoc,runTransaction} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 const firebaseConfig={
  apiKey:"AIzaSyDJdRCT9uWBEBS8f3Qc0ikuUiPM3krqO3Y",
@@ -151,6 +161,8 @@ const firebaseConfig={
 };
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),provider=new GoogleAuthProvider();
 const RAZORPAY_FUNCTION_URL="https://cvlinhjhyxuntbbxrrxq.supabase.co/functions/v1/razorpay-payment";
+const OWNER_EMAIL="kaammilaga.official@gmail.com";
+let currentPlan="basic";
 provider.setCustomParameters({prompt:"select_account"});
 
 window.openLogin=()=>{if(auth.currentUser)return showDashboard(auth.currentUser);document.getElementById("loginModal").classList.add("open")};
@@ -163,16 +175,23 @@ window.googleLogin=async()=>{
 window.logout=async()=>{await signOut(auth);showSite()};
 
 function showSite(){document.getElementById("dashboard").style.display="none";document.getElementById("site").style.display="block"}
-function showDashboard(u){
+async function showDashboard(u){
  document.getElementById("site").style.display="none";
  document.getElementById("loginModal").classList.remove("open");
  document.getElementById("dashboard").style.display="block";
  document.getElementById("welcome").textContent="Welcome, "+(u.displayName||"there");
  document.getElementById("userEmail").textContent=u.email||"";
- const owner=(u.email||"").toLowerCase()==="kaammilaga.official@gmail.com";
- document.getElementById("planTitle").textContent=owner?"Plan: Permanent":"Plan: Free";
- document.getElementById("planText").textContent=owner?"Permanent owner access enabled. Your current tools and saved documents stay available.":"Your saved documents remain in your Firebase account.";
- loadHistory();refreshUsage()
+ const owner=(u.email||"").toLowerCase()===OWNER_EMAIL;
+ if(owner){
+   currentPlan="permanent";
+   document.getElementById("planTitle").textContent="Plan: Permanent";
+   document.getElementById("planText").textContent="Permanent owner access enabled. Your current tools and saved documents stay available.";
+ }else{
+   await loadUserPlan();
+   renderCurrentPlan();
+ }
+ loadHistory();
+ refreshUsage();
 }
 onAuthStateChanged(auth,u=>u?showDashboard(u):showSite());
 
@@ -207,17 +226,74 @@ function loadJsPdf(){
 async function getDownloadLimit() {
  const u = auth.currentUser;
  if (!u) return 0;
- // Keep the existing owner account as a permanent internal/admin account.
- if ((u.email || "").toLowerCase() === "kaammilaga.official@gmail.com") return Infinity;
- const plan = (localStorage.getItem("toolnest_plan") || "basic").toLowerCase();
- if (plan === "platinum") return 50;
- if (plan === "business") return 100;
+ if ((u.email || "").toLowerCase() === OWNER_EMAIL) return Infinity;
+ if (currentPlan === "platinum") return 50;
+ if (currentPlan === "business") return 100;
  return 5;
 }
 
 async function getDailyUsageRef() {
  const date = new Date().toISOString().slice(0,10);
  return doc(db,"users",auth.currentUser.uid,"usage",date);
+}
+
+async function getPlanRef() {
+ return doc(db,"users",auth.currentUser.uid,"account","plan");
+}
+
+async function loadUserPlan() {
+ const u=auth.currentUser;
+ if(!u) return;
+ if((u.email||"").toLowerCase()===OWNER_EMAIL){currentPlan="permanent";return;}
+ try{
+   const snap=await getDoc(await getPlanRef());
+   if(!snap.exists()){
+     currentPlan="basic";
+     localStorage.removeItem("toolnest_plan");
+     return;
+   }
+   const data=snap.data()||{};
+   const plan=String(data.plan||"basic").toLowerCase();
+   const expiresAt=Number(data.expiresAt||0);
+   if((plan==="platinum"||plan==="business") && expiresAt>Date.now()){
+     currentPlan=plan;
+     localStorage.setItem("toolnest_plan",plan);
+   }else{
+     currentPlan="basic";
+     localStorage.setItem("toolnest_plan","basic");
+     if(plan!=="basic") await setDoc(await getPlanRef(),{plan:"basic",planName:"Basic",expiresAt:0,updatedAt:Date.now()},{merge:true});
+   }
+ }catch(e){
+   currentPlan=(localStorage.getItem("toolnest_plan")||"basic").toLowerCase();
+ }
+}
+
+function renderCurrentPlan(){
+ const labels={basic:"Basic",platinum:"Platinum",business:"Business",permanent:"Permanent"};
+ const name=labels[currentPlan]||"Basic";
+ document.getElementById("planTitle").textContent="Plan: "+name;
+ document.getElementById("planText").textContent=currentPlan==="permanent"
+   ?"Permanent owner access enabled. Your current tools and saved documents stay available."
+   : currentPlan==="basic"
+     ?"Your Basic plan is active. You have 5 PDF downloads per day."
+     : `${name} plan is active until the saved expiry date. Your plan is linked to your Firebase account.`;
+}
+
+async function savePlanToFirebase(plan, selected, paymentResponse){
+ const ref=await getPlanRef();
+ const expiresAt=Date.now()+30*24*60*60*1000;
+ await setDoc(ref,{
+   plan,
+   planName:selected.name,
+   pricePaise:selected.amount,
+   expiresAt,
+   activatedAt:Date.now(),
+   paymentId:paymentResponse.razorpay_payment_id||"",
+   orderId:paymentResponse.razorpay_order_id||"",
+   updatedAt:Date.now()
+ },{merge:true});
+ currentPlan=plan;
+ localStorage.setItem("toolnest_plan",plan);
 }
 
 async function refreshUsage() {
@@ -297,10 +373,25 @@ window.togglePlans = () => {
   if (!cards) return;
   cards.style.display = cards.style.display === "none" ? "grid" : "none";
 };
-window.selectPlan = (plan) => {
-  localStorage.setItem("toolnest_plan", plan);
-  refreshUsage();
-  alert("Basic plan selected. You have 5 free PDF downloads per day.");
+window.selectPlan = async (plan) => {
+  if(plan !== "basic") return;
+  if(!requireLogin()) return;
+  try{
+    await setDoc(await getPlanRef(),{
+      plan:"basic",
+      planName:"Basic",
+      pricePaise:0,
+      expiresAt:0,
+      updatedAt:Date.now()
+    },{merge:true});
+    currentPlan="basic";
+    localStorage.setItem("toolnest_plan","basic");
+    renderCurrentPlan();
+    await refreshUsage();
+    alert("Basic plan selected. You have 5 free PDF downloads per day.");
+  }catch(e){
+    alert("Could not save your Basic plan to Firebase: "+(e.message||e.code));
+  }
 };
 
 async function startRazorpayPayment(plan){
@@ -337,10 +428,10 @@ async function startRazorpayPayment(plan){
          });
          const verifyData=await verifyRes.json().catch(()=>({}));
          if(!verifyRes.ok||!verifyData.success) throw new Error(verifyData.error||"Payment verification failed.");
-         localStorage.setItem("toolnest_plan",plan);
+         await savePlanToFirebase(plan, selected, response);
          await refreshUsage();
-         document.getElementById("planTitle").textContent="Plan: "+selected.name;
-         document.getElementById("planText").textContent=`Payment verified. ${selected.name} access is active for this browser.`;
+         renderCurrentPlan();
+         document.getElementById("planText").textContent=`Payment verified. ${selected.name} access is active on your Firebase account for 30 days.`;
          alert(`Payment successful and verified. ${selected.name} is now active.`);
        }catch(e){
          alert("Payment was received, but verification failed. Do not use the plan until verification succeeds. "+(e.message||""));
