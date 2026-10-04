@@ -5,7 +5,7 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const secret = process.env.RAZORPAY_KEY_SECRET;
+  const secret = process.env.RAZORPAY_KEY_SECRET;"UvVWPANgTHN06XuKz1aLBYs6"
   if (!secret) {
     return res.status(500).json({ error: 'Razorpay server secret is not configured.' });
   }
