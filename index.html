@@ -150,7 +150,7 @@ const firebaseConfig={
  measurementId:"G-WE2KR60G17"
 };
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),provider=new GoogleAuthProvider();
-const TOOLNEST_API_BASE=(window.TOOLNEST_API_BASE||"").replace(/\/$/,"");
+const RAZORPAY_FUNCTION_URL="https://cvlinhjhyxuntbbxrxq.supabase.co/functions/v1/razorpay-payment";
 provider.setCustomParameters({prompt:"select_account"});
 
 window.openLogin=()=>{if(auth.currentUser)return showDashboard(auth.currentUser);document.getElementById("loginModal").classList.add("open")};
@@ -313,19 +313,15 @@ async function startRazorpayPayment(plan){
  const selected=pricing[plan];
  if(!selected){alert("Invalid plan selected.");return;}
  try{
-   const createRes=await fetch(TOOLNEST_API_BASE+"/api/create-order",{
+   const createRes=await fetch(RAZORPAY_FUNCTION_URL,{
      method:"POST",headers:{"Content-Type":"application/json"},
-     body:JSON.stringify({amount:selected.amount,currency:"INR",receipt:`toolnest_${plan}_${Date.now()}`})
+     body:JSON.stringify({action:"create-order",plan})
    });
    const createData=await createRes.json().catch(()=>({}));
    if(!createRes.ok) throw new Error(createData.error||"Could not create payment order.");
 
-   const configRes=await fetch(TOOLNEST_API_BASE+"/api/config");
-   const config=await configRes.json().catch(()=>({}));
-   if(!configRes.ok||!config.key_id) throw new Error("Razorpay checkout key is not configured on the server.");
-
    const options={
-     key:config.key_id,
+     key:createData.key_id,
      amount:createData.amount,
      currency:createData.currency,
      name:"ToolNest",
@@ -335,9 +331,9 @@ async function startRazorpayPayment(plan){
      theme:{color:"#635bff"},
      handler:async function(response){
        try{
-         const verifyRes=await fetch(TOOLNEST_API_BASE+"/api/verify-payment",{
+         const verifyRes=await fetch(RAZORPAY_FUNCTION_URL,{
            method:"POST",headers:{"Content-Type":"application/json"},
-           body:JSON.stringify(response)
+           body:JSON.stringify({...response,action:"verify-payment"})
          });
          const verifyData=await verifyRes.json().catch(()=>({}));
          if(!verifyRes.ok||!verifyData.success) throw new Error(verifyData.error||"Payment verification failed.");
