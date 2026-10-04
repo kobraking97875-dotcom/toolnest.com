@@ -123,7 +123,8 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 const SUPABASE_URL="https://cvlinhjhyxuntbbxrrxq.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_cQ1_ABy2MYZSSbJOGtw1HA_zqgU0mW2";
-const supabase=createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+const SITE_URL="https://kobraking97875-dotcom.github.io/toolnest.com/";
+const supabase=createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,flowType:"pkce"}});
 const OWNER="kaammilaga.official@gmail.com";
 const RAZORPAY_URL="https://cvlinhjhyxuntbbxrrxq.supabase.co/functions/v1/razorpay-payment";
 let activeUser=null;
@@ -203,8 +204,7 @@ window.resetPassword=async()=>{
   const email=val("authEmail");
   if(!email)return authMsg("Enter your email first, then tap Forgot password.",true);
   try{
-    const redirectTo=window.location.origin+window.location.pathname;
-    const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo});
+    const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:SITE_URL});
     if(error)throw error;
     authMsg("Password reset email sent. Check your inbox.");
   }catch(e){authMsg(authErrorMessage(e),true)}
@@ -213,12 +213,12 @@ window.resetPassword=async()=>{
 window.googleLogin=async()=>{
   try{
     authMsg("Redirecting to Google...");
-    const redirectTo=window.location.origin+window.location.pathname;
-    const {error}=await supabase.auth.signInWithOAuth({
+    const {data,error}=await supabase.auth.signInWithOAuth({
       provider:"google",
-      options:{redirectTo,queryParams:{prompt:"select_account"}}
+      options:{redirectTo:SITE_URL,queryParams:{prompt:"select_account"}}
     });
     if(error)throw error;
+    if(data?.url) window.location.assign(data.url);
   }catch(e){console.error("Google sign-in failed",e);authMsg("Google Login error: "+(e?.message||"unknown error"),true)}
 };
 window.logout=async()=>{
@@ -263,15 +263,15 @@ async function getDoc(ref){
     if(error)throw error;
     if(!data)return emptySnap(null);
     return emptySnap({
-      plan:data.plan,planName:data.plan_name,pricePaise:data.price_paise,
+      plan:data.plan,planName:data.plan,pricePaise:Number(data.plan_price||0),
       activatedAt:data.activated_at,expiresAt:data.expires_at,
       orderId:data.order_id,paymentId:data.payment_id,updatedAt:data.updated_at
     });
   }
   if(p[0]==="users"&&p[2]==="usage"&&p[3]==="daily"){
-    const {data,error}=await supabase.from("toolnest_usage_daily").select("usage_date,count,updated_at").eq("user_id",uid).eq("usage_date",today()).maybeSingle();
+    const {data,error}=await supabase.from("toolnest_usage").select("usage_date,downloads,updated_at").eq("user_id",uid).eq("usage_date",today()).maybeSingle();
     if(error)throw error;
-    return emptySnap(data?{date:data.usage_date,count:data.count,updatedAt:data.updated_at}:null);
+    return emptySnap(data?{date:data.usage_date,count:data.downloads,updatedAt:data.updated_at}:null);
   }
   throw Error("Unknown document path");
 }
@@ -281,17 +281,21 @@ async function setDoc(ref,data,options={}){
   if(!uid)throw Error("Please sign in first.");
   if(p[0]==="users"&&p[2]==="account"&&p[3]==="plan"){
     const row={
-      user_id:uid,plan:data.plan||"basic",plan_name:data.planName||data.plan||"Basic",
-      price_paise:Number(data.pricePaise||0),activated_at:asIso(data.activatedAt),
-      expires_at:data.expiresAt?asIso(data.expiresAt):null,order_id:data.orderId||null,
-      payment_id:data.paymentId||null,updated_at:new Date().toISOString()
+      user_id:uid,
+      plan:data.plan||"basic",
+      plan_price:Number(data.pricePaise||0),
+      activated_at:data.activatedAt?asIso(data.activatedAt):null,
+      expires_at:data.expiresAt?asIso(data.expiresAt):null,
+      order_id:data.orderId||null,
+      payment_id:data.paymentId||null,
+      updated_at:new Date().toISOString()
     };
     const {error}=await supabase.from("toolnest_accounts").upsert(row,{onConflict:"user_id"});
     if(error)throw error; return;
   }
   if(p[0]==="users"&&p[2]==="usage"&&p[3]==="daily"){
-    const row={user_id:uid,usage_date:data.date||today(),count:Number(data.count||0),updated_at:new Date().toISOString()};
-    const {error}=await supabase.from("toolnest_usage_daily").upsert(row,{onConflict:"user_id,usage_date"});
+    const row={user_id:uid,usage_date:data.date||today(),downloads:Number(data.count||0),updated_at:new Date().toISOString()};
+    const {error}=await supabase.from("toolnest_usage").upsert(row,{onConflict:"user_id,usage_date"});
     if(error)throw error; return;
   }
   throw Error("Unknown document path");
@@ -303,48 +307,101 @@ function documentCollectionUid(ref){
 async function addDoc(ref,data){
   const uid=documentCollectionUid(ref)||ownUid();
   if(!uid)throw Error("Please sign in first.");
-  const payload={...data}; delete payload.type; delete payload.createdAt;
-  const createdAt=Number(data.createdAt||Date.now());
-  const {data:row,error}=await supabase.from("toolnest_documents").insert({
-    user_id:uid,type:data.type||"Document",data:payload,created_at:new Date(createdAt).toISOString()
-  }).select("id,type,data,created_at").single();
+  const name=data.client||data.name||data.to||data.business||data.recipient||data.item||data.subject||"Document";
+  const fileName=(data.fileName||data.type||"document").replace(/[^a-z0-9._-]+/gi,"-").toLowerCase()+".pdf";
+  const {data:row,error}=await supabase.from("toolnest_history").insert({
+    user_id:uid,document_type:data.type||"Document",document_name:String(name).slice(0,200),file_name:fileName
+  }).select("id,document_type,document_name,file_name,created_at").single();
   if(error)throw error;
-  return {id:row.id,data:()=>({...row.data,type:row.type,createdAt:Date.parse(row.created_at)})};
+  return {id:row.id,data:()=>({
+    type:row.document_type,
+    name:row.document_name,
+    fileName:row.file_name,
+    createdAt:Date.parse(row.created_at)
+  })};
 }
 async function getDocs(q){
   const target=q.target||q,uid=documentCollectionUid(target)||ownUid();
   if(!uid)throw Error("Please sign in first.");
-  const op=(q.ops||[]).find(x=>x?.field);
-  let req=supabase.from("toolnest_documents").select("id,type,data,created_at").eq("user_id",uid);
-  if(op)req=req.order("created_at",{ascending:String(op.direction).toLowerCase()!=="desc"});
-  const {data,error}=await req;
+  const {data,error}=await supabase.from("toolnest_history").select("id,document_type,document_name,file_name,created_at").eq("user_id",uid).order("created_at",{ascending:false});
   if(error)throw error;
-  const rows=(data||[]).map(row=>({id:row.id,data:()=>({...row.data,type:row.type,createdAt:Date.parse(row.created_at)})}));
+  const rows=(data||[]).map(row=>({id:row.id,data:()=>({
+    type:row.document_type,name:row.document_name,fileName:row.file_name,createdAt:Date.parse(row.created_at)
+  })}));
   return {empty:rows.length===0,forEach:fn=>rows.forEach(fn),docs:rows};
 }
 async function deleteDoc(ref){
   const p=ref.parts,uid=ownUid(),id=p[p.length-1];
   if(!uid)throw Error("Please sign in first.");
   if(p[0]==="users"&&p[2]==="documents"){
-    const {error}=await supabase.from("toolnest_documents").delete().eq("id",id).eq("user_id",uid);
+    const {error}=await supabase.from("toolnest_history").delete().eq("id",id).eq("user_id",uid);
     if(error)throw error; return;
   }
   throw Error("Unknown document path");
 }
 
+async function ensureAccount(){
+  const uid=ownUid();
+  if(!uid)return;
+  try{
+    const {error}=await supabase.from("toolnest_accounts").upsert({user_id:uid,plan:"Basic",plan_price:0,updated_at:new Date().toISOString()},{onConflict:"user_id",ignoreDuplicates:true});
+    if(error)console.warn("Account init:",error.message);
+  }catch(e){console.warn("Account init:",e);}
+}
+
+async function handleOAuthCallback(){
+  try{
+    const params=new URLSearchParams(window.location.search);
+    const errorCode=params.get("error_code")||params.get("error");
+    const errorDescription=params.get("error_description");
+    if(errorCode||errorDescription){
+      const msg=decodeURIComponent((errorDescription||errorCode||"Google authentication failed").replace(/\+/g," "));
+      console.error("OAuth callback error",msg);
+      window.history.replaceState({},document.title,SITE_URL);
+      openLogin();
+      authMsg("Google Login error: "+msg,true);
+      return;
+    }
+    const code=params.get("code");
+    if(code){
+      const {error}=await supabase.auth.exchangeCodeForSession(code);
+      if(error)throw error;
+      window.history.replaceState({},document.title,SITE_URL);
+    }
+  }catch(e){
+    console.error("OAuth callback handling failed",e);
+    openLogin();
+    authMsg("Google Login error: "+(e?.message||"Could not complete login."),true);
+  }
+}
+
 supabase.auth.onAuthStateChange((event,session)=>{
   activeUser=session?.user||null;
-  if(activeUser)showDashboard(auth.currentUser); else showSite();
+  if(activeUser){
+    ensureAccount().finally(()=>showDashboard(auth.currentUser));
+  }else showSite();
 });
+await handleOAuthCallback();
 const initialSession=await supabase.auth.getSession();
 activeUser=initialSession.data?.session?.user||null;
-if(activeUser)showDashboard(auth.currentUser); else showSite();
+if(activeUser){await ensureAccount();showDashboard(auth.currentUser)} else showSite();
 window.tab=(id,el)=>{document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));$(id).classList.add("active");if(el)el.classList.add("active");if(id==="history")loadHistory()};
 async function loadPlan(){
  if(!auth.currentUser)return;
- if(isOwner()){currentPlan={name:"Permanent",limit:Infinity,expiresAt:null,key:"permanent"};return}
- try{const s=await getDoc(doc(db,"users",auth.currentUser.uid,"account","plan"));if(s.exists()){const d=s.data(),exp=d.expiresAt?.toDate?d.expiresAt.toDate():new Date(d.expiresAt||0),limits={platinum:50,business:100};if(d.plan&&limits[d.plan]&&exp.getTime()>Date.now()){currentPlan={name:d.planName||d.plan,limit:limits[d.plan],expiresAt:exp,key:d.plan};return}}}catch(e){}
  currentPlan={name:"Basic",limit:5,expiresAt:null,key:"basic"};
+ try{
+   await ensureAccount();
+   const s=await getDoc(doc(db,"users",auth.currentUser.uid,"account","plan"));
+   if(s.exists()){
+     const d=s.data()||{};
+     const exp=d.expiresAt?new Date(d.expiresAt):null;
+     const limits={platinum:50,business:100};
+     const key=String(d.plan||"basic").toLowerCase();
+     if(limits[key]&&exp&&exp.getTime()>Date.now()){
+       currentPlan={name:d.planName||key.charAt(0).toUpperCase()+key.slice(1),limit:limits[key],expiresAt:exp,key};
+     }
+   }
+ }catch(e){console.warn("loadPlan:",e.message||e)}
 }
 async function usageRef(){return doc(db,"users",auth.currentUser.uid,"usage","daily")}
 async function getUsage(){if(!auth.currentUser||isOwner())return 0;const s=await getDoc(await usageRef()),d=s.exists()?s.data():{};return d.date===today()?Number(d.count||0):0}
