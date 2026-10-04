@@ -4,133 +4,163 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ToolNest — Business tools made simple</title>
-<meta name="description" content="Professional business tools for invoices, quotations and everyday work.">
+<meta name="description" content="Create invoices, quotations and professional resumes with ToolNest.">
 <style>
-:root{--bg:#f7f8fc;--card:#fff;--text:#111827;--muted:#667085;--brand:#635bff;--brand2:#4f46e5;--line:#e7e9f0;--dark:#10131a;--green:#16a34a}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.5}a{text-decoration:none;color:inherit}
-.nav{height:72px;background:rgba(255,255,255,.92);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(24px,calc((100% - 1180px)/2));position:sticky;top:0;z-index:20;backdrop-filter:blur(12px)}
-.logo{font-size:24px;font-weight:800;letter-spacing:-.7px}.logo span{color:var(--brand)}
-.navlinks{display:flex;gap:28px;align-items:center;color:#475467;font-size:14px;font-weight:600}.navlinks a:hover{color:var(--text)}
-.btn{border:0;border-radius:11px;padding:12px 18px;font-weight:700;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:9px;transition:.18s}.btn:hover{transform:translateY(-1px)}.primary{background:var(--brand);color:#fff;box-shadow:0 8px 22px rgba(99,91,255,.22)}.secondary{background:#fff;color:var(--text);border:1px solid var(--line)}
-.hero{max-width:1180px;margin:auto;padding:92px 24px 70px;display:grid;grid-template-columns:1.08fr .92fr;gap:55px;align-items:center}.eyebrow{display:inline-flex;gap:8px;align-items:center;background:#eeecff;color:#5148c9;border:1px solid #dedbff;border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700}.hero h1{font-size:clamp(42px,6vw,72px);line-height:1.02;letter-spacing:-3.5px;margin:20px 0 20px}.hero h1 span{color:var(--brand)}.hero p{font-size:18px;color:var(--muted);max-width:650px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0 18px}.trust{display:flex;gap:18px;flex-wrap:wrap;color:#667085;font-size:13px}.trust b{color:#344054}
-.mock{background:#10131a;border-radius:24px;padding:18px;box-shadow:0 25px 70px rgba(16,19,26,.18)}.mockbar{height:8px;width:90px;border-radius:99px;background:#343945;margin-bottom:18px}.invoice{background:#fff;border-radius:15px;padding:25px;color:#18202b}.invtop{display:flex;justify-content:space-between;border-bottom:1px solid #e8e9ed;padding-bottom:18px}.invtitle{font-size:22px;font-weight:800}.badge{font-size:11px;background:#dcfce7;color:#15803d;padding:5px 9px;border-radius:999px;font-weight:800}.invrows{margin-top:22px}.row{display:flex;justify-content:space-between;padding:10px 0;color:#667085;font-size:13px}.total{border-top:1px solid #e8e9ed;margin-top:12px;padding-top:15px;display:flex;justify-content:space-between;font-size:19px;font-weight:800}
-.section{max-width:1180px;margin:auto;padding:75px 24px}.center{text-align:center}.kicker{color:var(--brand);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1px}.section h2{font-size:42px;letter-spacing:-1.8px;margin:9px 0}.sub{color:var(--muted);max-width:650px;margin:0 auto 35px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:25px;box-shadow:0 5px 20px rgba(16,24,40,.035)}.icon{width:45px;height:45px;border-radius:12px;background:#eeecff;display:grid;place-items:center;font-size:22px;margin-bottom:18px}.card h3{margin:0 0 8px;font-size:19px}.card p{margin:0;color:var(--muted);font-size:14px}.card .btn{margin-top:20px;width:100%}
-.pricing{background:#10131a;color:#fff}.pricing .sub{color:#aeb4c2}.pricegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.price{background:#171b24;border:1px solid #2a303c;border-radius:18px;padding:28px}.price.featured{border:2px solid #817bff;transform:translateY(-6px)}.price h3{margin:0}.amount{font-size:38px;font-weight:800;margin:14px 0}.amount small{font-size:13px;color:#9ca3af;font-weight:500}.price ul{padding:0;list-style:none;color:#c7ccd6;line-height:2}.price li:before{content:"✓";color:#8b84ff;font-weight:800;margin-right:8px}
-.cta{max-width:1180px;margin:0 auto;padding:70px 24px}.ctaBox{background:linear-gradient(135deg,#635bff,#4f46e5);color:#fff;border-radius:24px;padding:48px;display:flex;align-items:center;justify-content:space-between;gap:30px}.ctaBox h2{font-size:36px;letter-spacing:-1.4px;margin:0 0 8px}.ctaBox p{margin:0;color:#e8e6ff}.ctaBox .secondary{border:0}
-footer{background:#fff;border-top:1px solid var(--line);padding:28px 24px;color:#667085;font-size:13px}.foot{max-width:1180px;margin:auto;display:flex;justify-content:space-between;gap:20px}
-.modal{position:fixed;inset:0;background:rgba(15,23,42,.58);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}.modal.open{display:flex}.modalbox{background:#fff;width:min(420px,100%);border-radius:20px;padding:30px;box-shadow:0 25px 80px rgba(0,0,0,.25)}.close{float:right;background:#f2f4f7;border:0;width:34px;height:34px;border-radius:50%;cursor:pointer}.google{width:100%;background:#fff;border:1px solid #d0d5dd;padding:13px;border-radius:10px;font-weight:700;cursor:pointer;display:flex;justify-content:center;gap:10px;align-items:center}.google span{font-size:20px}.note{font-size:12px;color:#667085;margin-top:15px;text-align:center}.dashboard{display:none;min-height:100vh;background:#f7f8fc}.dash{max-width:1180px;margin:auto;padding:40px 24px}.dashTop{display:flex;justify-content:space-between;align-items:center}.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:25px}.stat{background:#fff;border:1px solid var(--line);border-radius:15px;padding:22px}.stat strong{font-size:28px;display:block}.invoiceTool{margin-top:20px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:25px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.input{width:100%;padding:12px 13px;border:1px solid #d9dce5;border-radius:10px;font:inherit}.full{grid-column:1/-1}
-@media(max-width:850px){.nav{padding:0 18px}.navlinks{display:none}.hero{grid-template-columns:1fr;padding-top:55px}.grid,.pricegrid{grid-template-columns:1fr}.price.featured{transform:none}.ctaBox{display:block;padding:32px}.ctaBox .btn{margin-top:20px}.hero h1{letter-spacing:-2px}.statgrid{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}}
+:root{--bg:#f7f8fc;--card:#fff;--text:#101828;--muted:#667085;--brand:#635bff;--line:#e4e7ec;--dark:#10131a;--green:#12b76a;--red:#d92d20}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}button,input,textarea,select{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}
+.nav{height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:20}.logo{font-size:25px;font-weight:850}.logo span{color:var(--brand)}
+.navlinks{display:flex;gap:20px;align-items:center;color:#475467;font-size:14px;font-weight:650}.btn{border:0;border-radius:10px;padding:12px 17px;font-weight:750;display:inline-flex;align-items:center;justify-content:center;gap:8px}.primary{background:var(--brand);color:#fff}.secondary{background:#fff;color:var(--text);border:1px solid var(--line)}
+.hero{max-width:1180px;margin:auto;padding:80px 24px;display:grid;grid-template-columns:1.05fr .95fr;gap:45px;align-items:center}.eyebrow,.kicker{color:#5148c9;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1px}.eyebrow{display:inline-block;background:#eeecff;padding:8px 12px;border-radius:999px;text-transform:none;letter-spacing:0}.hero h1{font-size:clamp(44px,6vw,72px);line-height:1.02;letter-spacing:-3px;margin:18px 0}.hero h1 span{color:var(--brand)}.hero p{font-size:18px;color:var(--muted);max-width:650px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin:26px 0}.mock{background:var(--dark);padding:18px;border-radius:22px}.paper{background:#fff;border-radius:14px;padding:25px}.paper h3{margin-top:0}.paperline{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee;color:#667085}.section{max-width:1180px;margin:auto;padding:70px 24px}.center{text-align:center}.section h2{font-size:40px;margin:8px 0}.sub{color:var(--muted);max-width:650px;margin:0 auto 30px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:24px}.icon{font-size:28px}.card h3{margin:14px 0 7px}.card p{color:var(--muted);font-size:14px}.card .btn{width:100%;margin-top:15px}
+.pricing{background:var(--dark);color:#fff}.pricing .sub{color:#aeb4c2}.pricegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.price{background:#171b24;border:1px solid #2a303c;border-radius:17px;padding:25px}.price.featured{border:2px solid #817bff}.amount{font-size:38px;font-weight:850;margin:12px 0}.price ul{padding:0;list-style:none;color:#c7ccd6;line-height:2}.modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:18px;z-index:100}.modal.open{display:flex}.modalbox{width:min(900px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:20px;padding:25px}.close{float:right;border:0;background:#f2f4f7;border-radius:50%;width:35px;height:35px}.google{width:100%;padding:14px;background:#fff;border:1px solid #d0d5dd;border-radius:10px;font-weight:750}
+.dashboard{display:none;min-height:100vh}.dash{max-width:1180px;margin:auto;padding:30px 24px}.dashTop{display:flex;justify-content:space-between;align-items:center;gap:15px}.tabs{display:flex;gap:8px;overflow:auto;margin:25px 0}.tab{border:1px solid var(--line);background:#fff;padding:11px 15px;border-radius:9px;white-space:nowrap;font-weight:700}.tab.active{background:var(--brand);color:#fff}.panel{display:none;background:#fff;border:1px solid var(--line);border-radius:17px;padding:25px}.panel.active{display:block}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.input{width:100%;padding:12px;border:1px solid #d0d5dd;border-radius:9px}.full{grid-column:1/-1}textarea.input{min-height:110px;resize:vertical}.actionsRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.history{margin-top:25px}.historyItem{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:15px 0;border-bottom:1px solid var(--line)}.muted{color:var(--muted);font-size:13px}.status{color:var(--green);font-weight:700}
+footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:var(--muted)}
+@media(max-width:850px){.navlinks{display:none}.hero{grid-template-columns:1fr;padding-top:50px}.grid,.pricegrid{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.dashTop{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
 <body>
+
 <div id="site">
-<nav class="nav"><a class="logo" href="#">Tool<span>Nest</span></a><div class="navlinks"><a href="#tools">Tools</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><button class="btn secondary" onclick="openLogin()">Login</button><button class="btn primary" onclick="openLogin()">Get started</button></div><button class="btn primary" onclick="openLogin()">Login</button></nav>
-<main>
-<section class="hero"><div><div class="eyebrow">⚡ Built for small businesses</div><h1>Get business work <span>done faster.</span></h1><p>Create invoices, quotations and everyday business documents without complicated software.</p><div class="actions"><button class="btn primary" onclick="openLogin()">Continue with Google →</button><a class="btn secondary" href="#tools">Explore tools</a></div><div class="trust"><span>✓ Free to start</span><span>✓ No credit card</span><span>✓ Secure Google sign-in</span></div></div>
-<div class="mock"><div class="mockbar"></div><div class="invoice"><div class="invtop"><div><div class="invtitle">INVOICE</div><small>#INV-1048</small></div><span class="badge">PAID</span></div><div class="invrows"><div class="row"><span>Client</span><b>Acme Industries</b></div><div class="row"><span>Service</span><b>Fabrication work</b></div><div class="row"><span>Date</span><b>04 Oct 2026</b></div></div><div class="total"><span>Total</span><span>₹24,500</span></div></div></div></section>
-<section class="section" id="tools"><div class="center"><div class="kicker">Tools</div><h2>Everything you need to move faster.</h2><p class="sub">Start with the essentials. More tools can be added as your business grows.</p></div><div class="grid"><div class="card"><div class="icon">🧾</div><h3>Invoice Generator</h3><p>Create clean invoices, save them and keep your invoice history in one place.</p><button class="btn primary" onclick="openLogin()">Open tool →</button></div><div class="card"><div class="icon">📄</div><h3>Quotation Maker</h3><p>Prepare professional quotations quickly and send them to your customers.</p><button class="btn secondary" onclick="openLogin()">Coming soon</button></div><div class="card"><div class="icon">👤</div><h3>Resume Builder</h3><p>Create a polished professional resume from simple information.</p><button class="btn secondary" onclick="openLogin()">Coming soon</button></div></div></section>
-<section class="section pricing" id="pricing"><div class="center"><div class="kicker">Pricing</div><h2>Simple plans that grow with you.</h2><p class="sub">Start free. Upgrade when your business needs more.</p></div><div class="pricegrid"><div class="price"><h3>Free</h3><div class="amount">₹0 <small>/ month</small></div><ul><li>Basic tools</li><li>5 invoices / month</li><li>Invoice history</li></ul><button class="btn secondary" onclick="openLogin()">Start free</button></div><div class="price featured"><h3>Pro</h3><div class="amount">₹199 <small>/ month</small></div><ul><li>Unlimited invoices</li><li>PDF export</li><li>Priority features</li></ul><button class="btn primary" onclick="openLogin()">Choose Pro</button></div><div class="price"><h3>Business</h3><div class="amount">₹499 <small>/ month</small></div><ul><li>Team access</li><li>Advanced tools</li><li>Business support</li></ul><button class="btn secondary" onclick="openLogin()">Choose Business</button></div></div></section>
-<section class="cta"><div class="ctaBox"><div><h2>Ready to work smarter?</h2><p>Create your ToolNest account in seconds.</p></div><button class="btn secondary" onclick="openLogin()">Continue with Google →</button></div></section>
-</main>
-<footer><div class="foot"><span>© 2026 ToolNest. All rights reserved.</span><span>Privacy · Terms · Contact</span></div></footer>
+<nav class="nav"><a class="logo" href="#">Tool<span>Nest</span></a><div class="navlinks"><a href="#tools">Tools</a><a href="#pricing">Pricing</a><button class="btn secondary" onclick="openLogin()">Login</button></div><button class="btn primary" onclick="openLogin()">Login</button></nav>
+<section class="hero">
+<div><div class="eyebrow">⚡ Real business tools</div><h1>Get business work <span>done faster.</span></h1><p>Create invoices, quotations and professional resumes, download PDFs and keep your documents saved to your ToolNest account.</p><div class="actions"><button class="btn primary" onclick="openLogin()">Continue with Google →</button><a class="btn secondary" href="#tools">Explore tools</a></div></div>
+<div class="mock"><div class="paper"><h3>INVOICE</h3><div class="paperline"><span>Client</span><b>Acme Industries</b></div><div class="paperline"><span>Service</span><b>Business service</b></div><div class="paperline"><span>Total</span><b>₹24,500</b></div></div></div>
+</section>
+
+<section class="section" id="tools"><div class="center"><div class="kicker">Tools</div><h2>Everything in one account.</h2><p class="sub">Sign in once and create real documents from your dashboard.</p></div>
+<div class="grid">
+<div class="card"><div class="icon">🧾</div><h3>Invoice Generator</h3><p>Create invoices, save them to your account and download professional PDF invoices.</p><button class="btn primary" onclick="openLogin()">Open tool →</button></div>
+<div class="card"><div class="icon">📄</div><h3>Quotation Maker</h3><p>Create customer quotations, save history and download quotation PDFs.</p><button class="btn primary" onclick="openLogin()">Open tool →</button></div>
+<div class="card"><div class="icon">👤</div><h3>Resume Builder</h3><p>Enter your information and generate a professional resume PDF.</p><button class="btn primary" onclick="openLogin()">Open tool →</button></div>
+</div></section>
+
+<section class="section pricing" id="pricing"><div class="center"><div class="kicker">Pricing</div><h2>Simple plans.</h2><p class="sub">The document tools are available in your account. Payment activation requires your payment-gateway merchant account.</p></div>
+<div class="pricegrid">
+<div class="price"><h3>Free</h3><div class="amount">₹0</div><ul><li>✓ Basic tools</li><li>✓ Cloud document history</li><li>✓ PDF downloads</li></ul><button class="btn secondary" onclick="openLogin()">Start free</button></div>
+<div class="price featured"><h3>Pro</h3><div class="amount">₹199 <small>/month</small></div><ul><li>✓ Unlimited documents</li><li>✓ Advanced tools</li><li>✓ Priority features</li></ul><button class="btn primary" onclick="showPaymentSetup()">Upgrade</button></div>
+<div class="price"><h3>Business</h3><div class="amount">₹499 <small>/month</small></div><ul><li>✓ Team features</li><li>✓ Advanced tools</li><li>✓ Business support</li></ul><button class="btn primary" onclick="showPaymentSetup()">Upgrade</button></div>
+</div></section>
+<footer>© 2026 ToolNest. All rights reserved.</footer>
 </div>
 
-<div id="loginModal" class="modal"><div class="modalbox"><button class="close" onclick="closeLogin()">×</button><div class="kicker">TOOLNEST ACCOUNT</div><h2>Welcome to ToolNest</h2><p style="color:#667085">Sign in first, then access your tools and dashboard.</p><button class="google" onclick="googleLogin()"><span>G</span> Continue with Google</button><div class="note">Secure sign-in with your Google account. ToolNest uses Firebase Authentication.</div></div></div>
+<div id="loginModal" class="modal"><div class="modalbox" style="max-width:430px"><button class="close" onclick="closeLogin()">×</button><div class="kicker">TOOLNEST ACCOUNT</div><h2>Welcome to ToolNest</h2><p class="muted">Sign in with your Google account.</p><button class="google" onclick="googleLogin()">G &nbsp; Continue with Google</button><p class="muted" style="text-align:center">Secure sign-in with Firebase Authentication.</p></div></div>
 
-<div id="dashboard" class="dashboard"><div class="dash"><div class="dashTop"><div><div class="kicker">Dashboard</div><h1 style="margin:5px 0">Welcome to ToolNest</h1><p id="userEmail" style="color:#667085"></p></div><button class="btn secondary" onclick="logout()">Logout</button></div><div class="statgrid"><div class="stat"><small>Invoices</small><strong>0</strong><span style="color:#667085">This month</span></div><div class="stat"><small>Plan</small><strong>Free</strong><span style="color:#667085">Upgrade anytime</span></div><div class="stat"><small>Account</small><strong>Active</strong><span style="color:#16a34a">Google verified</span></div></div><div class="invoiceTool"><h2>Create invoice</h2><div class="formgrid"><input class="input" placeholder="Client name"><input class="input" placeholder="Invoice number"><input class="input full" placeholder="Service / item"><input class="input" type="number" placeholder="Amount"><button class="btn primary" onclick="alert('Invoice tool is ready for backend integration.')">Create invoice</button></div></div></div></div>
+<div id="dashboard" class="dashboard">
+<div class="dash">
+<div class="dashTop"><div><div class="kicker">Dashboard</div><h1 id="welcome">Welcome</h1><p id="userEmail" class="muted"></p></div><button class="btn secondary" onclick="logout()">Logout</button></div>
+<div class="tabs">
+<button class="tab active" onclick="tab('invoice',this)">🧾 Invoice</button>
+<button class="tab" onclick="tab('quote',this)">📄 Quotation</button>
+<button class="tab" onclick="tab('resume',this)">👤 Resume</button>
+<button class="tab" onclick="tab('history',this)">🗂 History</button>
+</div>
+
+<div id="invoice" class="panel active"><h2>Create Invoice</h2><div class="formgrid">
+<input id="invClient" class="input" placeholder="Client name">
+<input id="invNumber" class="input" placeholder="Invoice number">
+<input id="invBusiness" class="input" placeholder="Your business name">
+<input id="invDate" class="input" type="date">
+<input id="invItem" class="input full" placeholder="Service / item">
+<input id="invAmount" class="input" type="number" placeholder="Amount">
+</div><div class="actionsRow"><button class="btn primary" onclick="saveInvoice(true)">Save & Download PDF</button><button class="btn secondary" onclick="saveInvoice(false)">Save only</button></div></div>
+
+<div id="quote" class="panel"><h2>Create Quotation</h2><div class="formgrid">
+<input id="qClient" class="input" placeholder="Customer name">
+<input id="qNumber" class="input" placeholder="Quotation number">
+<input id="qBusiness" class="input" placeholder="Your business name">
+<input id="qDate" class="input" type="date">
+<input id="qItem" class="input full" placeholder="Product / service">
+<input id="qAmount" class="input" type="number" placeholder="Quoted amount">
+</div><div class="actionsRow"><button class="btn primary" onclick="saveQuote(true)">Save & Download PDF</button><button class="btn secondary" onclick="saveQuote(false)">Save only</button></div></div>
+
+<div id="resume" class="panel"><h2>Resume Builder</h2><div class="formgrid">
+<input id="rName" class="input" placeholder="Full name">
+<input id="rRole" class="input" placeholder="Professional title">
+<input id="rPhone" class="input" placeholder="Phone">
+<input id="rEmail" class="input" placeholder="Email">
+<input id="rLocation" class="input full" placeholder="City / Location">
+<textarea id="rSummary" class="input full" placeholder="Professional summary"></textarea>
+<textarea id="rSkills" class="input full" placeholder="Skills (comma separated)"></textarea>
+<textarea id="rExperience" class="input full" placeholder="Experience"></textarea>
+<textarea id="rEducation" class="input full" placeholder="Education"></textarea>
+</div><div class="actionsRow"><button class="btn primary" onclick="saveResume(true)">Save & Download PDF</button><button class="btn secondary" onclick="saveResume(false)">Save only</button></div></div>
+
+<div id="history" class="panel"><h2>Document History</h2><p class="muted">Your saved documents are stored under your Firebase account.</p><div id="historyList">Loading...</div></div>
+</div></div>
+
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signInWithRedirect,
-  getRedirectResult,
-  onAuthStateChanged,
-  signOut
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import {getFirestore,collection,addDoc,getDocs,query,orderBy,deleteDoc,doc} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDJdRCT9uWBEBS8f3Qc0ikuUiPM3krqO3Y",
-  authDomain: "toolnest-febc3.firebaseapp.com",
-  projectId: "toolnest-febc3",
-  storageBucket: "toolnest-febc3.firebasestorage.app",
-  messagingSenderId: "497105147895",
-  appId: "1:497105147895:web:fabb00dcd3df62edfb80f2",
-  measurementId: "G-WE2KR60G17"
+const firebaseConfig={
+ apiKey:"AIzaSyDJdRCT9uWBEBS8f3Qc0ikuUiPM3krqO3Y",
+ authDomain:"toolnest-febc3.firebaseapp.com",
+ projectId:"toolnest-febc3",
+ storageBucket:"toolnest-febc3.firebasestorage.app",
+ messagingSenderId:"497105147895",
+ appId:"1:497105147895:web:fabb00dcd3df62edfb80f2",
+ measurementId:"G-WE2KR60G17"
 };
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),provider=new GoogleAuthProvider();
+provider.setCustomParameters({prompt:"select_account"});
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({ prompt: "select_account" });
+window.openLogin=()=>{if(auth.currentUser)return showDashboard(auth.currentUser);document.getElementById("loginModal").classList.add("open")};
+window.closeLogin=()=>document.getElementById("loginModal").classList.remove("open");
 
-function showDashboard(user) {
-  document.getElementById("site").style.display = "none";
-  document.getElementById("loginModal").classList.remove("open");
-  document.getElementById("dashboard").style.display = "block";
+window.googleLogin=async()=>{
+ try{const r=await signInWithPopup(auth,provider);showDashboard(r.user)}
+ catch(e){alert("Google sign-in failed: "+(e.message||e.code))}
+};
+window.logout=async()=>{await signOut(auth);showSite()};
 
-  const name = user.displayName || "there";
-  const email = user.email || "";
-  document.querySelector("#dashboard h1").textContent = `Welcome, ${name}`;
-  document.getElementById("userEmail").textContent = email;
+function showSite(){document.getElementById("dashboard").style.display="none";document.getElementById("site").style.display="block"}
+function showDashboard(u){document.getElementById("site").style.display="none";document.getElementById("loginModal").classList.remove("open");document.getElementById("dashboard").style.display="block";document.getElementById("welcome").textContent="Welcome, "+(u.displayName||"there");document.getElementById("userEmail").textContent=u.email||"";loadHistory()}
+onAuthStateChanged(auth,u=>u?showDashboard(u):showSite());
+
+window.tab=(id,el)=>{document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");el.classList.add("active");if(id==="history")loadHistory()};
+
+const val=id=>document.getElementById(id).value.trim();
+function requireLogin(){if(!auth.currentUser){alert("Please sign in first.");return false}return true}
+
+async function saveDoc(type,data,download){
+ if(!requireLogin())return;
+ try{await addDoc(collection(db,"users",auth.currentUser.uid,"documents"),{type,...data,createdAt:Date.now()});alert(type+" saved successfully.");if(download)makePdf(type,data);loadHistory()}
+ catch(e){alert("Save failed. Open Firestore in Firebase Console first. Error: "+(e.message||e.code))}
+}
+window.saveInvoice=download=>saveDoc("Invoice",{client:val("invClient"),number:val("invNumber"),business:val("invBusiness"),date:val("invDate"),item:val("invItem"),amount:val("invAmount")},download);
+window.saveQuote=download=>saveDoc("Quotation",{client:val("qClient"),number:val("qNumber"),business:val("qBusiness"),date:val("qDate"),item:val("qItem"),amount:val("qAmount")},download);
+window.saveResume=download=>saveDoc("Resume",{name:val("rName"),role:val("rRole"),phone:val("rPhone"),email:val("rEmail"),location:val("rLocation"),summary:val("rSummary"),skills:val("rSkills"),experience:val("rExperience"),education:val("rEducation")},download);
+
+async function loadHistory(){
+ const box=document.getElementById("historyList");if(!auth.currentUser)return;
+ try{
+  const q=query(collection(db,"users",auth.currentUser.uid,"documents"),orderBy("createdAt","desc"));
+  const snap=await getDocs(q);
+  if(snap.empty){box.innerHTML='<p class="muted">No documents saved yet.</p>';return}
+  box.innerHTML="";
+  snap.forEach(s=>{const d=s.data();const row=document.createElement("div");row.className="historyItem";row.innerHTML=`<div><b>${d.type}</b><div class="muted">${d.client||d.name||"Document"} · ${new Date(d.createdAt).toLocaleString()}</div></div><button class="btn secondary">Delete</button>`;row.querySelector("button").onclick=async()=>{await deleteDoc(doc(db,"users",auth.currentUser.uid,"documents",s.id));loadHistory()};box.appendChild(row)})
+ }catch(e){box.innerHTML='<p class="muted">Firestore is not enabled/configured yet.</p>'}
 }
 
-function showSite() {
-  document.getElementById("dashboard").style.display = "none";
-  document.getElementById("site").style.display = "block";
+function loadJsPdf(){
+ return new Promise((resolve,reject)=>{if(window.jspdf)return resolve();const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";s.onload=resolve;s.onerror=reject;document.head.appendChild(s)})
 }
+async function makePdf(type,d){
+ await loadJsPdf();const {jsPDF}=window.jspdf;const pdf=new jsPDF();let y=25;
+ pdf.setFontSize(22);pdf.text(type,20,y);y+=15;pdf.setFontSize(11);
+ const lines=type==="Resume"?[
+  ["Name",d.name],["Title",d.role],["Phone",d.phone],["Email",d.email],["Location",d.location],
+  ["Summary",d.summary],["Skills",d.skills],["Experience",d.experience],["Education",d.education]
+ ]:[
+  ["Business",d.business],["Customer",d.client],["Number",d.number],["Date",d.date],["Item",d.item],["Amount","₹"+d.amount]
+ ];
+ for(const [k,v] of lines){pdf.setFont(undefined,"bold");pdf.text(k+":",20,y);pdf.setFont(undefined,"normal");const wrapped=pdf.splitTextToSize(String(v||"-"),150);pdf.text(wrapped,55,y);y+=8+Math.max(0,wrapped.length-1)*5;if(y>270){pdf.addPage();y=20}}
+ pdf.save(type.toLowerCase()+"-toolnest.pdf")
+}
+window.showPaymentSetup=()=>alert("Payment is not activated yet. To make Pro/Business payment real, connect a Razorpay/Stripe merchant account and add its public key. Your current tools and PDF generation do not require payment.");
 
-window.openLogin = function () {
-  if (auth.currentUser) {
-    showDashboard(auth.currentUser);
-    return;
-  }
-  document.getElementById("loginModal").classList.add("open");
-};
-
-window.closeLogin = function () {
-  document.getElementById("loginModal").classList.remove("open");
-};
-
-window.googleLogin = async function () {
-  const button = document.querySelector(".google");
-  const original = button.innerHTML;
-  button.disabled = true;
-  button.innerHTML = "<span>⏳</span> Signing in...";
-
-  try {
-    const result = await signInWithPopup(auth, provider);
-    showDashboard(result.user);
-  } catch (error) {
-    console.error("Google sign-in error:", error);
-    alert("Google sign-in failed: " + (error.message || error.code));
-    button.disabled = false;
-    button.innerHTML = original;
-  }
-};
-
-window.logout = async function () {
-  try {
-    await signOut(auth);
-    showSite();
-  } catch (error) {
-    alert("Logout failed: " + (error.message || error.code));
-  }
-};
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    showDashboard(user);
-  } else {
-    showSite();
-  }
-});
-
-getRedirectResult(auth).catch((error) => {
-  console.error("Redirect sign-in error:", error);
-  alert("Google sign-in failed: " + (error.message || error.code));
-});
+document.getElementById("invDate").value=new Date().toISOString().slice(0,10);
+document.getElementById("qDate").value=new Date().toISOString().slice(0,10);
 </script>
-</body></html>
+</body>
+</html>
