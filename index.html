@@ -11,7 +11,7 @@
 .toast{position:fixed;right:18px;bottom:18px;z-index:300;background:#101828;color:#fff;padding:13px 16px;border-radius:12px;display:none;box-shadow:0 10px 30px #0003}.toast.show{display:block}
 footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:var(--muted)}
 @media(max-width:900px){.navlinks{display:none}.hero{grid-template-columns:1fr;padding-top:55px}.grid,.pricegrid,.toolgrid{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.dashTop,.planbar{align-items:flex-start;flex-direction:column}}
-.googleBtn{width:100%;min-height:46px;border:1px solid #d0d5dd;border-radius:10px;background:#fff;color:#101828;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:16px}.googleBtn:hover{background:#f8fafc}<style>@media(max-width:850px){#plans .grid{grid-template-columns:1fr!important}}</style></head><body>
+.googleBtn{width:100%;min-height:46px;border:1px solid #d0d5dd;border-radius:10px;background:#fff;color:#101828;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:16px}.googleBtn:hover{background:#f8fafc}<style>@media(max-width:850px){#plans .grid{grid-template-columns:1fr!important}}</style><style>@media(max-width:850px){#plansBottom .grid{grid-template-columns:1fr!important}}</style></head><body>
 <div id="site">
 <nav class="nav"><a class="logo" href="#">Tool<span>Nest</span></a><div class="navlinks"><a href="#tools">Tools</a><a href="#pricing">Pricing</a><a href="mailto:kaammilaga.official@gmail.com">✉ Email Support</a><button class="btn secondary" onclick="openLogin()">Login</button></div><button class="btn primary" onclick="openLogin()">Login</button></nav>
 <section class="hero"><div><div class="eyebrow">⚡ Professional document platform</div><h1>Work smarter with <span>ToolNest.</span></h1><p>Create professional business documents, career documents and useful PDF files from one secure account. Your documents and history stay connected to your ToolNest account.</p><div class="actions"><button class="btn primary" onclick="openLogin()">Continue with Google →</button><a class="btn secondary" href="#tools">Explore tools</a></div></div><div class="mock"><div class="paper"><h3>TOOLNEST DOCUMENT</h3><div class="paperline"><span>Invoice</span><b>₹24,500</b></div><div class="paperline"><span>Professional Resume</span><b>Ready</b></div><div class="paperline"><span>Daily PDF allowance</span><b>5 Free</b></div><div class="paperline"><span>Cloud history</span><b>Enabled</b></div></div></div></section>
@@ -68,9 +68,9 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 
 <div id="dashboard" class="dashboard"><div class="dash">
 <div class="dashTop"><div><div class="kicker">ToolNest Workspace</div><h1 id="welcome">Welcome</h1><p id="userEmail" class="muted"></p></div><div><a class="btn secondary" href="mailto:kaammilaga.official@gmail.com">✉ Email Support</a> <button class="btn secondary" onclick="logout()">Logout</button></div></div>
-<div class="planbar"><div><b id="planTitle">Plan: Basic</b><div id="planText" class="muted" style="margin-top:4px">5 PDF downloads per day.</div></div><div class="usage" id="usageText">PDFs today: 0 / 5</div></div>
+<div class="planbar"><div><b id="planTitle">Plan: Basic</b><div id="planText" class="muted" style="margin-top:4px">5 PDF downloads per day.</div></div><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end"><div class="usage" id="usageText">PDFs today: 0 / 5</div><button class="btn primary" type="button" onclick="openPlans()">💎 Upgrade</button></div></div>
 <div class="tabs">
-<button class="tab active" onclick="tab('invoice',this)">🧾 Invoice</button><button class="tab" onclick="tab('quote',this)">📄 Quotation</button><button class="tab" onclick="tab('resume',this)">👤 Resume</button><button class="tab" onclick="tab('business',this)">📦 Business Docs</button><button class="tab" onclick="tab('career',this)">✍️ Career</button><button class="tab" onclick="tab('pdf',this)">🛠 PDF Tools</button><button class="tab" onclick="tab('plans',this)">💎 Plans</button><button class="tab" onclick="tab('history',this)">🗂 History</button>
+<button class="tab active" onclick="tab('invoice',this)">🧾 Invoice</button><button class="tab" onclick="tab('quote',this)">📄 Quotation</button><button class="tab" onclick="tab('resume',this)">👤 Resume</button><button class="tab" onclick="tab('business',this)">📦 Business Docs</button><button class="tab" onclick="tab('career',this)">✍️ Career</button><button class="tab" onclick="tab('pdf',this)">🛠 PDF Tools</button><button class="tab" onclick="tab('history',this)">🗂 History</button>
 </div>
 
 <div id="invoice" class="panel active"><h2>Create Invoice</h2><p class="muted">Professional invoice with GST, discount and calculated total.</p><div class="formgrid">
@@ -111,8 +111,30 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 <div class="toolbox"><h3>🗜️ PDF Optimize</h3><input id="optFile" class="input" type="file" accept="application/pdf"><button class="btn primary" onclick="optimizePdf()">Optimize & Download</button></div>
 </div></div>
 
-<div id="plans" class="panel"><h2>Upgrade your plan</h2><p class="muted">Choose a plan for higher daily PDF limits. Payments are processed through Razorpay.</p><div class="grid" style="grid-template-columns:repeat(3,1fr)"><div class="card"><div class="kicker">FREE</div><h3>Basic</h3><p>5 PDF downloads per day with core document tools.</p><button class="btn secondary" onclick="toast('Basic is your current free plan.')">Current plan</button></div><div class="card" style="border:2px solid #817bff"><div class="kicker">POPULAR</div><h3>Platinum — ₹299 / month</h3><p>50 PDF downloads per day plus premium tools.</p><button class="btn primary" onclick="choosePlan('platinum')">Upgrade to Platinum</button></div><div class="card"><div class="kicker">BUSINESS</div><h3>Business — ₹999 / month</h3><p>100 PDF downloads per day with full business tools.</p><button class="btn primary" onclick="choosePlan('business')">Upgrade to Business</button></div></div><div class="note" style="margin-top:16px">Owner account gets permanent unlimited PDF access.</div></div>
 <div id="history" class="panel"><h2>Document History</h2><p class="muted">Saved documents are stored in your secure cloud account.</p><div id="historyList">Loading...</div></div>
+
+<section id="plansBottom" class="panel" style="display:block;margin-top:24px">
+  <h2>Upgrade your plan</h2>
+  <p class="muted">Choose a plan for higher daily PDF limits. Payments are processed through Razorpay.</p>
+  <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="card">
+      <div class="kicker">FREE</div><h3>Basic</h3>
+      <p>5 PDF downloads per day with core document tools.</p>
+      <button class="btn secondary" onclick="toast('Basic is your current free plan.')">Current plan</button>
+    </div>
+    <div class="card" style="border:2px solid #817bff">
+      <div class="kicker">POPULAR</div><h3>Platinum — ₹299 / month</h3>
+      <p>50 PDF downloads per day plus premium tools.</p>
+      <button class="btn primary" onclick="choosePlan('platinum')">Upgrade to Platinum</button>
+    </div>
+    <div class="card">
+      <div class="kicker">BUSINESS</div><h3>Business — ₹999 / month</h3>
+      <p>100 PDF downloads per day with full business tools.</p>
+      <button class="btn primary" onclick="choosePlan('business')">Upgrade to Business</button>
+    </div>
+  </div>
+  <div class="note" style="margin-top:16px">Owner account gets permanent unlimited PDF access.</div>
+</section>
 </div></div>
 
 <div id="docModal" class="modal"><div class="modalbox" style="max-width:700px"><button class="close" onclick="closeDocTool()">×</button><div class="kicker">DOCUMENT STUDIO</div><h2 id="docTitle">Create document</h2><p class="muted">Fill the fields below. The document will be saved and can be downloaded as PDF.</p><div class="formgrid"><input id="docTo" class="input" placeholder="Name / Company / Recipient"><input id="docRef" class="input" placeholder="Reference / Number"><input id="docDate" class="input" type="date"><input id="docAmount" class="input" placeholder="Amount / Salary / Value"><input id="docSubject" class="input full" placeholder="Subject / Item / Role"><textarea id="docBody" class="input full" placeholder="Document details, terms, duties, experience, expenses, letter content..."></textarea></div><div class="actionsRow"><button class="btn primary" onclick="saveCustomDoc(true)">Save & Download PDF</button><button class="btn secondary" onclick="saveCustomDoc(false)">Save only</button></div></div></div>
@@ -131,8 +153,9 @@ let activeUser=null;
 let currentPlan={name:"Basic",limit:5,expiresAt:null,key:"basic"},customType="";
 
 const $=id=>document.getElementById(id),val=id=>$(id)?.value.trim()||"";
-const today=()=>new Date().toISOString().slice(0,10);
+const today=()=>{const d=new Date();const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");return `${y}-${m}-${day}`};
 function toast(m){$("toast").textContent=m;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),2800)}
+window.toast=toast;
 function appUser(u=activeUser){
   if(!u) return null;
   const meta=u.user_metadata||{};
@@ -406,7 +429,7 @@ async function loadPlan(){
 async function usageRef(){return doc(db,"users",auth.currentUser.uid,"usage","daily")}
 async function getUsage(){if(!auth.currentUser||isOwner())return 0;const s=await getDoc(await usageRef()),d=s.exists()?s.data():{};return d.date===today()?Number(d.count||0):0}
 async function consumeDownload(){if(!auth.currentUser){alert("Your login session is not ready. Please login once again, then try the PDF tool.");openLogin();return false}if(isOwner())return true;await loadPlan();const used=await getUsage();if(used>=currentPlan.limit){alert(`Daily PDF limit reached. ${currentPlan.name} allows ${currentPlan.limit} PDF downloads per day. Upgrade for more.`);return false}await setDoc(await usageRef(),{date:today(),count:used+1,updatedAt:Date.now()},{merge:true});await updatePlanUI();return true}
-async function updatePlanUI(){await loadPlan();const used=await getUsage();$("planTitle").textContent="Plan: "+currentPlan.name;$("planText").textContent=currentPlan.limit===Infinity?"Permanent owner access · Unlimited PDF downloads":`${currentPlan.limit} PDF downloads per day${currentPlan.expiresAt?" · Expires "+currentPlan.expiresAt.toLocaleDateString():""}`;$("usageText").textContent=currentPlan.limit===Infinity?`PDFs today: ${used} · Unlimited`:`PDFs today: ${used} / ${currentPlan.limit}`}
+async function updatePlanUI(){await loadPlan();let used=0;try{used=await getUsage()}catch(e){console.warn("usage:",e.message||e)}$("planTitle").textContent="Plan: "+currentPlan.name;$("planText").textContent=currentPlan.limit===Infinity?"Permanent owner access · Unlimited PDF downloads":`${currentPlan.limit} PDF downloads per day${currentPlan.expiresAt?" · Expires "+currentPlan.expiresAt.toLocaleDateString():""}`;$("usageText").textContent=currentPlan.limit===Infinity?`PDFs today: ${used} · Unlimited`:`PDFs today: ${used} / ${currentPlan.limit}`}
 
 async function saveDoc(type,data,download=true){
  if(!auth.currentUser){alert("Please sign in first.");return}
@@ -431,6 +454,173 @@ async function makePdf(type,d){
  if(type==="Invoice"||type==="Quotation"){const a=Number(d.amount||0),g=Number(d.gst||0),disc=Number(d.discount||0),total=Math.max(0,a+a*g/100-disc);y=Math.min(y,265);pdf.line(120,y,192,y);y+=8;pdf.setFont(undefined,"bold");pdf.text("TOTAL",140,y);pdf.text("₹"+total.toFixed(2),168,y)}
  pdf.setFontSize(8);pdf.setFont(undefined,"normal");pdf.setTextColor(120,130,145);pdf.text("Generated by ToolNest",18,287);pdf.save(type.toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-toolnest.pdf")
 }
+
+
+// ---------------------------
+// Dashboard / Plan helpers
+// ---------------------------
+window.openPlans=()=>{
+  if(!auth.currentUser){openLogin();return}
+  document.getElementById("plansBottom")?.scrollIntoView({behavior:"smooth",block:"start"});
+};
+
+// ---------------------------
+// Generic Business / Career document tools
+// ---------------------------
+window.openDocTool=(type)=>{
+  if(!auth.currentUser){openLogin();toast("Please sign in first.");return}
+  customType=type||"Document";
+  $("docTitle").textContent="Create "+customType;
+  $("docDate").value=today();
+  ["docTo","docRef","docAmount","docSubject","docBody"].forEach(id=>{if($(id))$(id).value=""});
+  $("docModal").classList.add("open");
+};
+window.closeDocTool=()=>$("docModal").classList.remove("open");
+
+window.saveCustomDoc=async(download=true)=>{
+  if(!auth.currentUser){openLogin();toast("Please sign in first.");return}
+  const data={
+    to:val("docTo"),
+    ref:val("docRef"),
+    date:val("docDate"),
+    amount:val("docAmount"),
+    subject:val("docSubject"),
+    body:val("docBody")
+  };
+  if(!data.to && !data.subject && !data.body){toast("Please enter the document details.");return}
+  await saveDoc(customType||"Document",data,!!download);
+  $("docModal").classList.remove("open");
+};
+
+// ---------------------------
+// Real PDF utility functions
+// ---------------------------
+async function requirePdfLib(){
+  await libs();
+  return window.PDFLib;
+}
+async function downloadBlob(blob,name){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+function parsePageSpec(spec,total){
+  const out=[];
+  for(const raw of String(spec||"").split(",")){
+    const t=raw.trim(); if(!t)continue;
+    if(/^\d+\s*-\s*\d+$/.test(t)){
+      let [a,b]=t.split("-").map(x=>parseInt(x.trim(),10));
+      if(a>b)[a,b]=[b,a];
+      for(let p=a;p<=b;p++) if(p>=1&&p<=total&&!out.includes(p)) out.push(p);
+    }else if(/^\d+$/.test(t)){
+      const p=parseInt(t,10); if(p>=1&&p<=total&&!out.includes(p)) out.push(p);
+    }
+  }
+  return out;
+}
+
+window.mergePdfs=async()=>{
+  if(!auth.currentUser){openLogin();toast("Please sign in first.");return}
+  const files=[...($('mergeFiles')?.files||[])];
+  if(files.length<2){toast("Select at least 2 PDF files.");return}
+  try{
+    if(!(await consumeDownload()))return;
+    const {PDFDocument}=await requirePdfLib();
+    const out=await PDFDocument.create();
+    for(const file of files){
+      const src=await PDFDocument.load(await file.arrayBuffer());
+      const pages=await out.copyPages(src,src.getPageIndices());
+      pages.forEach(p=>out.addPage(p));
+    }
+    const bytes=await out.save();
+    await downloadBlob(new Blob([bytes],{type:"application/pdf"}),"merged-toolnest.pdf");
+    toast("PDFs merged successfully.");
+  }catch(e){console.error(e);alert("Merge failed: "+(e?.message||e))}
+};
+
+window.splitPdf=async()=>{
+  if(!auth.currentUser){openLogin();toast("Please sign in first.");return}
+  const file=$("splitFile")?.files?.[0],spec=val("splitPages");
+  if(!file||!spec){toast("Choose a PDF and enter pages.");return}
+  try{
+    if(!(await consumeDownload()))return;
+    const {PDFDocument}=await requirePdfLib();
+    const src=await PDFDocument.load(await file.arrayBuffer());
+    const pages=parsePageSpec(spec,src.getPageCount());
+    if(!pages.length){toast("No valid pages found. Example: 1,3-5");return}
+    const out=await PDFDocument.create();
+    const copied=await out.copyPages(src,pages.map(p=>p-1));
+    copied.forEach(p=>out.addPage(p));
+    const bytes=await out.save();
+    await downloadBlob(new Blob([bytes],{type:"application/pdf"}),"split-toolnest.pdf");
+    toast("PDF split successfully.");
+  }catch(e){console.error(e);alert("Split failed: "+(e?.message||e))}
+};
+
+async function imageBytes(file){return new Uint8Array(await file.arrayBuffer())}
+window.jpgToPdf=async()=>{
+  if(!auth.currentUser){openLogin();toast("Please sign in first.");return}
+  const files=[...($('jpgFiles')?.files||[])];
+  if(!files.length){toast("Select one or more JPG/PNG images.");return}
+  try{
+    if(!(await consumeDownload()))return;
+    const {PDFDocument}=await requirePdfLib();
+    const out=await PDFDocument.create();
+    for(const file of files){
+      const bytes=await imageBytes(file);
+      const img=file.type==='image/png'?await out.embedPng(bytes):await out.embedJpg(bytes);
+      const maxW=178,maxH=255, scale=Math.min(maxW/img.width,maxH/img.height,1);
+      const w=img.width*scale,h=img.height*scale;
+      const page=out.addPage([210,297]);
+      page.drawImage(img,{x:(210-w)/2,y:(297-h)/2,width:w,height:h});
+    }
+    const bytes=await out.save();
+    await downloadBlob(new Blob([bytes],{type:"application/pdf"}),"jpg-to-pdf-toolnest.pdf");
+    toast("Images converted to PDF.");
+  }catch(e){console.error(e);alert("JPG → PDF failed: "+(e?.message||e))}
+};
+
+async function ensurePdfJs(){
+  if(window.pdfjsLib)return window.pdfjsLib;
+  await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js");
+  if(window.pdfjsLib)window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
+  return window.pdfjsLib;
+}
+window.pdfToJpg=async()=>{
+  if(!auth.currentUser){openLogin();toast("Please sign in first.");return}
+  const file=$("pdfToJpgFile")?.files?.[0], pageNo=Math.max(1,Number($("pdfPage")?.value||1));
+  if(!file){toast("Choose a PDF file.");return}
+  try{
+    if(!(await consumeDownload()))return;
+    const pdfjs=await ensurePdfJs();
+    if(!pdfjs)throw Error("PDF renderer could not load.");
+    const pdf=await pdfjs.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise;
+    if(pageNo>pdf.numPages)throw Error(`PDF has only ${pdf.numPages} page(s).`);
+    const page=await pdf.getPage(pageNo);
+    const viewport=page.getViewport({scale:2});
+    const canvas=document.createElement("canvas");canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
+    const ctx=canvas.getContext("2d");
+    await page.render({canvasContext:ctx,viewport}).promise;
+    const blob=await new Promise(res=>canvas.toBlob(res,"image/jpeg",0.92));
+    if(!blob)throw Error("Could not create JPG image.");
+    await downloadBlob(blob,`pdf-page-${pageNo}-toolnest.jpg`);
+    toast("PDF page converted to JPG.");
+  }catch(e){console.error(e);alert("PDF → JPG failed: "+(e?.message||e))}
+};
+
+window.optimizePdf=async()=>{
+  if(!auth.currentUser){openLogin();toast("Please sign in first.");return}
+  const file=$("optFile")?.files?.[0];
+  if(!file){toast("Choose a PDF file.");return}
+  try{
+    if(!(await consumeDownload()))return;
+    const {PDFDocument}=await requirePdfLib();
+    const src=await PDFDocument.load(await file.arrayBuffer(),{ignoreEncryption:false});
+    const bytes=await src.save({useObjectStreams:true,addDefaultPage:false});
+    await downloadBlob(new Blob([bytes],{type:"application/pdf"}),"optimized-toolnest.pdf");
+    toast("PDF optimized successfully.");
+  }catch(e){console.error(e);alert("Optimize failed: "+(e?.message||e))}
+};
 
 window.choosePlan=async plan=>{
   const user=auth.currentUser;
