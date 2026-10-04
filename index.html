@@ -150,7 +150,7 @@ const firebaseConfig={
  measurementId:"G-WE2KR60G17"
 };
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),provider=new GoogleAuthProvider();
-const RAZORPAY_FUNCTION_URL="https://cvlinhjhyxuntbbxrxq.supabase.co/functions/v1/razorpay-payment";
+const RAZORPAY_FUNCTION_URL="https://cvlinhjhyxuntbbxrrxq.supabase.co/functions/v1/razorpay-payment";
 provider.setCustomParameters({prompt:"select_account"});
 
 window.openLogin=()=>{if(auth.currentUser)return showDashboard(auth.currentUser);document.getElementById("loginModal").classList.add("open")};
