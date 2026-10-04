@@ -98,7 +98,7 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import {initializeAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut,browserLocalPersistence,browserSessionPersistence,browserPopupRedirectResolver} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import {getFirestore,collection,addDoc,getDocs,query,orderBy,deleteDoc,doc,getDoc,setDoc} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 const firebaseConfig={
  apiKey:"AIzaSyDJdRCT9uWBEBS8f3QcOikuUiPM3krqO03Y",
@@ -108,7 +108,7 @@ const firebaseConfig={
  messagingSenderId:"497105147895",
  appId:"1:497105147895:web:fabb00dcd3df62edfb80f2"
 };
-const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),provider=new GoogleAuthProvider();provider.setCustomParameters({prompt:"select_account"});
+const app=initializeApp(firebaseConfig),auth=initializeAuth(app,{persistence:[browserLocalPersistence,browserSessionPersistence],popupRedirectResolver:browserPopupRedirectResolver}),db=getFirestore(app),provider=new GoogleAuthProvider();provider.setCustomParameters({prompt:"select_account"});
 const OWNER="kaammilaga.official@gmail.com",RAZORPAY_URL="https://cvlinhjhyxuntbbxrrxq.supabase.co/functions/v1/razorpay-payment";
 let currentPlan={name:"Basic",limit:5,expiresAt:null,key:"basic"},customType="";
 const $=id=>document.getElementById(id),val=id=>$(id)?.value.trim()||"";
@@ -118,12 +118,20 @@ function isOwner(){return (auth.currentUser?.email||"").toLowerCase()===OWNER}
 window.openLogin=()=>{if(auth.currentUser)return showDashboard(auth.currentUser);$("loginModal").classList.add("open")};
 window.closeLogin=()=>$("loginModal").classList.remove("open");
 window.googleLogin=async()=>{
+ const b=document.querySelector(".google");
+ const old=b?b.innerHTML:"G \u00a0 Continue with Google";
  try{
-  const r=await signInWithPopup(auth,provider);
+  if(b){b.disabled=true;b.innerHTML="Opening Google...";}
+  const r=await signInWithPopup(auth,provider,browserPopupRedirectResolver);
   showDashboard(r.user);
  }catch(e){
   console.error("Google sign-in failed",e);
-  alert("Google sign-in failed: "+(e.message||e.code));
+  const code=e?.code||"unknown";
+  if(code==="auth/popup-blocked") alert("Google login popup blocked by Chrome. Please allow pop-ups for this site and try again.");
+  else if(code==="auth/popup-closed-by-user") alert("Google login window closed. Please tap Login and complete Google sign-in.");
+  else alert("Google Login error: "+code+"\n"+(e?.message||""));
+ }finally{
+  if(b){b.disabled=false;b.innerHTML=old;}
  }
 };
 window.logout=async()=>{await signOut(auth);showSite()};
