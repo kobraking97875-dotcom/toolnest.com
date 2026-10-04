@@ -35,15 +35,113 @@ footer{background:#fff;border-top:1px solid var(--line);padding:28px 24px;color:
 <footer><div class="foot"><span>© 2026 ToolNest. All rights reserved.</span><span>Privacy · Terms · Contact</span></div></footer>
 </div>
 
-<div id="loginModal" class="modal"><div class="modalbox"><button class="close" onclick="closeLogin()">×</button><div class="kicker">TOOLNEST ACCOUNT</div><h2>Welcome to ToolNest</h2><p style="color:#667085">Sign in first, then access your tools and dashboard.</p><button class="google" onclick="googleLogin()"><span>G</span> Continue with Google</button><div class="note">Google OAuth will work after your Google Cloud OAuth Client ID is configured.</div></div></div>
+<div id="loginModal" class="modal"><div class="modalbox"><button class="close" onclick="closeLogin()">×</button><div class="kicker">TOOLNEST ACCOUNT</div><h2>Welcome to ToolNest</h2><p style="color:#667085">Sign in first, then access your tools and dashboard.</p><button class="google" onclick="googleLogin()"><span>G</span> Continue with Google</button><div class="note">Secure sign-in with your Google account. ToolNest uses Firebase Authentication.</div></div></div>
 
 <div id="dashboard" class="dashboard"><div class="dash"><div class="dashTop"><div><div class="kicker">Dashboard</div><h1 style="margin:5px 0">Welcome to ToolNest</h1><p id="userEmail" style="color:#667085"></p></div><button class="btn secondary" onclick="logout()">Logout</button></div><div class="statgrid"><div class="stat"><small>Invoices</small><strong>0</strong><span style="color:#667085">This month</span></div><div class="stat"><small>Plan</small><strong>Free</strong><span style="color:#667085">Upgrade anytime</span></div><div class="stat"><small>Account</small><strong>Active</strong><span style="color:#16a34a">Google verified</span></div></div><div class="invoiceTool"><h2>Create invoice</h2><div class="formgrid"><input class="input" placeholder="Client name"><input class="input" placeholder="Invoice number"><input class="input full" placeholder="Service / item"><input class="input" type="number" placeholder="Amount"><button class="btn primary" onclick="alert('Invoice tool is ready for backend integration.')">Create invoice</button></div></div></div></div>
-<script>
-function openLogin(){document.getElementById('loginModal').classList.add('open')}
-function closeLogin(){document.getElementById('loginModal').classList.remove('open')}
-function googleLogin(){
-  alert("Google Login setup: add your Google OAuth Client ID and redirect URI on the server. This local preview cannot authenticate a real Google account.");
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDJdRCT9uUWBEBS8f3QcOikuUiPM3krqO03Y",
+  authDomain: "toolnest-febc3.firebaseapp.com",
+  projectId: "toolnest-febc3",
+  storageBucket: "toolnest-febc3.firebasestorage.app",
+  messagingSenderId: "497105147895",
+  appId: "1:497105147895:web:fabb00dcd3df62edfb80f2"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: "select_account" });
+
+function showDashboard(user) {
+  document.getElementById("site").style.display = "none";
+  document.getElementById("loginModal").classList.remove("open");
+  document.getElementById("dashboard").style.display = "block";
+
+  const name = user.displayName || "there";
+  const email = user.email || "";
+  document.querySelector("#dashboard h1").textContent = `Welcome, ${name}`;
+  document.getElementById("userEmail").textContent = email;
 }
-function logout(){document.getElementById('dashboard').style.display='none';document.getElementById('site').style.display='block';}
+
+function showSite() {
+  document.getElementById("dashboard").style.display = "none";
+  document.getElementById("site").style.display = "block";
+}
+
+window.openLogin = function () {
+  if (auth.currentUser) {
+    showDashboard(auth.currentUser);
+    return;
+  }
+  document.getElementById("loginModal").classList.add("open");
+};
+
+window.closeLogin = function () {
+  document.getElementById("loginModal").classList.remove("open");
+};
+
+window.googleLogin = async function () {
+  const button = document.querySelector(".google");
+  const original = button.innerHTML;
+  button.disabled = true;
+  button.innerHTML = "<span>⏳</span> Signing in...";
+
+  try {
+    // Redirect is more reliable on mobile browsers; popup is convenient on desktop.
+    const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+    if (isMobile) {
+      await signInWithRedirect(auth, provider);
+      return;
+    }
+
+    const result = await signInWithPopup(auth, provider);
+    showDashboard(result.user);
+  } catch (error) {
+    console.error("Google sign-in error:", error);
+
+    if (error.code === "auth/popup-blocked" || error.code === "auth/popup-closed-by-user") {
+      await signInWithRedirect(auth, provider);
+      return;
+    }
+
+    alert("Google sign-in failed: " + (error.message || error.code));
+    button.disabled = false;
+    button.innerHTML = original;
+  }
+};
+
+window.logout = async function () {
+  try {
+    await signOut(auth);
+    showSite();
+  } catch (error) {
+    alert("Logout failed: " + (error.message || error.code));
+  }
+};
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    showDashboard(user);
+  } else {
+    showSite();
+  }
+});
+
+getRedirectResult(auth).catch((error) => {
+  console.error("Redirect sign-in error:", error);
+  alert("Google sign-in failed: " + (error.message || error.code));
+});
 </script>
 </body></html>
