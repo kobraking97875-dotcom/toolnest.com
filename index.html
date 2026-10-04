@@ -43,7 +43,25 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 <footer>© 2026 ToolNest. All rights reserved. · <a href="mailto:kobraking@gmail.com">✉ Email Support</a></footer>
 </div>
 
-<div id="loginModal" class="modal"><div class="modalbox" style="max-width:430px"><button class="close" onclick="closeLogin()">×</button><div class="kicker">TOOLNEST ACCOUNT</div><h2>Welcome to ToolNest</h2><p class="muted">Sign in securely with your Google account.</p><div id="googleGis" style="display:flex;justify-content:center;min-height:44px"></div><div class="note">Secure Google sign-in with Firebase Authentication.</div></div></div>
+<div id="loginModal" class="modal"><div class="modalbox" style="max-width:430px">
+<button class="close" onclick="closeLogin()">×</button>
+<div class="kicker">TOOLNEST ACCOUNT</div>
+<h2 id="authTitle">Welcome to ToolNest</h2>
+<p id="authSubtitle" class="muted">Sign in with Google or your email and password.</p>
+<div id="googleGis" style="display:flex;justify-content:center;min-height:44px;margin-bottom:16px"></div>
+<div style="display:flex;align-items:center;gap:10px;margin:10px 0;color:#98a2b3;font-size:12px"><span style="height:1px;background:#e4e7ec;flex:1"></span>OR<span style="height:1px;background:#e4e7ec;flex:1"></span></div>
+<div id="emailAuthBox">
+<input id="authEmail" class="input" type="email" autocomplete="email" placeholder="Email address" style="margin-bottom:10px">
+<input id="authPassword" class="input" type="password" autocomplete="current-password" placeholder="Password (minimum 6 characters)">
+<div class="actionsRow" style="margin-top:12px">
+<button id="emailLoginBtn" class="btn primary" style="flex:1" onclick="emailLogin()">Login</button>
+<button id="emailSignupBtn" class="btn secondary" style="flex:1" onclick="emailSignup()">Create account</button>
+</div>
+<button class="btn secondary" style="width:100%;margin-top:10px" onclick="resetPassword()">Forgot password?</button>
+<div id="authMessage" class="note" style="display:none;margin-top:12px"></div>
+</div>
+<div class="note" style="margin-top:14px">Email authentication is secured by Firebase Authentication. Your password is handled by Firebase and is not stored in ToolNest.</div>
+</div></div>
 
 <div id="dashboard" class="dashboard"><div class="dash">
 <div class="dashTop"><div><div class="kicker">ToolNest Workspace</div><h1 id="welcome">Welcome</h1><p id="userEmail" class="muted"></p></div><div><a class="btn secondary" href="mailto:kobraking@gmail.com">✉ Email Support</a> <button class="btn secondary" onclick="logout()">Logout</button></div></div>
@@ -99,7 +117,7 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 <script src="https://accounts.google.com/gsi/client"></script>
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-import {initializeAuth,GoogleAuthProvider,signInWithCredential,onAuthStateChanged,signOut,browserLocalPersistence,browserSessionPersistence,browserPopupRedirectResolver} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import {initializeAuth,GoogleAuthProvider,signInWithCredential,createUserWithEmailAndPassword,signInWithEmailAndPassword,sendPasswordResetEmail,onAuthStateChanged,signOut,browserLocalPersistence,browserSessionPersistence,browserPopupRedirectResolver} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import {getFirestore,collection,addDoc,getDocs,query,orderBy,deleteDoc,doc,getDoc,setDoc} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 const firebaseConfig={
  apiKey:"AIzaSyAD87mpHWSXlgkR4yXmj1nAb8mO-wIr5L4",
@@ -118,6 +136,75 @@ function toast(m){$("toast").textContent=m;$("toast").classList.add("show");setT
 function isOwner(){return (auth.currentUser?.email||"").toLowerCase()===OWNER}
 window.openLogin=()=>{if(auth.currentUser)return showDashboard(auth.currentUser);$("loginModal").classList.add("open")};
 window.closeLogin=()=>$("loginModal").classList.remove("open");
+
+function authErrorMessage(e){
+ const c=e?.code||"";
+ const map={
+  "auth/invalid-email":"Please enter a valid email address.",
+  "auth/missing-password":"Please enter your password.",
+  "auth/weak-password":"Password must be at least 6 characters.",
+  "auth/email-already-in-use":"This email already has an account. Please login.",
+  "auth/invalid-credential":"Email or password is incorrect.",
+  "auth/invalid-login-credentials":"Email or password is incorrect.",
+  "auth/user-not-found":"No account found with this email. Create an account first.",
+  "auth/wrong-password":"Email or password is incorrect.",
+  "auth/too-many-requests":"Too many attempts. Please wait a while and try again.",
+  "auth/operation-not-allowed":"Email/Password login is not enabled in Firebase yet.",
+  "auth/network-request-failed":"Network error. Please check your internet connection.",
+  "auth/requires-recent-login":"Please login again and retry."
+ };
+ return map[c]||e?.message||"Authentication failed. Please try again.";
+}
+function authMsg(message,isError=false){
+ const el=$("authMessage");
+ if(!el)return;
+ el.style.display="block";
+ el.style.color=isError?"#b42318":"#027a48";
+ el.style.background=isError?"#fef3f2":"#ecfdf3";
+ el.style.border="1px solid "+(isError?"#fecdca":"#abefc6");
+ el.style.padding="10px 12px";
+ el.style.borderRadius="10px";
+ el.textContent=message;
+}
+window.emailSignup=async()=>{
+ const email=val("authEmail"),password=val("authPassword");
+ if(!email)return authMsg("Enter your email address.",true);
+ if(password.length<6)return authMsg("Password must be at least 6 characters.",true);
+ try{
+  authMsg("Creating your account...");
+  const result=await createUserWithEmailAndPassword(auth,email,password);
+  authMsg("Account created. Opening your ToolNest workspace...");
+  showDashboard(result.user);
+ }catch(e){
+  console.error("Email signup failed",e);
+  authMsg(authErrorMessage(e),true);
+ }
+};
+window.emailLogin=async()=>{
+ const email=val("authEmail"),password=val("authPassword");
+ if(!email)return authMsg("Enter your email address.",true);
+ if(!password)return authMsg("Enter your password.",true);
+ try{
+  authMsg("Signing you in...");
+  const result=await signInWithEmailAndPassword(auth,email,password);
+  authMsg("Login successful. Opening your workspace...");
+  showDashboard(result.user);
+ }catch(e){
+  console.error("Email login failed",e);
+  authMsg(authErrorMessage(e),true);
+ }
+};
+window.resetPassword=async()=>{
+ const email=val("authEmail");
+ if(!email)return authMsg("Enter your email first, then tap Forgot password.",true);
+ try{
+  await sendPasswordResetEmail(auth,email);
+  authMsg("Password reset email sent. Check your inbox.");
+ }catch(e){
+  console.error("Password reset failed",e);
+  authMsg(authErrorMessage(e),true);
+ }
+};
 const GOOGLE_CLIENT_ID="527978747180-tq969n0bbma3qf46hi1ndtvtev10b04p.apps.googleusercontent.com";
 window.handleGoogleCredential=async(response)=>{
  try{
