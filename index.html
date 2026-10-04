@@ -13,7 +13,7 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 @media(max-width:900px){.navlinks{display:none}.hero{grid-template-columns:1fr;padding-top:55px}.grid,.pricegrid,.toolgrid{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.dashTop,.planbar{align-items:flex-start;flex-direction:column}}
 .googleBtn{width:100%;min-height:46px;border:1px solid #d0d5dd;border-radius:10px;background:#fff;color:#101828;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:16px}.googleBtn:hover{background:#f8fafc}<style>@media(max-width:850px){#plans .grid{grid-template-columns:1fr!important}}</style></head><body>
 <div id="site">
-<nav class="nav"><a class="logo" href="#">Tool<span>Nest</span></a><div class="navlinks"><a href="#tools">Tools</a><a href="#pricing">Pricing</a><a href="mailto:kobraking@gmail.com">✉ Email Support</a><button class="btn secondary" onclick="openLogin()">Login</button></div><button class="btn primary" onclick="openLogin()">Login</button></nav>
+<nav class="nav"><a class="logo" href="#">Tool<span>Nest</span></a><div class="navlinks"><a href="#tools">Tools</a><a href="#pricing">Pricing</a><a href="mailto:kaammilaga.official@gmail.com">✉ Email Support</a><button class="btn secondary" onclick="openLogin()">Login</button></div><button class="btn primary" onclick="openLogin()">Login</button></nav>
 <section class="hero"><div><div class="eyebrow">⚡ Professional document platform</div><h1>Work smarter with <span>ToolNest.</span></h1><p>Create professional business documents, career documents and useful PDF files from one secure account. Your documents and history stay connected to your ToolNest account.</p><div class="actions"><button class="btn primary" onclick="openLogin()">Continue with Google →</button><a class="btn secondary" href="#tools">Explore tools</a></div></div><div class="mock"><div class="paper"><h3>TOOLNEST DOCUMENT</h3><div class="paperline"><span>Invoice</span><b>₹24,500</b></div><div class="paperline"><span>Professional Resume</span><b>Ready</b></div><div class="paperline"><span>Daily PDF allowance</span><b>5 Free</b></div><div class="paperline"><span>Cloud history</span><b>Enabled</b></div></div></div></section>
 
 <section class="section" id="tools"><div class="center"><div class="kicker">Document Studio</div><h2>Professional tools in one place.</h2><p class="sub">Real forms, real PDF generation and Cloud document history.</p></div><div class="grid">
@@ -40,7 +40,7 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 <div class="price"><h3>Business</h3><div class="amount">₹999 <small>/month</small></div><ul><li>✓ 100 PDF downloads / day</li><li>✓ All tools</li><li>✓ Business documents</li><li>✓ Priority support</li></ul><button class="btn primary" onclick="choosePlan('business')">Upgrade</button></div>
 <div class="price featured"><span class="badge">OWNER</span><h3>Permanent</h3><div class="amount">Lifetime</div><ul><li>✓ Unlimited PDF downloads</li><li>✓ All current tools</li><li>✓ Permanent owner access</li></ul><button class="btn primary" onclick="openLogin()">Get access</button></div>
 </div></section>
-<footer>© 2026 ToolNest. All rights reserved. · <a href="mailto:kobraking@gmail.com">✉ Email Support</a></footer>
+<footer>© 2026 ToolNest. All rights reserved. · <a href="mailto:kaammilaga.official@gmail.com">✉ Email Support</a></footer>
 </div>
 
 <div id="loginModal" class="modal"><div class="modalbox" style="max-width:430px">
@@ -48,7 +48,10 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 <div class="kicker">TOOLNEST ACCOUNT</div>
 <h2 id="authTitle">Welcome to ToolNest</h2>
 <p id="authSubtitle" class="muted">Sign in with Google or your email and password.</p>
-<div id="googleGis" style="display:flex;justify-content:center;min-height:44px;margin-bottom:16px"></div>
+<button id="googleGis" class="googleBtn" type="button" onclick="googleLogin()">
+  <span style="font-weight:800;font-size:18px;line-height:1">G</span>
+  <span>Continue with Google</span>
+</button>
 <div style="display:flex;align-items:center;gap:10px;margin:10px 0;color:#98a2b3;font-size:12px"><span style="height:1px;background:#e4e7ec;flex:1"></span>OR<span style="height:1px;background:#e4e7ec;flex:1"></span></div>
 <div id="emailAuthBox">
 <input id="authEmail" class="input" type="email" autocomplete="email" placeholder="Email address" style="margin-bottom:10px">
@@ -60,11 +63,11 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 <button class="btn secondary" style="width:100%;margin-top:10px" onclick="resetPassword()">Forgot password?</button>
 <div id="authMessage" class="note" style="display:none;margin-top:12px"></div>
 </div>
-<div class="note" style="margin-top:14px">Email authentication uses Supabase Auth and a synchronized Firebase account for ToolNest cloud documents, plans and usage.</div>
+<div class="note" style="margin-top:14px">Google and email authentication are secured by Supabase Auth. Your ToolNest documents, plans and usage are stored in your cloud account.</div>
 </div></div>
 
 <div id="dashboard" class="dashboard"><div class="dash">
-<div class="dashTop"><div><div class="kicker">ToolNest Workspace</div><h1 id="welcome">Welcome</h1><p id="userEmail" class="muted"></p></div><div><a class="btn secondary" href="mailto:kobraking@gmail.com">✉ Email Support</a> <button class="btn secondary" onclick="logout()">Logout</button></div></div>
+<div class="dashTop"><div><div class="kicker">ToolNest Workspace</div><h1 id="welcome">Welcome</h1><p id="userEmail" class="muted"></p></div><div><a class="btn secondary" href="mailto:kaammilaga.official@gmail.com">✉ Email Support</a> <button class="btn secondary" onclick="logout()">Logout</button></div></div>
 <div class="planbar"><div><b id="planTitle">Plan: Basic</b><div id="planText" class="muted" style="margin-top:4px">5 PDF downloads per day.</div></div><div class="usage" id="usageText">PDFs today: 0 / 5</div></div>
 <div class="tabs">
 <button class="tab active" onclick="tab('invoice',this)">🧾 Invoice</button><button class="tab" onclick="tab('quote',this)">📄 Quotation</button><button class="tab" onclick="tab('resume',this)">👤 Resume</button><button class="tab" onclick="tab('business',this)">📦 Business Docs</button><button class="tab" onclick="tab('career',this)">✍️ Career</button><button class="tab" onclick="tab('pdf',this)">🛠 PDF Tools</button><button class="tab" onclick="tab('plans',this)">💎 Plans</button><button class="tab" onclick="tab('history',this)">🗂 History</button>
@@ -115,41 +118,227 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 <div id="docModal" class="modal"><div class="modalbox" style="max-width:700px"><button class="close" onclick="closeDocTool()">×</button><div class="kicker">DOCUMENT STUDIO</div><h2 id="docTitle">Create document</h2><p class="muted">Fill the fields below. The document will be saved and can be downloaded as PDF.</p><div class="formgrid"><input id="docTo" class="input" placeholder="Name / Company / Recipient"><input id="docRef" class="input" placeholder="Reference / Number"><input id="docDate" class="input" type="date"><input id="docAmount" class="input" placeholder="Amount / Salary / Value"><input id="docSubject" class="input full" placeholder="Subject / Item / Role"><textarea id="docBody" class="input full" placeholder="Document details, terms, duties, experience, expenses, letter content..."></textarea></div><div class="actionsRow"><button class="btn primary" onclick="saveCustomDoc(true)">Save & Download PDF</button><button class="btn secondary" onclick="saveCustomDoc(false)">Save only</button></div></div></div>
 <div id="toast" class="toast"></div>
 
-<script src="https://accounts.google.com/gsi/client"></script>
 <script type="module">
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-import {initializeApp} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-import {getAuth,setPersistence,browserLocalPersistence,GoogleAuthProvider,signInWithCredential,createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-import {getFirestore,collection,addDoc,getDocs,query,orderBy,deleteDoc,doc,getDoc,setDoc} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
-const firebaseConfig={apiKey:"AIzaSyDJdRCT9uWBEBS8f3QcOikuUiPM3krqO3Y",authDomain:"toolnest-febc3.firebaseapp.com",projectId:"toolnest-febc3",storageBucket:"toolnest-febc3.firebasestorage.app",messagingSenderId:"497105147895",appId:"1:497105147895:web:fabb00dcd3df62edfb80f2"};
-const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),provider=new GoogleAuthProvider();
-provider.setCustomParameters({prompt:"select_account"});
-await setPersistence(auth,browserLocalPersistence).catch(()=>{});
-const OWNER="kaammilaga.official@gmail.com",RAZORPAY_URL="https://cvlinhjhyxuntbbxrrxq.supabase.co/functions/v1/razorpay-payment";
+
+const SUPABASE_URL="https://cvlinhjhyxuntbbxrrxq.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_cQ1_ABy2MYZSSbJOGtw1HA_zqgU0mW2";
+const supabase=createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+const OWNER="kaammilaga.official@gmail.com";
+const RAZORPAY_URL="https://cvlinhjhyxuntbbxrrxq.supabase.co/functions/v1/razorpay-payment";
+let activeUser=null;
 let currentPlan={name:"Basic",limit:5,expiresAt:null,key:"basic"},customType="";
+
 const $=id=>document.getElementById(id),val=id=>$(id)?.value.trim()||"";
 const today=()=>new Date().toISOString().slice(0,10);
 function toast(m){$("toast").textContent=m;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),2800)}
+function appUser(u=activeUser){
+  if(!u) return null;
+  const meta=u.user_metadata||{};
+  return {
+    uid:u.id,
+    id:u.id,
+    email:u.email||meta.email||"",
+    displayName:meta.full_name||meta.name||meta.user_name||(u.email?u.email.split("@")[0]:"there"),
+    photoURL:meta.avatar_url||meta.picture||"",
+    supabaseUser:u
+  };
+}
+// Compatibility object used by the existing ToolNest UI code. It is backed by Supabase Auth.
+const auth={get currentUser(){return appUser()}};
 function isOwner(){return (auth.currentUser?.email||"").toLowerCase()===OWNER}
+
 window.openLogin=()=>{if(auth.currentUser)return showDashboard(auth.currentUser);$("loginModal").classList.add("open")};
-window.closeLogin=()=>$('loginModal').classList.remove('open');
-const SUPABASE_URL="https://cvlinhjhyxuntbbxrrxq.supabase.co",SUPABASE_PUBLISHABLE_KEY="sb_publishable_cQ1_ABy2MYZSSbJOGtw1HA_zqgU0mW2";
-const supabase=createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
-function authErrorMessage(e){const msg=e?.message||"Authentication failed. Please try again.";if(/invalid login credentials/i.test(msg))return "Email or password is incorrect.";if(/email not confirmed/i.test(msg))return "Please confirm your email first.";if(/already registered|already been registered/i.test(msg))return "This email already has an account. Please login.";if(/password.*6/i.test(msg))return "Password must be at least 6 characters.";if(/auth\/wrong-password/i.test(msg))return "The password does not match the existing account.";return msg}
-function authMsg(message,isError=false){const el=$("authMessage");if(!el)return;el.style.display="block";el.style.color=isError?"#b42318":"#027a48";el.style.background=isError?"#fef3f2":"#ecfdf3";el.style.border="1px solid "+(isError?"#fecdca":"#abefc6");el.style.padding="10px 12px";el.style.borderRadius="10px";el.textContent=message}
-async function signInBoth(email,password){await setPersistence(auth,browserLocalPersistence);let fb;try{fb=await signInWithEmailAndPassword(auth,email,password)}catch(e){if(e?.code==="auth/user-not-found")fb=await createUserWithEmailAndPassword(auth,email,password);else throw e}let sb=await supabase.auth.signInWithPassword({email,password});if(sb.error&&/invalid login credentials|user not found/i.test(sb.error.message||""))sb=await supabase.auth.signUp({email,password});if(sb.error&&!/already registered|already been registered/i.test(sb.error.message||""))throw sb.error;return fb.user}
-async function signUpBoth(email,password){await setPersistence(auth,browserLocalPersistence);let fb;try{fb=(await createUserWithEmailAndPassword(auth,email,password)).user}catch(e){if(e?.code==="auth/email-already-in-use")fb=(await signInWithEmailAndPassword(auth,email,password)).user;else throw e}let sb=await supabase.auth.signUp({email,password});if(sb.error&&/already registered|already been registered/i.test(sb.error.message||""))sb=await supabase.auth.signInWithPassword({email,password});if(sb.error)throw sb.error;return fb}
-window.emailSignup=async()=>{const email=val("authEmail"),password=val("authPassword");if(!email)return authMsg("Enter your email address.",true);if(password.length<6)return authMsg("Password must be at least 6 characters.",true);try{authMsg("Creating your account...");showDashboard(await signUpBoth(email,password))}catch(e){console.error(e);authMsg(authErrorMessage(e),true)}};
-window.emailLogin=async()=>{const email=val("authEmail"),password=val("authPassword");if(!email)return authMsg("Enter your email address.",true);if(!password)return authMsg("Enter your password.",true);try{authMsg("Signing you in...");showDashboard(await signInBoth(email,password))}catch(e){console.error(e);authMsg(authErrorMessage(e),true)}};
-window.resetPassword=async()=>{const email=val("authEmail");if(!email)return authMsg("Enter your email first, then tap Forgot password.",true);try{const redirectTo=window.location.origin+window.location.pathname;const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo});if(error)throw error;authMsg("Password reset email sent. Check your inbox.")}catch(e){authMsg(authErrorMessage(e),true)}};
-const GOOGLE_CLIENT_ID="527978747180-tq969n0bbma3qf46hi1ndtvtev10b04p.apps.googleusercontent.com";
-window.handleGoogleCredential=async response=>{try{if(!response?.credential)throw new Error("Google did not return an ID token.");await setPersistence(auth,browserLocalPersistence);authMsg("Signing you in with Google...");const sb=await supabase.auth.signInWithIdToken({provider:"google",token:response.credential});if(sb.error)throw sb.error;const result=await signInWithCredential(auth,GoogleAuthProvider.credential(response.credential));showDashboard(result.user)}catch(e){console.error("Google sign-in failed",e);authMsg("Google Login error: "+(e?.message||e?.code||"unknown error"),true)}};
-function initGoogleIdentity(){if(!window.google?.accounts?.id)return false;google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:window.handleGoogleCredential,auto_select:false,cancel_on_tap_outside:true});const box=$("googleGis");if(box){box.innerHTML="";google.accounts.id.renderButton(box,{theme:"outline",size:"large",type:"standard",text:"continue_with",shape:"rectangular",width:360,logo_alignment:"left"})}return true}
-window.googleLogin=()=>{if(!initGoogleIdentity())authMsg("Google sign-in is still loading. Please try again.",true)};setTimeout(initGoogleIdentity,300);
-window.logout=async()=>{try{await supabase.auth.signOut()}catch(e){}try{await signOut(auth)}catch(e){}showSite()};
-function showSite(){$("dashboard").style.display="none";$('site').style.display="block"}
-function showDashboard(u){if(!u)return showSite();$("site").style.display="none";$("loginModal").classList.remove("open");$("dashboard").style.display="block";$("welcome").textContent="Welcome, "+(u.displayName||u.email?.split("@")[0]||"there");$("userEmail").textContent=u.email||"";loadPlan().then(updatePlanUI);loadHistory()}
-onAuthStateChanged(auth,u=>u?showDashboard(u):showSite());
+window.closeLogin=()=>$("loginModal").classList.remove("open");
+
+function authErrorMessage(e){
+  const msg=e?.message||"Authentication failed. Please try again.";
+  if(/invalid login credentials/i.test(msg))return "Email or password is incorrect.";
+  if(/email not confirmed/i.test(msg))return "Please confirm your email first.";
+  if(/already registered|already been registered/i.test(msg))return "This email already has an account. Please login.";
+  if(/password/i.test(msg)&&/6 characters|at least/i.test(msg))return "Password must be at least 6 characters.";
+  return msg;
+}
+function authMsg(message,isError=false){
+  const el=$("authMessage"); if(!el)return;
+  el.style.display="block";
+  el.style.color=isError?"#b42318":"#027a48";
+  el.style.background=isError?"#fef3f2":"#ecfdf3";
+  el.style.border="1px solid "+(isError?"#fecdca":"#abefc6");
+  el.style.padding="10px 12px";el.style.borderRadius="10px";el.textContent=message;
+}
+
+async function signInBoth(email,password){
+  const {data,error}=await supabase.auth.signInWithPassword({email,password});
+  if(error)throw error;
+  return data.user;
+}
+async function signUpBoth(email,password){
+  const {data,error}=await supabase.auth.signUp({email,password});
+  if(error)throw error;
+  return data.user;
+}
+window.emailSignup=async()=>{
+  const email=val("authEmail"),password=val("authPassword");
+  if(!email)return authMsg("Enter your email address.",true);
+  if(password.length<6)return authMsg("Password must be at least 6 characters.",true);
+  try{
+    authMsg("Creating your account...");
+    const u=await signUpBoth(email,password);
+    if(u&&activeUser){showDashboard(auth.currentUser);}
+    else authMsg("Account created. Please login with your email and password.");
+  }catch(e){console.error(e);authMsg(authErrorMessage(e),true)}
+};
+window.emailLogin=async()=>{
+  const email=val("authEmail"),password=val("authPassword");
+  if(!email)return authMsg("Enter your email address.",true);
+  if(!password)return authMsg("Enter your password.",true);
+  try{
+    authMsg("Signing you in...");
+    const u=await signInBoth(email,password);
+    activeUser=u; showDashboard(auth.currentUser);
+  }catch(e){console.error(e);authMsg(authErrorMessage(e),true)}
+};
+window.resetPassword=async()=>{
+  const email=val("authEmail");
+  if(!email)return authMsg("Enter your email first, then tap Forgot password.",true);
+  try{
+    const redirectTo=window.location.origin+window.location.pathname;
+    const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo});
+    if(error)throw error;
+    authMsg("Password reset email sent. Check your inbox.");
+  }catch(e){authMsg(authErrorMessage(e),true)}
+};
+
+window.googleLogin=async()=>{
+  try{
+    authMsg("Redirecting to Google...");
+    const redirectTo=window.location.origin+window.location.pathname;
+    const {error}=await supabase.auth.signInWithOAuth({
+      provider:"google",
+      options:{redirectTo,queryParams:{prompt:"select_account"}}
+    });
+    if(error)throw error;
+  }catch(e){console.error("Google sign-in failed",e);authMsg("Google Login error: "+(e?.message||"unknown error"),true)}
+};
+window.logout=async()=>{
+  try{await supabase.auth.signOut()}catch(e){console.error(e)}
+  activeUser=null;showSite();
+};
+function showSite(){
+  $("dashboard").style.display="none";
+  $("site").style.display="block";
+}
+function showDashboard(u){
+  if(!u)return showSite();
+  $("site").style.display="none";
+  $("loginModal").classList.remove("open");
+  $("dashboard").style.display="block";
+  $("welcome").textContent="Welcome, "+(u.displayName||u.email?.split("@")[0]||"there");
+  $("userEmail").textContent=u.email||"";
+  loadPlan().then(updatePlanUI);
+  loadHistory();
+}
+
+// ---- Supabase data adapter for the existing ToolNest storage calls ----
+const db={kind:"supabase"};
+function collection(_db,...parts){return {kind:"collection",parts}}
+function doc(_db,...parts){return {kind:"doc",parts}}
+function orderBy(field,direction="asc"){return {field,direction}}
+function query(target,...ops){return {target,ops}}
+function asIso(v){
+  if(v instanceof Date)return v.toISOString();
+  if(typeof v==="number")return new Date(v).toISOString();
+  if(typeof v==="string")return v;
+  return new Date().toISOString();
+}
+function ownUid(){return activeUser?.id||null}
+function emptySnap(data){return {exists:()=>!!data,data:()=>data||null}}
+
+async function getDoc(ref){
+  const p=ref.parts,uid=ownUid();
+  if(!uid)throw Error("Please sign in first.");
+  if(p[0]==="users"&&p[2]==="account"&&p[3]==="plan"){
+    const {data,error}=await supabase.from("toolnest_accounts").select("*").eq("user_id",uid).maybeSingle();
+    if(error)throw error;
+    if(!data)return emptySnap(null);
+    return emptySnap({
+      plan:data.plan,planName:data.plan_name,pricePaise:data.price_paise,
+      activatedAt:data.activated_at,expiresAt:data.expires_at,
+      orderId:data.order_id,paymentId:data.payment_id,updatedAt:data.updated_at
+    });
+  }
+  if(p[0]==="users"&&p[2]==="usage"&&p[3]==="daily"){
+    const {data,error}=await supabase.from("toolnest_usage_daily").select("usage_date,count,updated_at").eq("user_id",uid).eq("usage_date",today()).maybeSingle();
+    if(error)throw error;
+    return emptySnap(data?{date:data.usage_date,count:data.count,updatedAt:data.updated_at}:null);
+  }
+  throw Error("Unknown document path");
+}
+
+async function setDoc(ref,data,options={}){
+  const p=ref.parts,uid=ownUid();
+  if(!uid)throw Error("Please sign in first.");
+  if(p[0]==="users"&&p[2]==="account"&&p[3]==="plan"){
+    const row={
+      user_id:uid,plan:data.plan||"basic",plan_name:data.planName||data.plan||"Basic",
+      price_paise:Number(data.pricePaise||0),activated_at:asIso(data.activatedAt),
+      expires_at:data.expiresAt?asIso(data.expiresAt):null,order_id:data.orderId||null,
+      payment_id:data.paymentId||null,updated_at:new Date().toISOString()
+    };
+    const {error}=await supabase.from("toolnest_accounts").upsert(row,{onConflict:"user_id"});
+    if(error)throw error; return;
+  }
+  if(p[0]==="users"&&p[2]==="usage"&&p[3]==="daily"){
+    const row={user_id:uid,usage_date:data.date||today(),count:Number(data.count||0),updated_at:new Date().toISOString()};
+    const {error}=await supabase.from("toolnest_usage_daily").upsert(row,{onConflict:"user_id,usage_date"});
+    if(error)throw error; return;
+  }
+  throw Error("Unknown document path");
+}
+
+function documentCollectionUid(ref){
+  const p=ref.parts; return p[0]==="users"?p[1]:null;
+}
+async function addDoc(ref,data){
+  const uid=documentCollectionUid(ref)||ownUid();
+  if(!uid)throw Error("Please sign in first.");
+  const payload={...data}; delete payload.type; delete payload.createdAt;
+  const createdAt=Number(data.createdAt||Date.now());
+  const {data:row,error}=await supabase.from("toolnest_documents").insert({
+    user_id:uid,type:data.type||"Document",data:payload,created_at:new Date(createdAt).toISOString()
+  }).select("id,type,data,created_at").single();
+  if(error)throw error;
+  return {id:row.id,data:()=>({...row.data,type:row.type,createdAt:Date.parse(row.created_at)})};
+}
+async function getDocs(q){
+  const target=q.target||q,uid=documentCollectionUid(target)||ownUid();
+  if(!uid)throw Error("Please sign in first.");
+  const op=(q.ops||[]).find(x=>x?.field);
+  let req=supabase.from("toolnest_documents").select("id,type,data,created_at").eq("user_id",uid);
+  if(op)req=req.order("created_at",{ascending:String(op.direction).toLowerCase()!=="desc"});
+  const {data,error}=await req;
+  if(error)throw error;
+  const rows=(data||[]).map(row=>({id:row.id,data:()=>({...row.data,type:row.type,createdAt:Date.parse(row.created_at)})}));
+  return {empty:rows.length===0,forEach:fn=>rows.forEach(fn),docs:rows};
+}
+async function deleteDoc(ref){
+  const p=ref.parts,uid=ownUid(),id=p[p.length-1];
+  if(!uid)throw Error("Please sign in first.");
+  if(p[0]==="users"&&p[2]==="documents"){
+    const {error}=await supabase.from("toolnest_documents").delete().eq("id",id).eq("user_id",uid);
+    if(error)throw error; return;
+  }
+  throw Error("Unknown document path");
+}
+
+supabase.auth.onAuthStateChange((event,session)=>{
+  activeUser=session?.user||null;
+  if(activeUser)showDashboard(auth.currentUser); else showSite();
+});
+const initialSession=await supabase.auth.getSession();
+activeUser=initialSession.data?.session?.user||null;
+if(activeUser)showDashboard(auth.currentUser); else showSite();
 window.tab=(id,el)=>{document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));$(id).classList.add("active");if(el)el.classList.add("active");if(id==="history")loadHistory()};
 async function loadPlan(){
  if(!auth.currentUser)return;
@@ -171,7 +360,7 @@ window.saveInvoice=d=>saveDoc("Invoice",{client:val("invClient"),number:val("inv
 window.saveQuote=d=>saveDoc("Quotation",{client:val("qClient"),number:val("qNumber"),business:val("qBusiness"),date:val("qDate"),item:val("qItem"),amount:val("qAmount"),gst:val("qGst"),discount:val("qDiscount")},d);
 window.saveResume=d=>saveDoc("Resume",{name:val("rName"),role:val("rRole"),phone:val("rPhone"),email:val("rEmail"),location:val("rLocation"),summary:val("rSummary"),skills:val("rSkills"),experience:val("rExperience"),education:val("rEducation")},d);
 
-async function loadHistory(){if(!auth.currentUser)return;const box=$("historyList");try{const snap=await getDocs(query(collection(db,"users",auth.currentUser.uid,"documents"),orderBy("createdAt","desc")));if(snap.empty){box.innerHTML='<p class="muted">No documents saved yet.</p>';return}box.innerHTML="";snap.forEach(s=>{const d=s.data(),row=document.createElement("div");row.className="historyItem";row.innerHTML=`<div><b>${d.type}</b><div class="muted">${d.client||d.name||d.to||"Document"} · ${new Date(d.createdAt).toLocaleString()}</div></div><button class="btn danger">Delete</button>`;row.querySelector("button").onclick=async()=>{await deleteDoc(doc(db,"users",auth.currentUser.uid,"documents",s.id));loadHistory()};box.appendChild(row)})}catch(e){box.innerHTML='<p class="muted">Could not load history. Check Firestore rules.</p>'}}
+async function loadHistory(){if(!auth.currentUser)return;const box=$("historyList");try{const snap=await getDocs(query(collection(db,"users",auth.currentUser.uid,"documents"),orderBy("createdAt","desc")));if(snap.empty){box.innerHTML='<p class="muted">No documents saved yet.</p>';return}box.innerHTML="";snap.forEach(s=>{const d=s.data(),row=document.createElement("div");row.className="historyItem";row.innerHTML=`<div><b>${d.type}</b><div class="muted">${d.client||d.name||d.to||"Document"} · ${new Date(d.createdAt).toLocaleString()}</div></div><button class="btn danger">Delete</button>`;row.querySelector("button").onclick=async()=>{await deleteDoc(doc(db,"users",auth.currentUser.uid,"documents",s.id));loadHistory()};box.appendChild(row)})}catch(e){box.innerHTML='<p class="muted">Could not load history. Please check the ToolNest Supabase tables.</p>'}}
 
 function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
 async function libs(){if(!window.jspdf)await loadScript("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");if(!window.PDFLib)await loadScript("https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js")}
@@ -187,29 +376,42 @@ async function makePdf(type,d){
 }
 
 window.choosePlan=async plan=>{
- const user=auth.currentUser;
- if(!user){openLogin();toast("Sign in first to upgrade.");return}
- try{toast("Creating secure Razorpay order...");const r=await fetch(RAZORPAY_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"create-order",plan})});const o=await r.json();if(!o.success)throw Error(o.error||"Could not create order");await loadScript("https://checkout.razorpay.com/v1/checkout.js");
- const rz=new Razorpay({key:o.key_id,amount:o.amount,currency:o.currency,name:"ToolNest",description:o.plan_name,order_id:o.order_id,handler:async resp=>{
-  const vr=await fetch(RAZORPAY_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"verify-payment",...resp})});const v=await vr.json();if(!v.success)throw Error(v.error||"Payment verification failed");
-  const name=plan==="platinum"?"Platinum":"Business",expires=new Date();expires.setDate(expires.getDate()+30);
-  await setDoc(doc(db,"users",auth.currentUser.uid,"account","plan"),{plan,planName:name,pricePaise:o.amount,activatedAt:Date.now(),expiresAt:expires,orderId:resp.razorpay_order_id,paymentId:resp.razorpay_payment_id,updatedAt:Date.now()},{merge:true});
-  await updatePlanUI();alert("Payment successful. Your "+name+" plan is active for 30 days.");
- },prefill:{name:user.displayName||"",email:user.email||""},theme:{color:"#635bff"}});rz.open();
- }catch(e){alert("Payment failed: "+(e.message||e))}
+  const user=auth.currentUser;
+  if(!user){openLogin();toast("Sign in first to upgrade.");return}
+  try{
+    toast("Creating secure Razorpay order...");
+    const sess=(await supabase.auth.getSession()).data.session;
+    const authHeaders={"Content-Type":"application/json"};
+    if(sess?.access_token)authHeaders.Authorization=`Bearer ${sess.access_token}`;
+    const r=await fetch(RAZORPAY_URL,{method:"POST",headers:authHeaders,body:JSON.stringify({action:"create-order",plan})});
+    const o=await r.json();
+    if(!o.success)throw Error(o.error||"Could not create order");
+    await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+    const rz=new Razorpay({
+      key:o.key_id,amount:o.amount,currency:o.currency,name:"ToolNest",description:o.plan_name,order_id:o.order_id,
+      handler:async resp=>{
+        try{
+          const sess2=(await supabase.auth.getSession()).data.session;
+          const verifyHeaders={"Content-Type":"application/json"};
+          if(sess2?.access_token)verifyHeaders.Authorization=`Bearer ${sess2.access_token}`;
+          const vr=await fetch(RAZORPAY_URL,{method:"POST",headers:verifyHeaders,body:JSON.stringify({action:"verify-payment",...resp})});
+          const v=await vr.json();
+          if(!v.success)throw Error(v.error||"Payment verification failed");
+          const name=plan==="platinum"?"Platinum":"Business";
+          const expires=new Date();expires.setDate(expires.getDate()+30);
+          await setDoc(doc(db,"users",auth.currentUser.uid,"account","plan"),{
+            plan,planName:name,pricePaise:o.amount,activatedAt:Date.now(),expiresAt:expires,
+            orderId:resp.razorpay_order_id,paymentId:resp.razorpay_payment_id,updatedAt:Date.now()
+          },{merge:true});
+          await updatePlanUI();
+          alert("Payment successful. Your "+name+" plan is active for 30 days.");
+        }catch(e){console.error(e);alert(e.message||"Payment verification failed.")}
+      },
+      prefill:{name:user.displayName||"",email:user.email||""},theme:{color:"#635bff"}
+    });
+    rz.open();
+  }catch(e){console.error(e);alert(e.message||"Unable to start payment.")}
 };
-
-window.openDocTool=type=>{customType=type;$("docTitle").textContent="Create "+type;$("docDate").value=today();$("docModal").classList.add("open")};
-window.closeDocTool=()=>$("docModal").classList.remove("open");
-window.saveCustomDoc=async download=>{const d={to:val("docTo"),ref:val("docRef"),date:val("docDate"),amount:val("docAmount"),subject:val("docSubject"),body:val("docBody")};await saveDoc(customType,d,download);if(download)$("docModal").classList.remove("open")};
-
-function downloadBytes(bytes,name,type){const blob=new Blob([bytes],{type}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
-function parsePages(s,max){const set=new Set();for(const part of s.split(",")){const p=part.trim();if(/^\d+$/.test(p)){const n=+p;if(n>=1&&n<=max)set.add(n-1)}else{const m=p.match(/^(\d+)\s*-\s*(\d+)$/);if(m){let a=+m[1],b=+m[2];if(a>b)[a,b]=[b,a];for(let n=a;n<=b;n++)if(n>=1&&n<=max)set.add(n-1)}}}return [...set].sort((a,b)=>a-b)}
-window.mergePdfs=async()=>{try{const fs=[...$("mergeFiles").files];if(fs.length<2)throw Error("Select at least 2 PDFs.");if(!(await consumeDownload()))return;await libs();const out=await PDFLib.PDFDocument.create();for(const f of fs){const src=await PDFLib.PDFDocument.load(await f.arrayBuffer());(await out.copyPages(src,src.getPageIndices())).forEach(p=>out.addPage(p))}downloadBytes(await out.save(),"merged-toolnest.pdf","application/pdf");toast("Merged PDF downloaded.")}catch(e){alert(e.message||e)}};
-window.splitPdf=async()=>{try{const f=$("splitFile").files[0];if(!f)throw Error("Select a PDF.");if(!(await consumeDownload()))return;await libs();const src=await PDFLib.PDFDocument.load(await f.arrayBuffer()),nums=parsePages(val("splitPages"),src.getPageCount());if(!nums.length)throw Error("Enter valid pages.");const out=await PDFLib.PDFDocument.create();(await out.copyPages(src,nums)).forEach(p=>out.addPage(p));downloadBytes(await out.save(),"split-toolnest.pdf","application/pdf");toast("Split PDF downloaded.")}catch(e){alert(e.message||e)}};
-window.jpgToPdf=async()=>{try{const fs=[...$("jpgFiles").files];if(!fs.length)throw Error("Select image files.");if(!(await consumeDownload()))return;await libs();const pdf=await PDFLib.PDFDocument.create();for(const f of fs){const bytes=await f.arrayBuffer(),img=f.type==="image/png"?await pdf.embedPng(bytes):await pdf.embedJpg(bytes),sc=Math.min(180/img.width,260/img.height),page=pdf.addPage([210,297]);page.drawImage(img,{x:(210-img.width*sc)/2,y:(297-img.height*sc)/2,width:img.width*sc,height:img.height*sc})}downloadBytes(await pdf.save(),"images-toolnest.pdf","application/pdf");toast("JPG to PDF completed.")}catch(e){alert(e.message||e)}};
-window.optimizePdf=async()=>{try{const f=$("optFile").files[0];if(!f)throw Error("Select a PDF.");if(!(await consumeDownload()))return;await libs();const src=await PDFLib.PDFDocument.load(await f.arrayBuffer()),out=await PDFLib.PDFDocument.create();(await out.copyPages(src,src.getPageIndices())).forEach(p=>out.addPage(p));downloadBytes(await out.save({useObjectStreams:true}),"optimized-toolnest.pdf","application/pdf");toast("Optimized PDF downloaded.")}catch(e){alert(e.message||e)}};
-window.pdfToJpg=async()=>{try{const f=$("pdfToJpgFile").files[0];if(!f)throw Error("Select a PDF.");if(!(await consumeDownload()))return;const pageNo=Math.max(1,Number($("pdfPage").value||1));if(!window.pdfjsLib)await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js");pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";const pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;if(pageNo>pdf.numPages)throw Error("Page number is outside this PDF.");const page=await pdf.getPage(pageNo),viewport=page.getViewport({scale:2}),canvas=document.createElement("canvas");canvas.width=viewport.width;canvas.height=viewport.height;await page.render({canvasContext:canvas.getContext("2d"),viewport}).promise;const a=document.createElement("a");a.href=canvas.toDataURL("image/jpeg",.92);a.download="page-"+pageNo+"-toolnest.jpg";a.click();toast("PDF page converted to JPG.")}catch(e){alert(e.message||e)}};
 $("invDate").value=today();$("qDate").value=today();
 </script>
 </body></html>
