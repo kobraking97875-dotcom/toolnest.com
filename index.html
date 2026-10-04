@@ -116,6 +116,7 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 
 <script src="https://accounts.google.com/gsi/client"></script>
 <script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import {initializeAuth,GoogleAuthProvider,signInWithCredential,createUserWithEmailAndPassword,signInWithEmailAndPassword,sendPasswordResetEmail,onAuthStateChanged,signOut,browserLocalPersistence,browserSessionPersistence,browserPopupRedirectResolver} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import {getFirestore,collection,addDoc,getDocs,query,orderBy,deleteDoc,doc,getDoc,setDoc} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
@@ -137,23 +138,17 @@ function isOwner(){return (auth.currentUser?.email||"").toLowerCase()===OWNER}
 window.openLogin=()=>{if(auth.currentUser)return showDashboard(auth.currentUser);$("loginModal").classList.add("open")};
 window.closeLogin=()=>$("loginModal").classList.remove("open");
 
+const SUPABASE_URL="https://cvlinhjhyxuntbbxrrxq.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_cQ1_ABy2MYZSSbJOGtw1HA_zqgU0mW2";
+const supabase=createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+
 function authErrorMessage(e){
- const c=e?.code||"";
- const map={
-  "auth/invalid-email":"Please enter a valid email address.",
-  "auth/missing-password":"Please enter your password.",
-  "auth/weak-password":"Password must be at least 6 characters.",
-  "auth/email-already-in-use":"This email already has an account. Please login.",
-  "auth/invalid-credential":"Email or password is incorrect.",
-  "auth/invalid-login-credentials":"Email or password is incorrect.",
-  "auth/user-not-found":"No account found with this email. Create an account first.",
-  "auth/wrong-password":"Email or password is incorrect.",
-  "auth/too-many-requests":"Too many attempts. Please wait a while and try again.",
-  "auth/operation-not-allowed":"Email/Password login is not enabled in Firebase yet.",
-  "auth/network-request-failed":"Network error. Please check your internet connection.",
-  "auth/requires-recent-login":"Please login again and retry."
- };
- return map[c]||e?.message||"Authentication failed. Please try again.";
+ const msg=e?.message||"Authentication failed. Please try again.";
+ if(/invalid login credentials/i.test(msg)) return "Email or password is incorrect.";
+ if(/email not confirmed/i.test(msg)) return "Please confirm your email first.";
+ if(/already registered|already been registered/i.test(msg)) return "This email already has an account. Please login.";
+ if(/password.*6/i.test(msg)) return "Password must be at least 6 characters.";
+ return msg;
 }
 function authMsg(message,isError=false){
  const el=$("authMessage");
@@ -166,17 +161,32 @@ function authMsg(message,isError=false){
  el.style.borderRadius="10px";
  el.textContent=message;
 }
+async function syncSupabaseUser(user){
+ if(!user)return;
+ // Keep the existing ToolNest UI/account flow working with the authenticated user.
+ showDashboard({
+   uid:user.id,
+   email:user.email||"",
+   displayName:user.user_metadata?.full_name||user.user_metadata?.name||user.email?.split("@")[0]||"ToolNest User",
+   photoURL:user.user_metadata?.avatar_url||""
+ });
+}
 window.emailSignup=async()=>{
  const email=val("authEmail"),password=val("authPassword");
  if(!email)return authMsg("Enter your email address.",true);
  if(password.length<6)return authMsg("Password must be at least 6 characters.",true);
  try{
   authMsg("Creating your account...");
-  const result=await createUserWithEmailAndPassword(auth,email,password);
-  authMsg("Account created. Opening your ToolNest workspace...");
-  showDashboard(result.user);
+  const {data,error}=await supabase.auth.signUp({email,password});
+  if(error)throw error;
+  if(data.session){
+   authMsg("Account created. Opening your ToolNest workspace...");
+   await syncSupabaseUser(data.user);
+  }else{
+   authMsg("Account created. You can now login.");
+  }
  }catch(e){
-  console.error("Email signup failed",e);
+  console.error("Supabase signup failed",e);
   authMsg(authErrorMessage(e),true);
  }
 };
@@ -186,11 +196,12 @@ window.emailLogin=async()=>{
  if(!password)return authMsg("Enter your password.",true);
  try{
   authMsg("Signing you in...");
-  const result=await signInWithEmailAndPassword(auth,email,password);
+  const {data,error}=await supabase.auth.signInWithPassword({email,password});
+  if(error)throw error;
   authMsg("Login successful. Opening your workspace...");
-  showDashboard(result.user);
+  await syncSupabaseUser(data.user);
  }catch(e){
-  console.error("Email login failed",e);
+  console.error("Supabase login failed",e);
   authMsg(authErrorMessage(e),true);
  }
 };
@@ -198,10 +209,12 @@ window.resetPassword=async()=>{
  const email=val("authEmail");
  if(!email)return authMsg("Enter your email first, then tap Forgot password.",true);
  try{
-  await sendPasswordResetEmail(auth,email);
+  const redirectTo=window.location.origin+window.location.pathname;
+  const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo});
+  if(error)throw error;
   authMsg("Password reset email sent. Check your inbox.");
  }catch(e){
-  console.error("Password reset failed",e);
+  console.error("Supabase password reset failed",e);
   authMsg(authErrorMessage(e),true);
  }
 };
