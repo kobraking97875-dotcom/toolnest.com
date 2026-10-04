@@ -51,6 +51,35 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
   <b id="planTitle">Plan: Free</b>
   <div id="planText" class="muted" style="margin-top:4px">Your documents remain saved in your Firebase account.</div>
 </div>
+
+<div id="plansPanel" style="margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+    <div>
+      <div style="font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--brand)">PLANS</div>
+      <h2 style="margin:6px 0 4px">Choose your plan</h2>
+      <p class="muted" style="margin:0">Upgrade anytime. Your daily PDF limit follows your active plan.</p>
+    </div>
+    <button class="btn" type="button" onclick="togglePlans()">Hide plans</button>
+  </div>
+
+  <div id="planCards" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px">
+    <div style="border:1px solid var(--line);border-radius:14px;padding:18px">
+      <strong>Basic</strong><div style="font-size:28px;font-weight:800;margin:8px 0">₹0</div>
+      <p class="muted">5 PDF downloads / day</p>
+      <button class="btn" type="button" onclick="selectPlan('basic')">Current / Free</button>
+    </div>
+    <div style="border:2px solid var(--brand);border-radius:14px;padding:18px">
+      <strong>Platinum</strong><div style="font-size:28px;font-weight:800;margin:8px 0">₹299<span style="font-size:14px">/month</span></div>
+      <p class="muted">50 PDF downloads / day</p>
+      <button class="btn primary" type="button" onclick="choosePlan('platinum')">Upgrade to Platinum</button>
+    </div>
+    <div style="border:1px solid var(--line);border-radius:14px;padding:18px">
+      <strong>Business</strong><div style="font-size:28px;font-weight:800;margin:8px 0">₹999<span style="font-size:14px">/month</span></div>
+      <p class="muted">100 PDF downloads / day</p>
+      <button class="btn primary" type="button" onclick="choosePlan('business')">Upgrade to Business</button>
+    </div>
+  </div>
+</div>
 <div id="usageCard" style="margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:15px;padding:18px">
 <strong>Daily PDF downloads</strong>
 <div style="display:flex;justify-content:space-between;gap:15px;margin-top:8px">
@@ -61,7 +90,7 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 </div>
 <p class="muted" style="margin-bottom:0">The limit resets automatically every day.</p>
 </div>
-<div class="tabs">
+<div class="tabs"><button class="btn" type="button" onclick="togglePlans()">💳 Plans</button>
 <button class="tab active" onclick="tab('invoice',this)">🧾 Invoice</button>
 <button class="tab" onclick="tab('quote',this)">📄 Quotation</button>
 <button class="tab" onclick="tab('resume',this)">👤 Resume</button>
@@ -258,6 +287,20 @@ async function makePdf(type,d){
  }
  pdf.save(type.toLowerCase()+"-toolnest.pdf");
 }
+
+window.togglePlans = () => {
+  const p = document.getElementById("plansPanel");
+  if (!p) return;
+  const cards = document.getElementById("planCards");
+  if (!cards) return;
+  cards.style.display = cards.style.display === "none" ? "grid" : "none";
+};
+window.selectPlan = (plan) => {
+  localStorage.setItem("toolnest_plan", plan);
+  refreshUsage();
+  alert("Basic plan selected. You have 5 free PDF downloads per day.");
+};
+
 window.choosePlan=(plan)=>{
  const price=plan==="platinum"?"₹299/month":"₹999/month";
  alert("Selected "+(plan==="platinum"?"Platinum":"Business")+" — "+price+". Real payment activation requires connecting your payment gateway. No subscription is marked paid until payment is verified.");
