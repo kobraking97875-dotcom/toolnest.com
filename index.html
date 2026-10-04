@@ -98,7 +98,7 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-import {getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,onAuthStateChanged,signOut,setPersistence,browserLocalPersistence} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import {getFirestore,collection,addDoc,getDocs,query,orderBy,deleteDoc,doc,getDoc,setDoc} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 const firebaseConfig={
  apiKey:"AIzaSyDJdRCT9uWBEBS8f3QcOikuUiPM3krqO03Y",
@@ -119,20 +119,12 @@ function isOwner(){return (auth.currentUser?.email||"").toLowerCase()===OWNER}
 window.openLogin=()=>{if(auth.currentUser)return showDashboard(auth.currentUser);$("loginModal").classList.add("open")};
 window.closeLogin=()=>$("loginModal").classList.remove("open");
 window.googleLogin=async()=>{
- const b=document.querySelector(".google");
- const old=b?b.innerHTML:"";
  try{
-  if(b){b.disabled=true;b.innerHTML="⏳ Signing in...";}
-  await setPersistence(auth,browserLocalPersistence);
   const r=await signInWithPopup(auth,provider);
   showDashboard(r.user);
  }catch(e){
-  console.error("Google sign-in error",e);
-  if(e.code==="auth/popup-blocked"||e.code==="auth/popup-closed-by-user"){
-   try{await signInWithRedirect(auth,provider);return;}catch(x){console.error(x);}
-  }
+  console.error("Google sign-in failed",e);
   alert("Google sign-in failed: "+(e.message||e.code));
-  if(b){b.disabled=false;b.innerHTML=old;}
  }
 };
 window.logout=async()=>{await signOut(auth);showSite()};
