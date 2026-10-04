@@ -50,14 +50,16 @@ import {
   signOut
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-      apiKey: "AIzaSyDJdRCT9uWBEBS8f3QcOikuUiPM3krqO3Y",
-      authDomain: "toolnest-febc3.firebaseapp.com",
-      projectId: "toolnest-febc3",
-      storageBucket: "toolnest-febc3.firebasestorage.app",
-      messagingSenderId: "497105147895",
-      appId: "1:497105147895:web:fabb00dcd3df62edfb80f2"
-    };
+  apiKey: "AIzaSyDJdRCT9uWBEBS8f3Qc0ikuUiPM3krqO3Y",
+  authDomain: "toolnest-febc3.firebaseapp.com",
+  projectId: "toolnest-febc3",
+  storageBucket: "toolnest-febc3.firebasestorage.app",
+  messagingSenderId: "497105147895",
+  appId: "1:497105147895:web:fabb00dcd3df62edfb80f2",
+  measurementId: "G-WE2KR60G17"
+};
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
