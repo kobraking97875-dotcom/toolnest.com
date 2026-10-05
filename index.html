@@ -232,8 +232,6 @@ window.saveTeam=async()=>{await record("team",crypto.randomUUID(),{name:val("tea
 function renderForms(w){w.innerHTML=head("ToolNest Forms","Build a public form, save it, and share the generated link.")+`<div class="formGrid"><input id="formTitle" class="input" placeholder="Form title"><textarea id="formFields" class="input full" rows="6" placeholder="One question per line\nFull name\nEmail\nMessage"></textarea></div><div class="actionsRow"><button class="btn primary" onclick="createForm()">Create form</button></div><div id="formList" style="margin-top:18px"></div>`;loadForms()}
 window.createForm=async()=>{const title=val("formTitle"),fields=val("formFields").split(/\n+/).map(s=>s.trim()).filter(Boolean);if(!title||!fields.length)return toast("Add title and fields");const id=crypto.randomUUID();await record("form",id,{title,fields});toast("Form created");loadForms()};async function loadForms(){const b=$("formList");try{const rs=await rows("form");b.innerHTML=rs.map(r=>`<div class="historyItem"><div><b>${r.payload.title}</b><div class="muted tiny">${r.payload.fields.length} fields</div></div><button class="btn secondary" onclick="copyForm('${r.key}')">Copy public link</button></div>`).join("")||'<div class="empty">No forms yet.</div>'}catch(e){b.textContent="Unable to load forms."}}
 window.copyForm=async id=>{const url=location.origin+location.pathname+"?form="+id;await navigator.clipboard.writeText(url);toast("Public form link copied")};
-function renderWebsite(w){w.innerHTML=head("Website Builder","Create a professional one-page site configuration.")+`<div class="formGrid"><input id="siteName" class="input" placeholder="Business name"><input id="siteTag" class="input" placeholder="Tagline"><textarea id="siteAbout" class="input full" rows="5" placeholder="About your business"></textarea><input id="siteEmail" class="input" placeholder="Contact email"></div><div class="actionsRow"><button class="btn primary" onclick="saveWebsite()">Save site</button><button class="btn secondary" onclick="previewWebsite()">Preview</button></div><div id="sitePreview" class="preview" style="margin-top:16px">Your site preview will appear here.</div>`}
-window.saveWebsite=async()=>{await record("website",crypto.randomUUID(),{name:val("siteName"),tagline:val("siteTag"),about:val("siteAbout"),email:val("siteEmail")});toast("Website configuration saved")};window.previewWebsite=()=>{$("sitePreview").textContent=`${val("siteName")||"Your business"}\n\n${val("siteTag")||"Professional digital presence"}\n\n${val("siteAbout")||"Add your business description."}\n\nContact: ${val("siteEmail")||"support@example.com"}`};
 function renderApp(w){w.innerHTML=head("App Builder","Generate a downloadable functional starter app from your specification.")+`<div class="formGrid"><input id="appName" class="input" placeholder="App name"><input id="appPurpose" class="input" placeholder="App purpose"><textarea id="appFeatures" class="input full" rows="6" placeholder="Feature 1\nFeature 2\nFeature 3"></textarea></div><div class="actionsRow"><button class="btn primary" onclick="buildStarterApp()">Build starter app</button></div><div id="appPreview" class="preview" style="margin-top:16px">Your generated starter app summary will appear here.</div>`}
 window.buildStarterApp=()=>{const name=val("appName")||"My App",purpose=val("appPurpose")||"My digital product",features=val("appFeatures").split(/\n+/).filter(Boolean);const code=`<!doctype html><html><body style="font-family:system-ui;padding:40px"><h1>${name}</h1><p>${purpose}</p><ul>${features.map(f=>`<li>${f}</li>`).join("")}</ul></body></html>`;const blob=new Blob([code],{type:"text/html"});downloadBlob(blob,name.toLowerCase().replace(/[^a-z0-9]+/g,"-")+".html");$("appPreview").textContent=`${name}\n${purpose}\n\n${features.map(f=>"• "+f).join("\n")}`;toast("Starter app downloaded")};
 
@@ -382,5 +380,24 @@ async function handleOAuth(){const p=new URLSearchParams(location.search);const 
 supabase.auth.onAuthStateChange((_e,s)=>{sessionUser=s?.user||null;if(sessionUser)showApp()});
 (async()=>{if(await handlePublicForm())return;await handleOAuth();const {data}=await supabase.auth.getSession();sessionUser=data.session?.user||null;if(sessionUser){showApp()}else{$("site").style.display="block";$('app').style.display="none"}})();
 renderModules();
+
+// Expose module-scoped functions used by inline HTML event attributes.
+Object.assign(window, {
+  uploadCloud,
+  loadProducts,
+  saveProduct,
+  loadFinance,
+  createApiKey,
+  refreshSitePreview,
+  loadPhoto,
+  updatePhoto
+});
+
+window.addEventListener("error", (event) => {
+  console.error("ToolNest runtime error:", event.error || event.message);
+});
+window.addEventListener("unhandledrejection", (event) => {
+  console.error("ToolNest unhandled rejection:", event.reason);
+});
 </script>
 </body></html>
