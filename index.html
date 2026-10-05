@@ -38,7 +38,7 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 <div class="price"><h3>Basic</h3><div class="amount">₹0</div><ul><li>✓ 5 PDF downloads / day</li><li>✓ Core document tools</li><li>✓ Cloud history</li></ul><button type="button" class="btn secondary" onclick="openLogin()">Start free</button></div>
 <div class="price featured"><span class="badge">POPULAR</span><h3>Platinum</h3><div class="amount">₹299 <small>/month</small></div><ul><li>✓ 50 PDF downloads / day</li><li>✓ All document tools</li><li>✓ Premium features</li><li>✓ Priority support</li></ul><button type="button" class="btn primary" onclick="choosePlan('platinum')">Upgrade</button></div>
 <div class="price"><h3>Business</h3><div class="amount">₹999 <small>/month</small></div><ul><li>✓ 100 PDF downloads / day</li><li>✓ All tools</li><li>✓ Business documents</li><li>✓ Priority support</li></ul><button type="button" class="btn primary" onclick="choosePlan('business')">Upgrade</button></div>
-<div class="price featured"><span class="badge">OWNER</span><h3>Permanent</h3><div class="amount">Lifetime</div><ul><li>✓ Unlimited PDF downloads</li><li>✓ All current tools</li><li>✓ Permanent owner access</li></ul><button type="button" class="btn primary" onclick="enablePermanentAccess()">Get access</button></div>
+<div class="price featured"><span class="badge">OWNER</span><h3>Permanent</h3><div class="amount">Lifetime</div><ul><li>✓ Unlimited PDF downloads</li><li>✓ All current tools</li><li>✓ Permanent owner access</li></ul><button type="button" class="btn primary" onclick="openLogin()">Get access</button></div>
 </div></section>
 <footer>© 2026 ToolNest. All rights reserved. · <a href="mailto:kaammilaga.official@gmail.com">✉ Email Support</a></footer>
 </div>
@@ -104,11 +104,11 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
 </div></div>
 
 <div id="pdf" class="panel"><h2>PDF Utilities</h2><p class="muted">Each exported/downloaded PDF counts toward your daily allowance.</p><div class="toolgrid">
-<div class="toolbox"><h3>🔗 Merge PDF</h3><input id="mergeFiles" class="input" type="file" accept="application/pdf" multiple><button type="button" class="btn primary" onclick="mergePdfs()">Merge & Download</button></div>
-<div class="toolbox"><h3>✂️ Split PDF</h3><input id="splitFile" class="input" type="file" accept="application/pdf"><input id="splitPages" class="input" placeholder="Pages e.g. 1,3-5"><button type="button" class="btn primary" onclick="splitPdf()">Split & Download</button></div>
+<div class="toolbox"><h3>🔗 Merge PDF</h3><input id="mergeFiles" class="input" type="file" accept="application/pdf,.pdf" multiple><button type="button" class="btn primary" onclick="mergePdfs()">Merge & Download</button></div>
+<div class="toolbox"><h3>✂️ Split PDF</h3><input id="splitFile" class="input" type="file" accept="application/pdf,.pdf"><input id="splitPages" class="input" placeholder="Pages e.g. 1,3-5"><button type="button" class="btn primary" onclick="splitPdf()">Split & Download</button></div>
 <div class="toolbox"><h3>🖼️ JPG → PDF</h3><input id="jpgFiles" class="input" type="file" accept="image/jpeg,image/png" multiple><button type="button" class="btn primary" onclick="jpgToPdf()">Convert & Download</button></div>
-<div class="toolbox"><h3>📷 PDF → JPG</h3><input id="pdfToJpgFile" class="input" type="file" accept="application/pdf"><input id="pdfPage" class="input" type="number" value="1" min="1"><button type="button" class="btn primary" onclick="pdfToJpg()">Convert Page</button></div>
-<div class="toolbox"><h3>🗜️ PDF Optimize</h3><input id="optFile" class="input" type="file" accept="application/pdf"><button type="button" class="btn primary" onclick="optimizePdf()">Optimize & Download</button></div>
+<div class="toolbox"><h3>📷 PDF → JPG</h3><input id="pdfToJpgFile" class="input" type="file" accept="application/pdf,.pdf"><input id="pdfPage" class="input" type="number" value="1" min="1"><button type="button" class="btn primary" onclick="pdfToJpg()">Convert Page</button></div>
+<div class="toolbox"><h3>🗜️ PDF Optimize</h3><input id="optFile" class="input" type="file" accept="application/pdf,.pdf"><button type="button" class="btn primary" onclick="optimizePdf()">Optimize & Download</button></div>
 </div></div>
 
 <div id="history" class="panel"><h2>Document History</h2><p class="muted">Saved documents are stored in your secure cloud account.</p><div id="historyList">Loading...</div></div>
@@ -142,7 +142,7 @@ footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:
       <span class="badge">OWNER</span><h3>Permanent</h3>
       <div class="amount">Lifetime</div>
       <ul><li>✓ Unlimited PDF downloads</li><li>✓ All current tools</li><li>✓ Permanent owner access</li></ul>
-      <button type="button" class="btn primary" onclick="enablePermanentAccess()">Get access</button>
+      <button type="button" class="btn primary" onclick="toast('Permanent access is reserved for the owner account.')">Get access</button>
     </div>
   </div>
 </section>
@@ -158,7 +158,7 @@ const SUPABASE_URL="https://cvlinhjhyxuntbbxrrxq.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_cQ1_ABy2MYZSSbJOGtw1HA_zqgU0mW2";
 const SITE_URL="https://kobraking97875-dotcom.github.io/toolnest.com/";
 const supabase=createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,flowType:"pkce"}});
-const OWNER="virjulkumar478@gmail.com";
+const OWNER="kaammilaga.official@gmail.com";
 const RAZORPAY_URL="https://cvlinhjhyxuntbbxrrxq.supabase.co/functions/v1/razorpay-payment";
 let activeUser=null;
 let currentPlan={name:"Basic",limit:5,expiresAt:null,key:"basic"},customType="";
@@ -281,18 +281,11 @@ function requireUid(){const uid=ownUid();if(!uid)throw Error("Your login session
 
 async function ensureAccount(){
   const uid=ownUid(); if(!uid)return;
-  const ownerAccount={plan:"Permanent",planName:"Permanent",plan_price:0,activatedAt:new Date().toISOString(),expiresAt:null,owner:true,updatedAt:new Date().toISOString()};
   const {data,error}=await supabase.from(DATA_TABLE).select("id,payload").eq("user_id",uid).eq("kind","account").maybeSingle();
   if(error) throw error;
   if(!data){
-    const {error:e}=await supabase.from(DATA_TABLE).insert({user_id:uid,kind:"account",key:"account",payload:isOwner()?ownerAccount:{plan:"Basic",plan_price:0}});
+    const {error:e}=await supabase.from(DATA_TABLE).insert({user_id:uid,kind:"account",key:"account",payload:{plan:"Basic",plan_price:0}});
     if(e && e.code!=="23505") throw e;
-    return;
-  }
-  if(isOwner()){
-    const existing=data.payload||{};
-    const {error:e}=await supabase.from(DATA_TABLE).update({payload:{...existing,...ownerAccount}}).eq("id",data.id).eq("user_id",uid);
-    if(e) throw e;
   }
 }
 
@@ -359,11 +352,6 @@ async function removeHistory(id){
 
 async function loadPlan(){
   if(!auth.currentUser)return;
-  if(isOwner()){
-    currentPlan={name:"Permanent",limit:Infinity,expiresAt:null,key:"permanent"};
-    try{await ensureAccount()}catch(e){console.warn("owner account:",e.message||e)}
-    return;
-  }
   currentPlan={name:"Basic",limit:5,expiresAt:null,key:"basic"};
   try{
     await ensureAccount();
@@ -568,6 +556,21 @@ async function downloadBlob(blob,name){
   const a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
   setTimeout(()=>URL.revokeObjectURL(url),1500);
 }
+
+function isPdfFile(file){
+  return !!file && (file.type === "application/pdf" || /\.pdf$/i.test(file.name || ""));
+}
+async function hasPdfHeader(file){
+  if(!file) return false;
+  if(!isPdfFile(file)) return false;
+  const head=new Uint8Array(await file.slice(0,5).arrayBuffer());
+  return new TextDecoder().decode(head)==="%PDF-";
+}
+async function requirePdfFile(file,label="PDF file"){
+  if(!file){ throw Error(`Choose a ${label}.`); }
+  if(!(await hasPdfHeader(file))){ throw Error(`The selected file is not a valid PDF. Please select a .pdf file in ${label}.`); }
+}
+
 function parsePageSpec(spec,total){
   const out=[];
   for(const raw of String(spec||"").split(",")){
@@ -588,6 +591,7 @@ window.mergePdfs=async()=>{
   const files=[...($('mergeFiles')?.files||[])];
   if(files.length<2){toast("Select at least 2 PDF files.");return}
   try{
+    for(const file of files) await requirePdfFile(file,"PDF files");
     if(!(await consumeDownload()))return;
     const {PDFDocument}=await requirePdfLib();
     const out=await PDFDocument.create();
@@ -607,6 +611,7 @@ window.splitPdf=async()=>{
   const file=$("splitFile")?.files?.[0],spec=val("splitPages");
   if(!file||!spec){toast("Choose a PDF and enter pages.");return}
   try{
+    await requirePdfFile(file,"Split PDF");
     if(!(await consumeDownload()))return;
     const {PDFDocument}=await requirePdfLib();
     const src=await PDFDocument.load(await file.arrayBuffer());
@@ -627,6 +632,10 @@ window.jpgToPdf=async()=>{
   const files=[...($('jpgFiles')?.files||[])];
   if(!files.length){toast("Select one or more JPG/PNG images.");return}
   try{
+    for(const file of files){
+      if(!(file.type==="image/jpeg"||file.type==="image/png") && !/\.(jpe?g|png)$/i.test(file.name||""))
+        throw Error(`Unsupported image: ${file.name||"selected file"}. Please choose JPG or PNG.`);
+    }
     if(!(await consumeDownload()))return;
     const {PDFDocument}=await requirePdfLib();
     const out=await PDFDocument.create();
@@ -655,6 +664,7 @@ window.pdfToJpg=async()=>{
   const file=$("pdfToJpgFile")?.files?.[0], pageNo=Math.max(1,Number($("pdfPage")?.value||1));
   if(!file){toast("Choose a PDF file.");return}
   try{
+    await requirePdfFile(file,"PDF → JPG");
     if(!(await consumeDownload()))return;
     const pdfjs=await ensurePdfJs();
     if(!pdfjs)throw Error("PDF renderer could not load.");
@@ -677,6 +687,7 @@ window.optimizePdf=async()=>{
   const file=$("optFile")?.files?.[0];
   if(!file){toast("Choose a PDF file.");return}
   try{
+    await requirePdfFile(file,"PDF Optimize");
     if(!(await consumeDownload()))return;
     const {PDFDocument}=await requirePdfLib();
     const src=await PDFDocument.load(await file.arrayBuffer(),{ignoreEncryption:false});
@@ -684,16 +695,6 @@ window.optimizePdf=async()=>{
     await downloadBlob(new Blob([bytes],{type:"application/pdf"}),"optimized-toolnest.pdf");
     toast("PDF optimized successfully.");
   }catch(e){console.error(e);alert("Optimize failed: "+(e?.message||e))}
-};
-
-
-window.enablePermanentAccess=async()=>{
-  if(!auth.currentUser){openLogin();return}
-  if(!isOwner()){toast("Permanent access is reserved for the owner account.");return}
-  currentPlan={name:"Permanent",limit:Infinity,expiresAt:null,key:"permanent"};
-  try{await ensureAccount()}catch(e){console.warn("Permanent account save:",e.message||e)}
-  await updatePlanUI();
-  toast("Permanent owner access is enabled.");
 };
 
 window.choosePlan=async plan=>{
