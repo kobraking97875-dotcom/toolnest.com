@@ -1,0 +1,11 @@
+; Zone file for toolsnest.store
+; Generated on 2026-10-05 05:55:31 UTC
+
+$ORIGIN toolsnest.store
+$TTL 3600
+
+@                              3600 IN SOA   pixel.dns-parking.com. dns.hostinger.com. 2026100502 10000 2400 604800 600
+@                              50 IN A     2.57.91.91
+@                              86400 IN NS    byte.dns-parking.com.
+                               86400 IN NS    pixel.dns-parking.com.
+www                            300 IN CNAME toolsnest.store.
