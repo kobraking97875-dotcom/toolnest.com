@@ -198,7 +198,33 @@ window.useAIResult=()=>{const out=$("aiOut")?.textContent||"";if(!out||out.start
 window.runAI=async()=>{const p=val("aiPrompt"),c=val("aiContext"),mode=val("aiMode")||"chat";if(!p)return toast("Enter your request");const out=$("aiOut"),status=$("aiStatus");out.textContent="Thinking...";status.textContent="Connecting to ToolNest AI...";try{const sess=(await supabase.auth.getSession()).data.session;if(!sess?.access_token){openLogin();throw Error("Please sign in first.")};const r=await fetch(AI_URL,{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${sess.access_token}`},body:JSON.stringify({prompt:p,context:c,mode})});const raw=await r.text();let d={};try{d=raw?JSON.parse(raw):{}}catch{}if(!r.ok||!d.success)throw Error(d?.error||`AI backend returned HTTP ${r.status}`);out.textContent=d.text||"No response returned.";status.textContent=`Generated with ${d.model||"ToolNest AI"}`;toast("AI response ready")}catch(e){const msg=errMsg(e);out.textContent=msg;status.textContent="AI request failed — deploy toolnest-ai and keep OPENAI_API_KEY in Supabase Secrets.";console.error(e);toast("AI error: "+msg)}};
 
 function renderCloud(w){w.innerHTML=head("ToolNest Cloud","Private account files. Uploads use Supabase Storage.")+`<div class="actionsRow"><input id="cloudFile" class="input" type="file" style="max-width:420px"><button class="btn primary" onclick="uploadCloud()">Upload file</button></div><div id="cloudList" style="margin-top:18px">Loading...</div>`;loadCloud()}
-async function uploadCloud(){if(!me()){openLogin();return}const f=$("cloudFile")?.files?.[0];if(!f)return toast("Choose a file");if(f.size>25*1024*1024)return toast("File is too large. Maximum size is 25 MB.");try{const u=me();const path=`${u.id}/${Date.now()}-${f.name.replace(/[^a-z0-9._-]/gi,"-")}`;const {error}=await supabase.storage.from("toolnest-files").upload(path,f,{upsert:false,contentType:f.type||"application/octet-stream"});if(error)throw error;await record("cloud","upload-"+uuid(),{path,name:f.name,size:f.size,type:f.type});$("cloudFile").value="";toast("Uploaded successfully");await loadCloud()}catch(e){toast("Upload failed: "+errMsg(e))}}
+async function uploadCloud(){
+  if(!me()){openLogin();return}
+  const input=$("cloudFile");
+  const f=input?.files?.[0];
+  if(!f)return toast("Choose a file first");
+  if(!f.name||f.size<=0)return toast("The selected file is empty or invalid");
+  if(f.size>25*1024*1024)return toast("File is too large. Maximum size is 25 MB.");
+  const isPDF=/\.pdf$/i.test(f.name)||String(f.type||"").toLowerCase()==="application/pdf";
+  const contentType=isPDF?"application/pdf":(f.type||"application/octet-stream");
+  const u=me();
+  if(!u?.id)return toast("Please sign in again");
+  const safeName=f.name.replace(/[^a-z0-9._-]/gi,"-").replace(/-+/g,"-");
+  const path=`${u.id}/${Date.now()}-${safeName||"file"}`;
+  try{
+    toast("Uploading file…");
+    const {data,error}=await supabase.storage.from("toolnest-files").upload(path,f,{upsert:false,contentType,cacheControl:"3600"});
+    if(error)throw error;
+    const saved=await record("cloud","upload-"+uuid(),{path,name:f.name,size:f.size,type:contentType});
+    if(saved===false)throw Error("File uploaded, but its cloud record could not be saved");
+    input.value="";
+    toast(isPDF?"PDF uploaded successfully":"File uploaded successfully");
+    await loadCloud();
+  }catch(e){
+    console.error("ToolNest cloud upload error",e);
+    toast("Upload failed: "+errMsg(e));
+  }
+}
 async function loadCloud(){const box=$("cloudList");try{const rows=await supabase.from("toolnest_data").select("id,payload,created_at").eq("user_id",me().id).eq("kind","cloud").order("created_at",{ascending:false});if(rows.error)throw rows.error;if(!rows.data.length){box.innerHTML='<div class="empty">No cloud files yet.</div>';return}box.innerHTML=rows.data.map(r=>`<div class="historyItem"><div><b>${String(r.payload.name||"File")}</b><div class="muted tiny">${Math.round((r.payload.size||0)/1024)} KB</div></div><button class="btn secondary" onclick="downloadCloud('${r.payload.path}','${encodeURIComponent(r.payload.name||'file')}')">Download</button></div>`).join("")}catch(e){box.innerHTML='<div class="empty">Cloud storage is not configured. Create the toolnest-files bucket using the included SQL.</div>'}}
 window.downloadCloud=async(path,name)=>{const {data,error}=await supabase.storage.from("toolnest-files").download(path);if(error)return toast(error.message);downloadBlob(data,decodeURIComponent(name))};
 function renderCommerce(w){w.innerHTML=head("ToolNest Commerce","Create products, manage stock and run a simple store.")+`<div class="actionsRow"><button class="btn primary" onclick="showAddProduct()">+ Add product</button><button class="btn secondary" onclick="loadProducts()">Refresh</button></div><div id="productList" style="margin-top:18px">Loading...</div><div id="productForm" class="hidden" style="margin-top:18px"></div>`;loadProducts()}
