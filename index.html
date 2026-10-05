@@ -1,739 +1,169 @@
-<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>ToolNest — Professional document & PDF tools</title><meta name='description' content='ToolNest professional document and PDF tools.'><style>
-:root{--bg:#f6f7fb;--card:#fff;--text:#101828;--muted:#667085;--brand:#635bff;--brand2:#5148c9;--line:#e4e7ec;--dark:#0f1219;--dark2:#171b24;--green:#12b76a;--red:#d92d20}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}button,input,textarea,select{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}
-.nav{height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20}.logo{font-size:25px;font-weight:900}.logo span{color:var(--brand)}.navlinks{display:flex;gap:22px;align-items:center;color:#475467;font-size:14px;font-weight:700}
-.btn{border:0;border-radius:11px;padding:12px 17px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:8px}.primary{background:var(--brand);color:#fff}.primary:hover{background:var(--brand2)}.secondary{background:#fff;color:var(--text);border:1px solid var(--line)}.danger{background:#fff;color:var(--red);border:1px solid #fecdca}
-.hero{max-width:1200px;margin:auto;padding:84px 24px 70px;display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center}.eyebrow,.kicker{color:#5148c9;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:1px}.eyebrow{display:inline-block;background:#eeecff;padding:8px 12px;border-radius:999px;text-transform:none;letter-spacing:0}.hero h1{font-size:clamp(44px,6vw,74px);line-height:1.01;letter-spacing:-3px;margin:18px 0}.hero h1 span{color:var(--brand)}.hero p{font-size:18px;color:var(--muted);max-width:670px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin:27px 0}.mock{background:linear-gradient(145deg,#151922,#252a39);padding:18px;border-radius:24px;box-shadow:0 25px 70px #10131a25}.paper{background:#fff;border-radius:16px;padding:26px}.paper h3{margin:0 0 15px}.paperline{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #eee;color:#667085}
-.section{max-width:1200px;margin:auto;padding:70px 24px}.center{text-align:center}.section h2{font-size:40px;margin:8px 0}.sub{color:var(--muted);max-width:700px;margin:0 auto 30px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 8px 30px #10182808}.icon{font-size:30px}.card h3{margin:13px 0 7px}.card p{color:var(--muted);font-size:14px;line-height:1.6}.card .btn{width:100%;margin-top:15px}
-.pricing{background:var(--dark);color:#fff;max-width:none}.pricing>div{max-width:1200px;margin:auto}.pricing .sub{color:#aeb4c2}.pricegrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:0 24px}.price{background:var(--dark2);border:1px solid #2a303c;border-radius:18px;padding:25px;position:relative}.price.featured{border:2px solid #817bff}.price .badge{position:absolute;right:14px;top:14px;background:#817bff;color:#fff;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:900}.amount{font-size:38px;font-weight:900;margin:12px 0}.price ul{padding:0;list-style:none;color:#c7ccd6;line-height:2}
-.modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:18px;z-index:100}.modal.open{display:flex}.modalbox{width:min(950px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:22px;padding:28px}.close{float:right;border:0;background:#f2f4f7;border-radius:50%;width:35px;height:35px}.google{width:100%;padding:14px;background:#fff;border:1px solid #d0d5dd;border-radius:11px;font-weight:800}
-.dashboard{display:none;min-height:100vh}.dash{max-width:1200px;margin:auto;padding:30px 24px}.dashTop{display:flex;justify-content:space-between;align-items:center;gap:15px}.planbar{margin-top:18px;background:linear-gradient(135deg,#eeecff,#fff);border:1px solid #d9d6ff;border-radius:16px;padding:17px 19px;display:flex;justify-content:space-between;gap:15px;align-items:center}.usage{font-weight:850}.tabs{display:flex;gap:8px;overflow:auto;margin:25px 0}.tab{border:1px solid var(--line);background:#fff;padding:11px 15px;border-radius:10px;white-space:nowrap;font-weight:800}.tab.active{background:var(--brand);color:#fff}.panel{display:none;background:#fff;border:1px solid var(--line);border-radius:18px;padding:25px;box-shadow:0 8px 30px #10182808}.panel.active{display:block}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.input{width:100%;padding:12px 13px;border:1px solid #d0d5dd;border-radius:10px;background:#fff}.full{grid-column:1/-1}textarea.input{min-height:105px;resize:vertical}.actionsRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.muted{color:var(--muted);font-size:13px}.toolgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.toolbox{border:1px solid var(--line);border-radius:15px;padding:18px;background:#fff}.toolbox h3{margin:0 0 7px}.toolbox p{font-size:13px;color:var(--muted);line-height:1.5}.historyItem{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:15px 0;border-bottom:1px solid var(--line)}
-.toast{position:fixed;right:18px;bottom:18px;z-index:300;background:#101828;color:#fff;padding:13px 16px;border-radius:12px;display:none;box-shadow:0 10px 30px #0003}.toast.show{display:block}
-footer{background:#fff;border-top:1px solid var(--line);padding:30px 24px;color:var(--muted)}
-@media(max-width:900px){.navlinks{display:none}.hero{grid-template-columns:1fr;padding-top:55px}.grid,.pricegrid,.toolgrid{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.dashTop,.planbar{align-items:flex-start;flex-direction:column}}
-.googleBtn{width:100%;min-height:46px;border:1px solid #d0d5dd;border-radius:10px;background:#fff;color:#101828;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:16px}.googleBtn:hover{background:#f8fafc}<style>@media(max-width:850px){#plans .grid{grid-template-columns:1fr!important}}</style><style>@media(max-width:850px){#plansBottom .grid{grid-template-columns:1fr!important}}</style></head><body>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="ToolNest — All-in-one AI, document, business, commerce, creator, cloud and productivity platform.">
+<title>ToolNest — Work. Create. Automate.</title>
+<style>
+:root{--bg:#f6f8fb;--surface:#fff;--surface2:#f9fafb;--text:#101828;--muted:#667085;--line:#e4e7ec;--brand:#635bff;--brand2:#4f46e5;--success:#027a48;--danger:#b42318;--shadow:0 12px 40px rgba(16,24,40,.08);--radius:18px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}.muted{color:var(--muted)}.tiny{font-size:12px}.wrap{max-width:1280px;margin:auto;padding:0 22px}.nav{height:72px;background:rgba(255,255,255,.95);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;backdrop-filter:blur(10px)}.logo{font-size:25px;font-weight:950;letter-spacing:-.04em}.logo span{color:var(--brand)}.navlinks{display:flex;gap:18px;align-items:center;color:#475467;font-size:14px;font-weight:800}.navlinks a:hover{color:var(--brand)}.btn{border:0;border-radius:12px;padding:11px 16px;font-weight:850;transition:.18s transform,.18s box-shadow,.18s background}.btn:active{transform:translateY(1px)}.btn.primary{background:var(--brand);color:#fff;box-shadow:0 8px 20px rgba(99,91,255,.22)}.btn.primary:hover{background:var(--brand2);transform:translateY(-1px)}.btn.secondary{background:#fff;color:#344054;border:1px solid var(--line)}.btn.secondary:hover{background:#f8fafc}.btn.dark{background:#101828;color:#fff}.btn.danger{background:#fff1f1;color:#b42318;border:1px solid #fecdca}.eyebrow,.kicker{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--brand)}.hero{padding:74px 0 54px}.heroGrid{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}.hero h1{font-size:62px;line-height:1.02;letter-spacing:-.055em;margin:16px 0}.hero h1 span{color:var(--brand)}.hero p{font-size:19px;line-height:1.65;color:var(--muted);max-width:760px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}.heroCard{background:linear-gradient(135deg,#171b2d,#2f266c);border-radius:28px;padding:28px;color:#fff;box-shadow:var(--shadow);position:relative;overflow:hidden}.heroCard:after{content:"";position:absolute;inset:-100px auto auto 55%;width:320px;height:320px;background:radial-gradient(circle,rgba(255,255,255,.17),transparent 64%)}.miniGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}.mini{border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);border-radius:14px;padding:16px}.mini b{display:block;font-size:24px;margin-top:3px}.section{padding:70px 0}.center{text-align:center}.section h2{font-size:40px;letter-spacing:-.04em;margin:8px 0 10px}.sub{color:var(--muted);max-width:790px;margin:0 auto 30px;line-height:1.7}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.module{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 6px 24px rgba(16,24,40,.045);transition:.2s transform,.2s box-shadow}.module:hover{transform:translateY(-3px);box-shadow:var(--shadow)}.moduleIcon{font-size:30px}.module h3{margin:12px 0 7px}.module p{font-size:14px;line-height:1.6;color:var(--muted);min-height:67px}.module .btn{width:100%;margin-top:11px}.band{background:#101828;color:#fff}.band .sub{color:#b8c1d1}.pricing{background:#eef0ff;border-top:1px solid #e0e3ff;border-bottom:1px solid #e0e3ff}.priceGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.price{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px;position:relative}.price.featured{border:2px solid var(--brand);box-shadow:0 18px 50px rgba(99,91,255,.15)}.badge{position:absolute;right:14px;top:14px;background:#eeecff;color:var(--brand);border-radius:999px;padding:6px 9px;font-size:10px;font-weight:950}.amount{font-size:37px;font-weight:950;margin:15px 0}.price ul{padding:0;list-style:none;color:#475467;line-height:2}.dashboard{display:none}.dashWrap{max-width:1340px;margin:auto;padding:24px}.dashTop{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:18px}.dashTop h1{margin:4px 0;font-size:30px}.planbar{display:flex;justify-content:space-between;gap:14px;align-items:center;background:#101828;color:#fff;border-radius:18px;padding:18px 20px;margin-bottom:18px}.usage{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);padding:9px 12px;border-radius:999px;font-size:13px;font-weight:900}.dashGrid{display:grid;grid-template-columns:230px 1fr;gap:18px}.side{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;height:max-content;position:sticky;top:90px}.side button{width:100%;text-align:left;border:0;background:transparent;padding:11px 12px;border-radius:10px;font-weight:800;color:#475467;margin-bottom:3px}.side button.active,.side button:hover{background:#f0efff;color:var(--brand)}.workspace{background:#fff;border:1px solid var(--line);border-radius:18px;min-height:660px;padding:22px}.workspaceHead{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:16px}.workspaceHead h2{margin:0;font-size:28px}.toolGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.toolbox{border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff}.toolbox h3{margin:0 0 6px;font-size:17px}.toolbox p{color:var(--muted);font-size:13px;line-height:1.5;min-height:39px}.formGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.full{grid-column:1/-1}.input{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 12px;background:#fff;outline:none}.input:focus{border-color:#a9a3ff;box-shadow:0 0 0 4px #635bff12}.actionsRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}.tab{border:1px solid var(--line);background:#fff;padding:9px 12px;border-radius:999px;font-weight:800;color:#475467}.tab.active{background:#efedff;color:var(--brand);border-color:#d9d5ff}.historyItem{display:flex;justify-content:space-between;gap:15px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:10px}.statGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat{background:#fafafa;border:1px solid var(--line);border-radius:16px;padding:17px}.stat b{font-size:28px;display:block;margin-top:5px}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#eef0ff;color:var(--brand);font-weight:900;font-size:11px}.modal{position:fixed;inset:0;background:rgba(16,24,40,.5);display:none;align-items:center;justify-content:center;padding:18px;z-index:100}.modal.open{display:flex}.modalBox{width:min(680px,100%);background:#fff;border-radius:22px;padding:24px;max-height:92vh;overflow:auto;box-shadow:0 30px 90px rgba(0,0,0,.22);position:relative}.close{position:absolute;right:14px;top:10px;border:0;background:transparent;font-size:30px;color:#667085}.googleBtn{width:100%;padding:12px;border:1px solid var(--line);border-radius:11px;background:#fff;font-weight:900}.divider{display:flex;align-items:center;gap:10px;color:#98a2b3;font-size:12px;margin:15px 0}.divider:before,.divider:after{content:"";height:1px;background:var(--line);flex:1}.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(120px);background:#101828;color:#fff;padding:12px 16px;border-radius:12px;opacity:0;transition:.22s;z-index:200;font-weight:800}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}.preview{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:14px;padding:16px;white-space:pre-wrap;min-height:110px}.empty{padding:45px 18px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:16px}.footer{padding:40px 0;color:#667085}.footerGrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:30px}.footer a{display:block;margin:8px 0;color:#667085;font-size:14px}.check{color:var(--success);font-weight:900}@media(max-width:1100px){.grid4,.priceGrid{grid-template-columns:repeat(2,1fr)}.heroGrid{grid-template-columns:1fr}.toolGrid{grid-template-columns:repeat(2,1fr)}.dashGrid{grid-template-columns:1fr}.side{position:static;display:flex;overflow:auto;gap:5px}.side button{white-space:nowrap;width:auto}.footerGrid{grid-template-columns:1fr 1fr}}@media(max-width:700px){.nav{padding:0 15px}.navlinks{display:none}.hero{padding-top:44px}.hero h1{font-size:44px}.section h2{font-size:31px}.grid4,.priceGrid,.toolGrid,.statGrid,.formGrid{grid-template-columns:1fr}.full{grid-column:auto}.dashWrap{padding:12px}.workspace{padding:15px}.dashTop,.planbar{align-items:flex-start;flex-direction:column}.planbar>div:last-child{width:100%;justify-content:space-between}.footerGrid{grid-template-columns:1fr}.heroCard{padding:22px}.actions .btn{width:100%}}
+</style>
+</head>
+<body>
 <div id="site">
-<nav class="nav"><a class="logo" href="#">Tool<span>Nest</span></a><div class="navlinks"><a href="#tools">Tools</a><a href="#pricing">Pricing</a><a href="mailto:kaammilaga.official@gmail.com">✉ Email Support</a><button type="button" class="btn secondary" onclick="openLogin()">Login</button></div><button type="button" class="btn primary" onclick="openLogin()">Login</button></nav>
-<section class="hero"><div><div class="eyebrow">⚡ Professional document platform</div><h1>Work smarter with <span>ToolNest.</span></h1><p>Create professional business documents, career documents and useful PDF files from one secure account. Your documents and history stay connected to your ToolNest account.</p><div class="actions"><button type="button" class="btn primary" onclick="openLogin()">Continue with Google →</button><a class="btn secondary" href="#tools">Explore tools</a></div></div><div class="mock"><div class="paper"><h3>TOOLNEST DOCUMENT</h3><div class="paperline"><span>Invoice</span><b>₹24,500</b></div><div class="paperline"><span>Professional Resume</span><b>Ready</b></div><div class="paperline"><span>Daily PDF allowance</span><b>5 Free</b></div><div class="paperline"><span>Cloud history</span><b>Enabled</b></div></div></div></section>
+<nav class="nav"><a class="logo" href="#top">Tool<span>Nest</span></a><div class="navlinks"><a href="#modules">Platform</a><a href="#tools">Tools</a><a href="#pricing">Pricing</a><a href="#support">Support</a></div><button class="btn primary" onclick="openLogin()">Login</button></nav>
+<main id="top">
+<section class="hero"><div class="wrap heroGrid"><div><div class="eyebrow">⚡ All-in-one digital work platform</div><h1>Work. Create. <span>Grow.</span></h1><p>ToolNest brings documents, AI, cloud files, business workflows, commerce, creator utilities, finance, developer tools, forms, automation, teams, websites, apps and education into one professional workspace.</p><div class="actions"><button class="btn primary" onclick="openLogin()">Start with Google →</button><a class="btn secondary" href="#modules">Explore platform</a></div><p class="tiny" style="margin-top:15px">Basic includes 5 PDF downloads every day. Upgrade or recharge when you need more.</p></div><div class="heroCard"><div class="kicker" style="color:#d7d5ff">TOOLNEST WORKSPACE</div><h2 style="font-size:34px;margin:10px 0">One account. One workspace.</h2><div class="miniGrid"><div class="mini"><span class="tiny">Document tools</span><b>50+</b></div><div class="mini"><span class="tiny">Platform modules</span><b>14</b></div><div class="mini"><span class="tiny">Basic PDFs</span><b>5/day</b></div><div class="mini"><span class="tiny">Cloud history</span><b>On</b></div></div></div></div></section>
 
-<section class="section" id="tools"><div class="center"><div class="kicker">Document Studio</div><h2>Professional tools in one place.</h2><p class="sub">Real forms, real PDF generation and Cloud document history.</p></div><div class="grid">
-<div class="card"><div class="icon">🧾</div><h3>Invoice Generator</h3><p>Generate professional invoices with GST and discount calculations.</p><button type="button" class="btn primary" onclick="openLogin()">Open tool →</button></div>
-<div class="card"><div class="icon">📄</div><h3>Quotation Maker</h3><p>Create customer quotations with totals and business details.</p><button type="button" class="btn primary" onclick="openLogin()">Open tool →</button></div>
-<div class="card"><div class="icon">👤</div><h3>Resume Builder</h3><p>Create a clean professional CV/resume PDF.</p><button type="button" class="btn primary" onclick="openLogin()">Open tool →</button></div>
-<div class="card"><div class="icon">🧾</div><h3>Receipt & Bill</h3><p>Create receipts and bills for completed sales or services.</p><button type="button" class="btn primary" onclick="openLogin()">Open tool →</button></div>
-<div class="card"><div class="icon">📦</div><h3>Business Documents</h3><p>Purchase orders, delivery challans, expense reports and salary slips.</p><button type="button" class="btn primary" onclick="openLogin()">Open tool →</button></div>
-<div class="card"><div class="icon">✍️</div><h3>Career & Letters</h3><p>Cover letters, job applications, resignation and experience letters.</p><button type="button" class="btn primary" onclick="openLogin()">Open tool →</button></div>
-</div></section>
+<section class="section" id="modules"><div class="wrap"><div class="center"><div class="kicker">The ToolNest Platform</div><h2>14 professional workspaces</h2><p class="sub">Each workspace opens inside your account and is built around real forms, storage, documents, workflows and payments rather than placeholder buttons.</p></div><div class="grid4" id="moduleCards"></div></div></section>
 
-<section class="section"><div class="center"><div class="kicker">PDF Utilities</div><h2>Common PDF operations.</h2><p class="sub">Upload files and process them directly in your browser.</p></div><div class="grid">
-<div class="card"><div class="icon">🔗</div><h3>Merge PDF</h3><p>Combine multiple PDF files into one PDF.</p></div>
-<div class="card"><div class="icon">✂️</div><h3>Split PDF</h3><p>Extract selected pages into a new PDF.</p></div>
-<div class="card"><div class="icon">🖼️</div><h3>JPG → PDF</h3><p>Convert images into a downloadable PDF.</p></div>
-<div class="card"><div class="icon">📷</div><h3>PDF → JPG</h3><p>Render a selected PDF page as a JPG image.</p></div>
-<div class="card"><div class="icon">🗜️</div><h3>PDF Optimize</h3><p>Rebuild compatible PDFs with optimized object streams.</p></div>
-<div class="card"><div class="icon">🔐</div><h3>Secure sharing</h3><p>Keep documents inside your account history and download them when needed.</p></div>
-</div></section>
+<section class="section" id="tools" style="padding-top:25px"><div class="wrap"><div class="center"><div class="kicker">Core tools</div><h2>Real documents and PDF utilities</h2><p class="sub">Create and download professional documents, or process your own PDF and image files directly in the browser.</p></div><div class="grid4"><div class="module"><div class="moduleIcon">🧾</div><h3>Invoice</h3><p>GST-aware invoice with calculations, save and PDF export.</p><button class="btn primary" onclick="openLoginOrModule('business','invoice')">Open</button></div><div class="module"><div class="moduleIcon">📄</div><h3>Quotation</h3><p>Professional quotation with tax and discount totals.</p><button class="btn primary" onclick="openLoginOrModule('business','quotation')">Open</button></div><div class="module"><div class="moduleIcon">👤</div><h3>Resume</h3><p>Professional CV builder with PDF export.</p><button class="btn primary" onclick="openLoginOrModule('career','resume')">Open</button></div><div class="module"><div class="moduleIcon">🛠</div><h3>PDF Studio</h3><p>Merge, split, JPG→PDF, PDF→JPG and optimize.</p><button class="btn primary" onclick="openLoginOrModule('pdf','merge')">Open</button></div></div></div></section>
 
-<section class="section pricing" id="pricing"><div class="center"><div class="kicker">Pricing</div><h2>Start free. Upgrade when you need more.</h2><p class="sub">Every downloaded PDF counts toward the daily allowance. Saving without downloading does not consume a PDF download.</p></div><div class="pricegrid">
-<div class="price"><h3>Basic</h3><div class="amount">₹0</div><ul><li>✓ 5 PDF downloads / day</li><li>✓ Core document tools</li><li>✓ Cloud history</li></ul><button type="button" class="btn secondary" onclick="openLogin()">Start free</button></div>
-<div class="price featured"><span class="badge">POPULAR</span><h3>Platinum</h3><div class="amount">₹299 <small>/month</small></div><ul><li>✓ 50 PDF downloads / day</li><li>✓ All document tools</li><li>✓ Premium features</li><li>✓ Priority support</li></ul><button type="button" class="btn primary" onclick="choosePlan('platinum')">Upgrade</button></div>
-<div class="price"><h3>Business</h3><div class="amount">₹999 <small>/month</small></div><ul><li>✓ 100 PDF downloads / day</li><li>✓ All tools</li><li>✓ Business documents</li><li>✓ Priority support</li></ul><button type="button" class="btn primary" onclick="choosePlan('business')">Upgrade</button></div>
-<div class="price featured"><span class="badge">OWNER</span><h3>Permanent</h3><div class="amount">Lifetime</div><ul><li>✓ Unlimited PDF downloads</li><li>✓ All current tools</li><li>✓ Permanent owner access</li></ul><button type="button" class="btn primary" onclick="openLogin()">Get access</button></div>
-</div></section>
-<footer>© 2026 ToolNest. All rights reserved. · <a href="mailto:kaammilaga.official@gmail.com">✉ Email Support</a></footer>
-</div>
+<section class="section pricing" id="pricing"><div class="wrap"><div class="center"><div class="kicker">Transparent plans</div><h2>Start free. Scale when you need it.</h2><p class="sub">Daily PDF credits are tracked per account. Paid plans and recharge are connected to the ToolNest payment backend.</p></div><div class="priceGrid"><div class="price"><h3>Basic</h3><div class="amount">₹0</div><ul><li class="check">✓ 5 PDF downloads / day</li><li>✓ Core tools</li><li>✓ Cloud history</li><li>✓ Standard support</li></ul><button class="btn secondary" onclick="openLogin()">Start free</button></div><div class="price featured"><span class="badge">POPULAR</span><h3>Platinum</h3><div class="amount">₹299 <small>/month</small></div><ul><li class="check">✓ 50 PDFs / day</li><li class="check">✓ All workspaces</li><li>✓ Premium document tools</li><li>✓ Priority support</li></ul><button class="btn primary" onclick="buyPlan('platinum')">Upgrade</button></div><div class="price"><h3>Business</h3><div class="amount">₹999 <small>/month</small></div><ul><li class="check">✓ 100 PDFs / day</li><li class="check">✓ Business workspace</li><li>✓ Team-ready tools</li><li>✓ Priority support</li></ul><button class="btn primary" onclick="buyPlan('business')">Upgrade</button></div><div class="price"><span class="badge">OWNER</span><h3>Permanent</h3><div class="amount">Lifetime</div><ul><li class="check">✓ Unlimited PDFs</li><li class="check">✓ All current tools</li><li>✓ Permanent owner access</li><li>✓ No daily limit</li></ul><button class="btn dark" onclick="openLogin()">Owner access</button></div></div><p class="tiny center" style="margin-top:18px">Paid subscriptions shown here are 30-day access using the configured payment flow. Permanent access is reserved for the owner account.</p></div></section>
 
-<div id="loginModal" class="modal"><div class="modalbox" style="max-width:430px">
-<button type="button" class="close" onclick="closeLogin()">×</button>
-<div class="kicker">TOOLNEST ACCOUNT</div>
-<h2 id="authTitle">Welcome to ToolNest</h2>
-<p id="authSubtitle" class="muted">Sign in with Google or your email and password.</p>
-<button type="button" id="googleGis" class="googleBtn" type="button" onclick="googleLogin()">
-  <span style="font-weight:800;font-size:18px;line-height:1">G</span>
-  <span>Continue with Google</span>
-</button>
-<div style="display:flex;align-items:center;gap:10px;margin:10px 0;color:#98a2b3;font-size:12px"><span style="height:1px;background:#e4e7ec;flex:1"></span>OR<span style="height:1px;background:#e4e7ec;flex:1"></span></div>
-<div id="emailAuthBox">
-<input id="authEmail" class="input" type="email" autocomplete="email" placeholder="Email address" style="margin-bottom:10px">
-<input id="authPassword" class="input" type="password" autocomplete="current-password" placeholder="Password (minimum 6 characters)">
-<div class="actionsRow" style="margin-top:12px">
-<button type="button" id="emailLoginBtn" class="btn primary" style="flex:1" onclick="emailLogin()">Login</button>
-<button type="button" id="emailSignupBtn" class="btn secondary" style="flex:1" onclick="emailSignup()">Create account</button>
-</div>
-<button type="button" class="btn secondary" style="width:100%;margin-top:10px" onclick="resetPassword()">Forgot password?</button>
-<div id="authMessage" class="note" style="display:none;margin-top:12px"></div>
-</div>
-<div class="note" style="margin-top:14px">Google and email authentication are secured by Supabase Auth. Your ToolNest documents, plans and usage are stored in your cloud account.</div>
-</div></div>
+<section class="section band" id="support"><div class="wrap center"><div class="kicker" style="color:#d7d5ff">Support</div><h2>Need help?</h2><p class="sub">Use the support email or create a support ticket from your workspace.</p><a class="btn primary" href="mailto:kaammilaga.official@gmail.com?subject=ToolNest%20Support">Email support</a></div></section>
 
-<div id="dashboard" class="dashboard"><div class="dash">
-<div class="dashTop"><div><div class="kicker">ToolNest Workspace</div><h1 id="welcome">Welcome</h1><p id="userEmail" class="muted"></p></div><div><a class="btn secondary" href="mailto:kaammilaga.official@gmail.com">✉ Email Support</a> <button type="button" class="btn secondary" onclick="logout()">Logout</button></div></div>
-<div class="planbar"><div><b id="planTitle">Plan: Basic</b><div id="planText" class="muted" style="margin-top:4px">5 PDF downloads per day.</div></div><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end"><div class="usage" id="usageText">PDFs today: 0 / 5</div><button type="button" class="btn primary" type="button" onclick="openPlans()">💎 Upgrade</button></div></div>
-<div class="tabs">
-<button type="button" class="tab active" onclick="tab('invoice',this)">🧾 Invoice</button><button type="button" class="tab" onclick="tab('quote',this)">📄 Quotation</button><button type="button" class="tab" onclick="tab('resume',this)">👤 Resume</button><button type="button" class="tab" onclick="tab('business',this)">📦 Business Docs</button><button type="button" class="tab" onclick="tab('career',this)">✍️ Career</button><button type="button" class="tab" onclick="tab('pdf',this)">🛠 PDF Tools</button><button type="button" class="tab" onclick="tab('history',this)">🗂 History</button>
-</div>
+<footer class="footer"><div class="wrap footerGrid"><div><div class="logo">Tool<span>Nest</span></div><p class="muted">A professional all-in-one digital work platform.</p></div><div><b>Platform</b><a href="#modules">14 Workspaces</a><a href="#tools">Document tools</a><a href="#pricing">Pricing</a></div><div><b>Account</b><a href="#top" onclick="openLogin()">Login</a><a href="mailto:kaammilaga.official@gmail.com">Support</a></div><div><b>Policies</b><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Refund</a></div></div></footer>
+</main></div>
 
-<div id="invoice" class="panel active"><h2>Create Invoice</h2><p class="muted">Professional invoice with GST, discount and calculated total.</p><div class="formgrid">
-<input id="invClient" class="input" placeholder="Client name"><input id="invNumber" class="input" placeholder="Invoice number"><input id="invBusiness" class="input" placeholder="Your business name"><input id="invDate" class="input" type="date"><input id="invItem" class="input full" placeholder="Service / item"><input id="invAmount" class="input" type="number" placeholder="Amount"><input id="invGst" class="input" type="number" placeholder="GST % (optional)"><input id="invDiscount" class="input" type="number" placeholder="Discount ₹ (optional)">
-</div><div class="actionsRow"><button type="button" class="btn primary" onclick="saveInvoice(true)">Save & Download PDF</button><button type="button" class="btn secondary" onclick="saveInvoice(false)">Save only</button></div></div>
+<div id="loginModal" class="modal"><div class="modalBox"><button class="close" onclick="closeLogin()">×</button><div class="kicker">Secure account</div><h2 style="margin:6px 0 8px">Sign in to ToolNest</h2><p class="muted">Use Google or your email and password. Your session stays active across refreshes.</p><button class="googleBtn" onclick="googleLogin()">Continue with Google</button><div class="divider">OR EMAIL</div><div class="formGrid"><input id="authEmail" class="input full" type="email" placeholder="Email address"><input id="authPassword" class="input full" type="password" placeholder="Password (6+ characters)"></div><div class="actionsRow"><button class="btn primary" style="flex:1" onclick="emailLogin()">Login</button><button class="btn secondary" style="flex:1" onclick="emailSignup()">Create account</button></div><button class="btn secondary" style="width:100%;margin-top:10px" onclick="resetPassword()">Forgot password?</button><div id="authMessage" style="display:none;margin-top:12px"></div></div></div>
 
-<div id="quote" class="panel"><h2>Create Quotation</h2><div class="formgrid">
-<input id="qClient" class="input" placeholder="Customer name"><input id="qNumber" class="input" placeholder="Quotation number"><input id="qBusiness" class="input" placeholder="Your business name"><input id="qDate" class="input" type="date"><input id="qItem" class="input full" placeholder="Product / service"><input id="qAmount" class="input" type="number" placeholder="Quoted amount"><input id="qGst" class="input" type="number" placeholder="GST % (optional)"><input id="qDiscount" class="input" type="number" placeholder="Discount ₹ (optional)">
-</div><div class="actionsRow"><button type="button" class="btn primary" onclick="saveQuote(true)">Save & Download PDF</button><button type="button" class="btn secondary" onclick="saveQuote(false)">Save only</button></div></div>
-
-<div id="resume" class="panel"><h2>Professional Resume</h2><div class="formgrid">
-<input id="rName" class="input" placeholder="Full name"><input id="rRole" class="input" placeholder="Professional title"><input id="rPhone" class="input" placeholder="Phone"><input id="rEmail" class="input" placeholder="Email"><input id="rLocation" class="input full" placeholder="City / Location"><textarea id="rSummary" class="input full" placeholder="Professional summary"></textarea><textarea id="rSkills" class="input full" placeholder="Skills (comma separated)"></textarea><textarea id="rExperience" class="input full" placeholder="Experience"></textarea><textarea id="rEducation" class="input full" placeholder="Education"></textarea>
-</div><div class="actionsRow"><button type="button" class="btn primary" onclick="saveResume(true)">Save & Download PDF</button><button type="button" class="btn secondary" onclick="saveResume(false)">Save only</button></div></div>
-
-<div id="business" class="panel"><h2>Business Documents</h2><div class="toolgrid">
-<div class="toolbox"><h3>🧾 Receipt / Bill</h3><p>Professional payment receipt or bill.</p><button type="button" class="btn primary" onclick="openDocTool('Receipt')">Create</button></div>
-<div class="toolbox"><h3>📦 Purchase Order</h3><p>Purchase order for a supplier.</p><button type="button" class="btn primary" onclick="openDocTool('Purchase Order')">Create</button></div>
-<div class="toolbox"><h3>🚚 Delivery Challan</h3><p>Delivery document with item and receiver details.</p><button type="button" class="btn primary" onclick="openDocTool('Delivery Challan')">Create</button></div>
-<div class="toolbox"><h3>💼 Salary Slip</h3><p>Monthly salary slip with earnings and deductions.</p><button type="button" class="btn primary" onclick="openDocTool('Salary Slip')">Create</button></div>
-<div class="toolbox"><h3>📊 Expense Report</h3><p>Simple business expense report.</p><button type="button" class="btn primary" onclick="openDocTool('Expense Report')">Create</button></div>
-<div class="toolbox"><h3>📝 Agreement / NOC</h3><p>Printable agreement or NOC document.</p><button type="button" class="btn primary" onclick="openDocTool('Agreement / NOC')">Create</button></div>
-</div></div>
-
-<div id="career" class="panel"><h2>Career & Letter Studio</h2><div class="toolgrid">
-<div class="toolbox"><h3>📨 Cover Letter</h3><p>Tailored cover letter.</p><button type="button" class="btn primary" onclick="openDocTool('Cover Letter')">Create</button></div>
-<div class="toolbox"><h3>💼 Job Application</h3><p>Professional job application letter.</p><button type="button" class="btn primary" onclick="openDocTool('Job Application')">Create</button></div>
-<div class="toolbox"><h3>🚪 Resignation Letter</h3><p>Formal resignation letter.</p><button type="button" class="btn primary" onclick="openDocTool('Resignation Letter')">Create</button></div>
-<div class="toolbox"><h3>🏢 Experience Certificate</h3><p>Experience certificate template.</p><button type="button" class="btn primary" onclick="openDocTool('Experience Certificate')">Create</button></div>
-<div class="toolbox"><h3>📜 Offer Letter</h3><p>Offer letter document.</p><button type="button" class="btn primary" onclick="openDocTool('Offer Letter')">Create</button></div>
-<div class="toolbox"><h3>📝 Leave / Complaint</h3><p>Formal leave or complaint letter.</p><button type="button" class="btn primary" onclick="openDocTool('Leave / Complaint')">Create</button></div>
-</div></div>
-
-<div id="pdf" class="panel"><h2>PDF Utilities</h2><p class="muted">Each exported/downloaded PDF counts toward your daily allowance.</p><div class="toolgrid">
-<div class="toolbox"><h3>🔗 Merge PDF</h3><input id="mergeFiles" class="input" type="file" accept="application/pdf,.pdf" multiple><button type="button" class="btn primary" onclick="mergePdfs()">Merge & Download</button></div>
-<div class="toolbox"><h3>✂️ Split PDF</h3><input id="splitFile" class="input" type="file" accept="application/pdf,.pdf"><input id="splitPages" class="input" placeholder="Pages e.g. 1,3-5"><button type="button" class="btn primary" onclick="splitPdf()">Split & Download</button></div>
-<div class="toolbox"><h3>🖼️ JPG → PDF</h3><input id="jpgFiles" class="input" type="file" accept="image/jpeg,image/png" multiple><button type="button" class="btn primary" onclick="jpgToPdf()">Convert & Download</button></div>
-<div class="toolbox"><h3>📷 PDF → JPG</h3><input id="pdfToJpgFile" class="input" type="file" accept="application/pdf,.pdf"><input id="pdfPage" class="input" type="number" value="1" min="1"><button type="button" class="btn primary" onclick="pdfToJpg()">Convert Page</button></div>
-<div class="toolbox"><h3>🗜️ PDF Optimize</h3><input id="optFile" class="input" type="file" accept="application/pdf,.pdf"><button type="button" class="btn primary" onclick="optimizePdf()">Optimize & Download</button></div>
-</div></div>
-
-<div id="history" class="panel"><h2>Document History</h2><p class="muted">Saved documents are stored in your secure cloud account.</p><div id="historyList">Loading...</div></div>
-
-<section id="plansBottom" class="pricing" style="margin:32px -24px 0;padding:70px 0">
-  <div class="center">
-    <div class="kicker">Pricing</div>
-    <h2>Start free. Upgrade when you need more.</h2>
-    <p class="sub">Every downloaded PDF counts toward the daily allowance. Saving without downloading does not consume a PDF download.</p>
-  </div>
-  <div class="pricegrid">
-    <div class="price">
-      <h3>Basic</h3>
-      <div class="amount">₹0</div>
-      <ul><li>✓ 5 PDF downloads / day</li><li>✓ Core document tools</li><li>✓ Cloud history</li></ul>
-      <button type="button" class="btn secondary" onclick="toast('Basic is your current free plan.')">Start free</button>
-    </div>
-    <div class="price featured">
-      <span class="badge">POPULAR</span><h3>Platinum</h3>
-      <div class="amount">₹299 <small>/month</small></div>
-      <ul><li>✓ 50 PDF downloads / day</li><li>✓ All document tools</li><li>✓ Premium features</li><li>✓ Priority support</li></ul>
-      <button type="button" class="btn primary" onclick="choosePlan('platinum')">Upgrade</button>
-    </div>
-    <div class="price">
-      <h3>Business</h3>
-      <div class="amount">₹999 <small>/month</small></div>
-      <ul><li>✓ 100 PDF downloads / day</li><li>✓ All tools</li><li>✓ Business documents</li><li>✓ Priority support</li></ul>
-      <button type="button" class="btn primary" onclick="choosePlan('business')">Upgrade</button>
-    </div>
-    <div class="price featured">
-      <span class="badge">OWNER</span><h3>Permanent</h3>
-      <div class="amount">Lifetime</div>
-      <ul><li>✓ Unlimited PDF downloads</li><li>✓ All current tools</li><li>✓ Permanent owner access</li></ul>
-      <button type="button" class="btn primary" onclick="toast('Permanent access is reserved for the owner account.')">Get access</button>
-    </div>
-  </div>
-</section>
-</div></div>
-
-<div id="docModal" class="modal"><div class="modalbox" style="max-width:700px"><button type="button" class="close" onclick="closeDocTool()">×</button><div class="kicker">DOCUMENT STUDIO</div><h2 id="docTitle">Create document</h2><p class="muted">Fill the fields below. The document will be saved and can be downloaded as PDF.</p><div class="formgrid"><input id="docTo" class="input" placeholder="Name / Company / Recipient"><input id="docRef" class="input" placeholder="Reference / Number"><input id="docDate" class="input" type="date"><input id="docAmount" class="input" placeholder="Amount / Salary / Value"><input id="docSubject" class="input full" placeholder="Subject / Item / Role"><textarea id="docBody" class="input full" placeholder="Document details, terms, duties, experience, expenses, letter content..."></textarea></div><div class="actionsRow"><button type="button" class="btn primary" onclick="saveCustomDoc(true)">Save & Download PDF</button><button type="button" class="btn secondary" onclick="saveCustomDoc(false)">Save only</button></div></div></div>
+<div id="app" class="dashboard"><div class="dashWrap"><div class="dashTop"><div><div class="kicker">ToolNest Workspace</div><h1 id="welcome">Welcome</h1><div id="userEmail" class="muted"></div></div><div class="actions"><a class="btn secondary" href="mailto:kaammilaga.official@gmail.com">✉ Support</a><button class="btn secondary" onclick="logout()">Logout</button></div></div><div class="planbar"><div><b id="planTitle">Plan: Basic</b><div id="planText" class="tiny" style="margin-top:5px;color:#cbd5e1">5 PDF downloads per day</div></div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end"><div class="usage" id="usageText">PDFs today: 0 / 5</div><button class="btn primary" onclick="openPricingInside()">💎 Plans</button><button class="btn secondary" onclick="openModule('recharge')">+5 Daily Recharge</button></div></div><div class="dashGrid"><aside class="side" id="sideNav"></aside><section class="workspace" id="workspace"></section></div></div></div>
 <div id="toast" class="toast"></div>
 
 <script type="module">
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
 const SUPABASE_URL="https://cvlinhjhyxuntbbxrrxq.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_cQ1_ABy2MYZSSbJOGtw1HA_zqgU0mW2";
-const SITE_URL="https://kobraking97875-dotcom.github.io/toolnest.com/";
+const SITE_URL=location.origin+location.pathname;
+const PAYMENT_URL="https://cvlinhjhyxuntbbxrrxq.supabase.co/functions/v1/toolnest-payment";
+const AI_URL="https://cvlinhjhyxuntbbxrrxq.supabase.co/functions/v1/toolnest-ai";
+const OWNER_EMAIL="kaammilaga.official@gmail.com";
 const supabase=createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,flowType:"pkce"}});
-const OWNER="kaammilaga.official@gmail.com";
-const RAZORPAY_URL="https://cvlinhjhyxuntbbxrrxq.supabase.co/functions/v1/razorpay-payment";
-let activeUser=null;
-let currentPlan={name:"Basic",limit:5,expiresAt:null,key:"basic"},customType="";
-
-const $=id=>document.getElementById(id),val=id=>$(id)?.value.trim()||"";
-const today=()=>{const d=new Date();const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");return `${y}-${m}-${day}`};
-function toast(m){$("toast").textContent=m;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),2800)}
-window.toast=toast;
-function appUser(u=activeUser){
-  if(!u) return null;
-  const meta=u.user_metadata||{};
-  return {
-    uid:u.id,
-    id:u.id,
-    email:u.email||meta.email||"",
-    displayName:meta.full_name||meta.name||meta.user_name||(u.email?u.email.split("@")[0]:"there"),
-    photoURL:meta.avatar_url||meta.picture||"",
-    supabaseUser:u
-  };
-}
-// Compatibility object used by the existing ToolNest UI code. It is backed by Supabase Auth.
-const auth={get currentUser(){return appUser()}};
-function isOwner(){return (auth.currentUser?.email||"").toLowerCase()===OWNER}
-
-window.openLogin=()=>{if(auth.currentUser)return showDashboard(auth.currentUser);$("loginModal").classList.add("open")};
-window.closeLogin=()=>$("loginModal").classList.remove("open");
-
-function authErrorMessage(e){
-  const msg=e?.message||"Authentication failed. Please try again.";
-  if(/invalid login credentials/i.test(msg))return "Email or password is incorrect.";
-  if(/email not confirmed/i.test(msg))return "Please confirm your email first.";
-  if(/already registered|already been registered/i.test(msg))return "This email already has an account. Please login.";
-  if(/password/i.test(msg)&&/6 characters|at least/i.test(msg))return "Password must be at least 6 characters.";
-  return msg;
-}
-function authMsg(message,isError=false){
-  const el=$("authMessage"); if(!el)return;
-  el.style.display="block";
-  el.style.color=isError?"#b42318":"#027a48";
-  el.style.background=isError?"#fef3f2":"#ecfdf3";
-  el.style.border="1px solid "+(isError?"#fecdca":"#abefc6");
-  el.style.padding="10px 12px";el.style.borderRadius="10px";el.textContent=message;
-}
-
-async function signInBoth(email,password){
-  const {data,error}=await supabase.auth.signInWithPassword({email,password});
-  if(error)throw error;
-  return data.user;
-}
-async function signUpBoth(email,password){
-  const {data,error}=await supabase.auth.signUp({email,password});
-  if(error)throw error;
-  return data.user;
-}
-window.emailSignup=async()=>{
-  const email=val("authEmail"),password=val("authPassword");
-  if(!email)return authMsg("Enter your email address.",true);
-  if(password.length<6)return authMsg("Password must be at least 6 characters.",true);
-  try{
-    authMsg("Creating your account...");
-    const u=await signUpBoth(email,password);
-    if(u&&activeUser){showDashboard(auth.currentUser);}
-    else authMsg("Account created. Please login with your email and password.");
-  }catch(e){console.error(e);authMsg(authErrorMessage(e),true)}
-};
-window.emailLogin=async()=>{
-  const email=val("authEmail"),password=val("authPassword");
-  if(!email)return authMsg("Enter your email address.",true);
-  if(!password)return authMsg("Enter your password.",true);
-  try{
-    authMsg("Signing you in...");
-    const u=await signInBoth(email,password);
-    activeUser=u; showDashboard(auth.currentUser);
-  }catch(e){console.error(e);authMsg(authErrorMessage(e),true)}
-};
-window.resetPassword=async()=>{
-  const email=val("authEmail");
-  if(!email)return authMsg("Enter your email first, then tap Forgot password.",true);
-  try{
-    const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:SITE_URL});
-    if(error)throw error;
-    authMsg("Password reset email sent. Check your inbox.");
-  }catch(e){authMsg(authErrorMessage(e),true)}
-};
-
-window.googleLogin=async()=>{
-  try{
-    authMsg("Redirecting to Google...");
-    const {data,error}=await supabase.auth.signInWithOAuth({
-      provider:"google",
-      options:{redirectTo:SITE_URL,queryParams:{prompt:"select_account"}}
-    });
-    if(error)throw error;
-    if(data?.url) window.location.assign(data.url);
-  }catch(e){console.error("Google sign-in failed",e);authMsg("Google Login error: "+(e?.message||"unknown error"),true)}
-};
-window.logout=async()=>{
-  try{await supabase.auth.signOut()}catch(e){console.error(e)}
-  activeUser=null;showSite();
-};
-function showSite(){
-  $("dashboard").style.display="none";
-  $("site").style.display="block";
-}
-function showDashboard(u){
-  if(!u)return showSite();
-  $("site").style.display="none";
-  $("loginModal").classList.remove("open");
-  $("dashboard").style.display="block";
-  $("welcome").textContent="Welcome, "+(u.displayName||u.email?.split("@")[0]||"there");
-  $("userEmail").textContent=u.email||"";
-  loadPlan().then(updatePlanUI);
-  loadHistory();
-}
-
-// ---- Direct Supabase storage (single, clean table) ----
-const DATA_TABLE="toolnest_data";
-function ownUid(){return activeUser?.id||null}
-function requireUid(){const uid=ownUid();if(!uid)throw Error("Your login session is not ready. Please log in again.");return uid}
-
-async function ensureAccount(){
-  const uid=ownUid(); if(!uid)return;
-  const {data,error}=await supabase.from(DATA_TABLE).select("id,payload").eq("user_id",uid).eq("kind","account").maybeSingle();
-  if(error) throw error;
-  if(!data){
-    const {error:e}=await supabase.from(DATA_TABLE).insert({user_id:uid,kind:"account",key:"account",payload:{plan:"Basic",plan_price:0}});
-    if(e && e.code!=="23505") throw e;
-  }
-}
-
-async function getAccount(){
-  const uid=requireUid();
-  const {data,error}=await supabase.from(DATA_TABLE).select("payload").eq("user_id",uid).eq("kind","account").maybeSingle();
-  if(error)throw error;
-  return data?.payload||{plan:"Basic",plan_price:0};
-}
-async function saveAccount(payload){
-  const uid=requireUid();
-  const {data:existing,error:findErr}=await supabase.from(DATA_TABLE).select("id").eq("user_id",uid).eq("kind","account").maybeSingle();
-  if(findErr)throw findErr;
-  if(existing){
-    const {error}=await supabase.from(DATA_TABLE).update({payload}).eq("id",existing.id).eq("user_id",uid);
-    if(error)throw error;
-  }else{
-    const {error}=await supabase.from(DATA_TABLE).insert({user_id:uid,kind:"account",key:"account",payload});
-    if(error)throw error;
-  }
-}
-
-async function getUsage(){
-  const uid=requireUid(),key=today();
-  const {data,error}=await supabase.from(DATA_TABLE).select("payload").eq("user_id",uid).eq("kind","usage").eq("key",key).maybeSingle();
-  if(error)throw error;
-  return Number(data?.payload?.count||0);
-}
-async function setUsage(count){
-  const uid=requireUid(),key=today(),payload={count:Number(count)||0,date:key};
-  const {data:existing,error:findErr}=await supabase.from(DATA_TABLE).select("id").eq("user_id",uid).eq("kind","usage").eq("key",key).maybeSingle();
-  if(findErr)throw findErr;
-  if(existing){
-    const {error}=await supabase.from(DATA_TABLE).update({payload}).eq("id",existing.id).eq("user_id",uid);
-    if(error)throw error;
-  }else{
-    const {error}=await supabase.from(DATA_TABLE).insert({user_id:uid,kind:"usage",key,payload});
-    if(error)throw error;
-  }
-}
-
-async function addHistory(type,data){
-  const uid=requireUid();
-  const name=data.client||data.name||data.to||data.business||data.recipient||data.item||data.subject||"Document";
-  const fileName=(data.fileName||type||"document").replace(/[^a-z0-9._-]+/gi,"-").toLowerCase()+".pdf";
-  const {data:row,error}=await supabase.from(DATA_TABLE).insert({
-    user_id:uid,kind:"document",key:crypto.randomUUID(),
-    payload:{type,name:String(name).slice(0,200),fileName,fields:data,createdAt:new Date().toISOString()}
-  }).select("id,payload,created_at").single();
-  if(error)throw error;
-  return row;
-}
-async function loadHistoryRows(){
-  const uid=requireUid();
-  const {data,error}=await supabase.from(DATA_TABLE).select("id,payload,created_at").eq("user_id",uid).eq("kind","document").order("created_at",{ascending:false});
-  if(error)throw error;
-  return data||[];
-}
-async function removeHistory(id){
-  const uid=requireUid();
-  const {error}=await supabase.from(DATA_TABLE).delete().eq("id",id).eq("user_id",uid).eq("kind","document");
-  if(error)throw error;
-}
-
-async function loadPlan(){
-  if(!auth.currentUser)return;
-  currentPlan={name:"Basic",limit:5,expiresAt:null,key:"basic"};
-  try{
-    await ensureAccount();
-    const d=await getAccount();
-    const exp=d.expiresAt?new Date(d.expiresAt):null;
-    const limits={platinum:50,business:100};
-    const key=String(d.plan||"basic").toLowerCase();
-    if(limits[key] && exp && exp.getTime()>Date.now()){
-      currentPlan={name:d.planName||key.charAt(0).toUpperCase()+key.slice(1),limit:limits[key],expiresAt:exp,key};
-    }
-  }catch(e){console.warn("loadPlan:",e.message||e)}
-}
-
-async function consumeDownload(){
-  if(!auth.currentUser){alert("Please sign in first.");openLogin();return false}
-  if(isOwner())return true;
-  await loadPlan();
-  const used=await getUsage();
-  if(used>=currentPlan.limit){alert(`Daily PDF limit reached. ${currentPlan.name} allows ${currentPlan.limit} PDF downloads per day. Upgrade for more.`);return false}
-  await setUsage(used+1);
-  await updatePlanUI();
-  return true;
-}
-
-async function updatePlanUI(){
-  if(!auth.currentUser)return;
-  await loadPlan();
-  let used=0;try{used=await getUsage()}catch(e){console.warn("usage:",e.message||e)}
-  $("planTitle").textContent="Plan: "+currentPlan.name;
-  $("planText").textContent=currentPlan.limit===Infinity?"Permanent owner access · Unlimited PDF downloads":`${currentPlan.limit} PDF downloads per day${currentPlan.expiresAt?" · Expires "+currentPlan.expiresAt.toLocaleDateString():""}`;
-  $("usageText").textContent=currentPlan.limit===Infinity?`PDFs today: ${used} · Unlimited`:`PDFs today: ${used} / ${currentPlan.limit}`;
-}
-
-async function saveDoc(type,data,download=true){
-  if(!auth.currentUser){alert("Please sign in first.");openLogin();return}
-  try{
-    let pdf=null;
-    if(download){
-      await loadPlan();
-      const used=await getUsage();
-      if(!isOwner() && used>=currentPlan.limit){
-        alert(`Daily PDF limit reached. ${currentPlan.name} allows ${currentPlan.limit} PDF downloads per day. Upgrade for more.`);
-        return;
-      }
-      pdf=await makePdf(type,data,false);
-    }
-    await addHistory(type,data);
-    if(download){
-      if(!isOwner())await setUsage((await getUsage())+1);
-      if(pdf)await downloadBlob(pdf.blob,pdf.name);
-      await updatePlanUI();
-    }
-    toast(type+" saved successfully.");
-    await loadHistory();
-  }catch(e){
-    console.error("Save failed:",e);
-    alert("Save failed: "+(e?.message||e));
-  }
-}
-window.saveInvoice=d=>saveDoc("Invoice",{client:val("invClient"),number:val("invNumber"),business:val("invBusiness"),date:val("invDate"),item:val("invItem"),amount:val("invAmount"),gst:val("invGst"),discount:val("invDiscount")},!!d);
-window.saveQuote=d=>saveDoc("Quotation",{client:val("qClient"),number:val("qNumber"),business:val("qBusiness"),date:val("qDate"),item:val("qItem"),amount:val("qAmount"),gst:val("qGst"),discount:val("qDiscount")},!!d);
-window.saveResume=d=>saveDoc("Resume",{name:val("rName"),role:val("rRole"),phone:val("rPhone"),email:val("rEmail"),location:val("rLocation"),summary:val("rSummary"),skills:val("rSkills"),experience:val("rExperience"),education:val("rEducation")},!!d);
-
-async function loadHistory(){
-  if(!auth.currentUser)return;
-  const box=$("historyList");
-  if(!box)return;
-  try{
-    const rows=await loadHistoryRows();
-    if(!rows.length){box.innerHTML='<p class="muted">No documents saved yet.</p>';return}
-    box.innerHTML="";
-    rows.forEach(row=>{
-      const d=row.payload||{};
-      const item=document.createElement("div");item.className="historyItem";
-      const safeName=String(d.name||"Document").replace(/[<>&]/g," ");
-      item.innerHTML=`<div><b>${String(d.type||"Document")}</b><div class="muted">${safeName} · ${new Date(row.created_at||d.createdAt||Date.now()).toLocaleString()}</div></div><button type="button" class="btn danger">Delete</button>`;
-      item.querySelector("button").onclick=async()=>{try{await removeHistory(row.id);await loadHistory()}catch(e){alert("Delete failed: "+(e?.message||e))}};
-      box.appendChild(item);
-    });
-  }catch(e){
-    console.error("History load failed:",e);
-    box.innerHTML='<p class="muted">Could not load history. Please check the ToolNest Supabase table setup.</p>';
-  }
-}
-
-async function handleOAuthCallback(){
-  try{
-    const params=new URLSearchParams(window.location.search);
-    const errorCode=params.get("error_code")||params.get("error");
-    const errorDescription=params.get("error_description");
-    if(errorCode||errorDescription){
-      const msg=decodeURIComponent((errorDescription||errorCode||"Google authentication failed").replace(/\+/g," "));
-      console.error("OAuth callback error",msg);
-      window.history.replaceState({},document.title,SITE_URL);
-      openLogin();
-      authMsg("Google Login error: "+msg,true);
-      return;
-    }
-    const code=params.get("code");
-    if(code){
-      const {error}=await supabase.auth.exchangeCodeForSession(code);
-      if(error)throw error;
-      window.history.replaceState({},document.title,SITE_URL);
-    }
-  }catch(e){
-    console.error("OAuth callback handling failed",e);
-    openLogin();
-    authMsg("Google Login error: "+(e?.message||"Could not complete login."),true);
-  }
-}
-
-supabase.auth.onAuthStateChange((event,session)=>{
-  activeUser=session?.user||null;
-  if(activeUser){
-    ensureAccount().then(()=>showDashboard(auth.currentUser)).catch(e=>{
-      console.error("Account initialization failed",e);
-      showDashboard(auth.currentUser);
-      toast("Account ready; cloud data setup needs attention.");
-    });
-  }else showSite();
-});
-
-await handleOAuthCallback();
-const initialSession=await supabase.auth.getSession();
-activeUser=initialSession.data?.session?.user||null;
-if(activeUser){
-  try{await ensureAccount()}catch(e){console.warn("Account init:",e.message||e)}
-  showDashboard(auth.currentUser);
-}else showSite();
-
-window.tab=(id,el)=>{
-  document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
-  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-  const panel=$(id); if(panel)panel.classList.add("active");
-  if(el)el.classList.add("active");
-  if(id==="history")loadHistory();
-};
-
-function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
+const $=id=>document.getElementById(id);const val=id=>($(id)?.value||"").trim();
+const today=()=>new Date().toISOString().slice(0,10);const money=n=>"₹"+Number(n||0).toLocaleString("en-IN");
+let sessionUser=null,activeModule="dashboard",plan={key:"basic",name:"Basic",limit:5,expiresAt:null},selectedFile=null;
+const modules=[
+ {id:"ai",icon:"🤖",name:"ToolNest AI",desc:"AI chat, document Q&A, writing, summaries, translation and work assistants."},
+ {id:"cloud",icon:"☁️",name:"ToolNest Cloud",desc:"Private files, folders, search, upload, delete, restore and secure sharing."},
+ {id:"business",icon:"🏢",name:"ToolNest Business",desc:"Invoices, quotations, receipts, purchase orders, payroll and business reports."},
+ {id:"commerce",icon:"🛒",name:"ToolNest Commerce",desc:"Build a store, add products, manage stock, orders, customers and payments."},
+ {id:"creator",icon:"🎨",name:"ToolNest Creator",desc:"Creator utilities for scripts, captions, thumbnails, social posts and image work."},
+ {id:"finance",icon:"💰",name:"ToolNest Finance",desc:"Expenses, budgets, subscriptions, payment links and financial summaries."},
+ {id:"marketplace",icon:"🏪",name:"ToolNest Marketplace",desc:"Publish digital products and templates, then manage sales and customers."},
+ {id:"developer",icon:"🧑‍💻",name:"ToolNest Developer",desc:"API keys, usage dashboard, webhooks and developer documentation."},
+ {id:"automation",icon:"⚙️",name:"ToolNest Automation",desc:"Create reusable workflows and schedule-ready automations."},
+ {id:"team",icon:"👥",name:"Team Workspace",desc:"Teams, roles, members, shared workspaces and activity tracking."},
+ {id:"forms",icon:"🧾",name:"ToolNest Forms",desc:"Create forms, collect responses and share a public form link."},
+ {id:"website",icon:"🌐",name:"Website Builder",desc:"Create and preview simple business websites from reusable blocks."},
+ {id:"app",icon:"📱",name:"App Builder",desc:"Create app specifications and export a functional starter HTML app."},
+ {id:"education",icon:"🎓",name:"ToolNest Education",desc:"Notes, quizzes, flashcards, study plans and certificates."}
+];
+function toast(m){const x=$("toast");x.textContent=m;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),2800)} window.toast=toast;
+function userObj(u){if(!u)return null;const m=u.user_metadata||{};return {id:u.id,email:u.email||m.email||"",name:m.full_name||m.name||u.email?.split("@")[0]||"User",raw:u}};
+const me=()=>userObj(sessionUser),isOwner=()=>((me()?.email||"").toLowerCase()===OWNER_EMAIL);
+function authMsg(msg,error=false){const e=$("authMessage");e.style.display="block";e.style.color=error?"#b42318":"#027a48";e.style.background=error?"#fef3f2":"#ecfdf3";e.style.border="1px solid "+(error?"#fecdca":"#abefc6");e.style.padding="10px 12px";e.style.borderRadius="10px";e.textContent=msg}
+function errMsg(e){return e?.message||"Something went wrong. Please try again."}
+window.openLogin=()=>{if(sessionUser){showApp();return}$("loginModal").classList.add("open")};window.closeLogin=()=>$("loginModal").classList.remove("open");
+window.googleLogin=async()=>{try{authMsg("Redirecting to Google...");const {data,error}=await supabase.auth.signInWithOAuth({provider:"google",options:{redirectTo:SITE_URL,queryParams:{prompt:"select_account"}}});if(error)throw error;if(data?.url)location.href=data.url}catch(e){authMsg(errMsg(e),true)}};
+window.emailLogin=async()=>{const email=val("authEmail"),password=val("authPassword");if(!email||!password)return authMsg("Enter email and password.",true);try{authMsg("Signing you in...");const {data,error}=await supabase.auth.signInWithPassword({email,password});if(error)throw error;sessionUser=data.user;await afterLogin()}catch(e){authMsg(errMsg(e),true)}};
+window.emailSignup=async()=>{const email=val("authEmail"),password=val("authPassword");if(!email||password.length<6)return authMsg("Enter email and a password with at least 6 characters.",true);try{authMsg("Creating your account...");const {data,error}=await supabase.auth.signUp({email,password});if(error)throw error;if(data.session){sessionUser=data.user;await afterLogin()}else authMsg("Account created. Check your email if confirmation is enabled.")}catch(e){authMsg(errMsg(e),true)}};
+window.resetPassword=async()=>{const email=val("authEmail");if(!email)return authMsg("Enter your email first.",true);try{const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:SITE_URL});if(error)throw error;authMsg("Password reset email sent.")}catch(e){authMsg(errMsg(e),true)}};
+window.logout=async()=>{await supabase.auth.signOut();sessionUser=null;$("app").style.display="none";$("site").style.display="block";history.replaceState({},document.title,"/");toast("Signed out");};
+async function ensureBase(){const u=me();if(!u)return;await supabase.from("toolnest_data").upsert({user_id:u.id,kind:"account",key:"account",payload:{plan:"Basic",plan_price:0}},{onConflict:"user_id,kind,key"})}
+async function getAccount(){const u=me();const {data,error}=await supabase.from("toolnest_data").select("payload").eq("user_id",u.id).eq("kind","account").eq("key","account").maybeSingle();if(error)throw error;return data?.payload||{plan:"Basic",plan_price:0}}
+async function saveAccount(payload){const u=me();const {error}=await supabase.from("toolnest_data").upsert({user_id:u.id,kind:"account",key:"account",payload},{onConflict:"user_id,kind,key"});if(error)throw error}
+async function getUsage(){const u=me();const {data,error}=await supabase.from("toolnest_data").select("payload").eq("user_id",u.id).eq("kind","usage").eq("key",today()).maybeSingle();if(error)throw error;return Number(data?.payload?.count||0)}
+async function setUsage(count){const u=me();const {error}=await supabase.from("toolnest_data").upsert({user_id:u.id,kind:"usage",key:today(),payload:{count,credits:Number((await getUsageCredits())||0),date:today()}},{onConflict:"user_id,kind,key"});if(error)throw error}
+async function getUsageCredits(){const u=me();const {data}=await supabase.from("toolnest_data").select("payload").eq("user_id",u.id).eq("kind","credits").eq("key",today()).maybeSingle();return Number(data?.payload?.credits||0)}
+async function addCredits(n){const u=me();const {data}=await supabase.from("toolnest_data").select("payload").eq("user_id",u.id).eq("kind","credits").eq("key",today()).maybeSingle();const credits=Number(data?.payload?.credits||0)+n;const {error}=await supabase.from("toolnest_data").upsert({user_id:u.id,kind:"credits",key:today(),payload:{credits}},{onConflict:"user_id,kind,key"});if(error)throw error}
+async function record(kind,key,payload){const u=me();const {data,error}=await supabase.from("toolnest_data").insert({user_id:u.id,kind,key,payload});if(error)throw error;return data}
+async function rows(kind){const u=me();const {data,error}=await supabase.from("toolnest_data").select("id,kind,key,payload,created_at").eq("user_id",u.id).eq("kind",kind).order("created_at",{ascending:false});if(error)throw error;return data||[]}
+async function delRow(id){const u=me();const {error}=await supabase.from("toolnest_data").delete().eq("id",id).eq("user_id",u.id);if(error)throw error}
+async function loadPlan(){if(!me())return;plan={key:"basic",name:"Basic",limit:5,expiresAt:null};if(isOwner()){plan={key:"permanent",name:"Permanent",limit:Infinity,expiresAt:null};return}try{await ensureBase();const a=await getAccount();const key=String(a.plan||"basic").toLowerCase();const map={platinum:50,business:100};const exp=a.expiresAt?new Date(a.expiresAt):null;if(map[key]&&exp&&exp.getTime()>Date.now())plan={key,name:key[0].toUpperCase()+key.slice(1),limit:map[key],expiresAt:exp}}catch(e){console.warn(e)}}
+async function updatePlanBar(){await loadPlan();const used=await getUsage();const credits=await getUsageCredits();$("planTitle").textContent="Plan: "+plan.name;$("planText").textContent=plan.limit===Infinity?"Permanent owner access · Unlimited PDF downloads":`${plan.limit} PDFs/day${plan.expiresAt?" · Expires "+plan.expiresAt.toLocaleDateString("en-IN"):""}`;$("usageText").textContent=plan.limit===Infinity?`PDFs today: ${used} · Unlimited`:`PDFs today: ${used} / ${plan.limit}${credits?" · +"+credits+" recharge":""}`}
+async function canDownload(){if(!me()){openLogin();return false}if(isOwner())return true;await updatePlanBar();const used=await getUsage(),extra=await getUsageCredits();const allowance=plan.limit+extra;if(used>=allowance){toast("Daily limit reached. Recharge +5 PDFs or upgrade your plan.");openModule("recharge");return false}return true}async function consumeOnePDF(){if(isOwner())return;const used=await getUsage(),extra=await getUsageCredits();if(extra>0){const u=me();const {error}=await supabase.from("toolnest_data").upsert({user_id:u.id,kind:"credits",key:today(),payload:{credits:extra-1,date:today()}},{onConflict:"user_id,kind,key"});if(error)throw error}else await setUsage(used+1)}
+async function saveDoc(type,payload,download=true){if(!me()){openLogin();return}try{if(download&&!await canDownload())return;await record("document",crypto.randomUUID(),{type,name:payload.client||payload.name||payload.title||type,fields:payload});if(download){const blob=await makePDF(type,payload);downloadBlob(blob,(type.toLowerCase()+"-"+Date.now()+".pdf"));await consumeOnePDF()}toast(type+" saved");await updatePlanBar()}catch(e){console.error(e);toast("Save failed: "+errMsg(e))}}
+function downloadBlob(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
 async function libs(){if(!window.jspdf)await loadScript("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");if(!window.PDFLib)await loadScript("https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js")}
-function safeText(pdf,text,x,y,w=125){const lines=pdf.splitTextToSize(String(text||"-"),w);pdf.text(lines,x,y);return y+Math.max(1,lines.length)*5}
-async function makePdf(type,d,download=true){
- await libs();const {jsPDF}=window.jspdf,pdf=new jsPDF({unit:"mm",format:"a4"});let y=25;
- pdf.setFillColor(99,91,255);pdf.rect(0,0,210,14,"F");pdf.setTextColor(255,255,255);pdf.setFontSize(11);pdf.setFont(undefined,"bold");pdf.text("TOOLNEST",18,9);pdf.text(type.toUpperCase(),150,9);
- pdf.setTextColor(16,24,40);pdf.setFontSize(20);pdf.text(type,18,y);y+=10;pdf.setFontSize(9);pdf.setTextColor(102,112,133);pdf.text("Professional document generated by ToolNest",18,y);y+=12;pdf.setDrawColor(220,223,230);pdf.line(18,y,192,y);y+=10;pdf.setTextColor(16,24,40);pdf.setFontSize(10);
- const rows=type==="Resume"?[["Name",d.name],["Professional Title",d.role],["Phone",d.phone],["Email",d.email],["Location",d.location],["Summary",d.summary],["Skills",d.skills],["Experience",d.experience],["Education",d.education]]:(type==="Invoice"||type==="Quotation")?[["Business",d.business],["Customer",d.client],["Number",d.number],["Date",d.date],["Item / Service",d.item],["Amount","₹"+d.amount],["GST",d.gst?d.gst+"%":"-"],["Discount",d.discount?"₹"+d.discount:"-"]]:[["To",d.to],["Reference",d.ref],["Date",d.date],["Amount / Value",d.amount],["Subject",d.subject],["Details",d.body]];
- for(const [k,v] of rows){if(y>270){pdf.addPage();y=22}pdf.setFont(undefined,"bold");pdf.text(k,18,y);pdf.setFont(undefined,"normal");y=safeText(pdf,v,60,y,125)+5}
- if(type==="Invoice"||type==="Quotation"){const a=Number(d.amount||0),g=Number(d.gst||0),disc=Number(d.discount||0),total=Math.max(0,a+a*g/100-disc);y=Math.min(y,265);pdf.line(120,y,192,y);y+=8;pdf.setFont(undefined,"bold");pdf.text("TOTAL",140,y);pdf.text("₹"+total.toFixed(2),168,y)}
- pdf.setFontSize(8);pdf.setFont(undefined,"normal");pdf.setTextColor(120,130,145);pdf.text("Generated by ToolNest",18,287);
- const name=type.toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-toolnest.pdf";
- const blob=pdf.output("blob");
- if(download){await downloadBlob(blob,name)}
- return {blob,name};
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=()=>rej(Error("Could not load library"));document.head.appendChild(s)})}
+async function makePDF(type,d){await libs();const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:"pt",format:"a4"});let y=60;doc.setFontSize(20);doc.text("TOOLNEST",40,y);doc.setFontSize(11);doc.text(String(type),40,y+20);y+=58;doc.setFontSize(10);const entries=Object.entries(d).filter(([,v])=>String(v||"").trim());for(const [k,v] of entries){const lines=doc.splitTextToSize(`${k}: ${String(v)}`,500);doc.text(lines,40,y);y+=17*lines.length;if(y>760){doc.addPage();y=55}}return doc.output("blob")}
+function renderModules(){
+  $("moduleCards").innerHTML=modules.map(m=>`<div class="module"><div class="moduleIcon">${m.icon}</div><h3>${m.name}</h3><p>${m.desc}</p><button class="btn primary" onclick="openModule('${m.id}')">Open workspace →</button></div>`).join("");
+  $("sideNav").innerHTML=`<button class="active" data-id="dashboard" onclick="openModule('dashboard')">🏠 Overview</button>`+modules.map(m=>`<button data-id="${m.id}" onclick="openModule('${m.id}')">${m.icon} ${m.name.replace("ToolNest ","")}</button>`).join("")+`<button data-id="history" onclick="openModule('history')">🗂 History</button><button data-id="pricing" onclick="openModule('pricing')">💎 Plans</button><button data-id="support" onclick="openModule('support')">✉ Support</button>`;
 }
-
-
-// ---------------------------
-// Dashboard / Plan helpers
-// ---------------------------
-window.openPlans=()=>{
-  if(!auth.currentUser){openLogin();return}
-  document.getElementById("plansBottom")?.scrollIntoView({behavior:"smooth",block:"start"});
-};
-
-// ---------------------------
-// Generic Business / Career document tools
-// ---------------------------
-window.openDocTool=(type)=>{
-  if(!auth.currentUser){openLogin();toast("Please sign in first.");return}
-  customType=type||"Document";
-  $("docTitle").textContent="Create "+customType;
-  $("docDate").value=today();
-  ["docTo","docRef","docAmount","docSubject","docBody"].forEach(id=>{if($(id))$(id).value=""});
-  $("docModal").classList.add("open");
-};
-window.closeDocTool=()=>$("docModal").classList.remove("open");
-
-window.saveCustomDoc=async(download=true)=>{
-  if(!auth.currentUser){openLogin();toast("Please sign in first.");return}
-  const data={
-    to:val("docTo"),
-    ref:val("docRef"),
-    date:val("docDate"),
-    amount:val("docAmount"),
-    subject:val("docSubject"),
-    body:val("docBody")
-  };
-  if(!data.to && !data.subject && !data.body){toast("Please enter the document details.");return}
-  await saveDoc(customType||"Document",data,!!download);
-  $("docModal").classList.remove("open");
-};
-
-// ---------------------------
-// Real PDF utility functions
-// ---------------------------
-async function requirePdfLib(){
-  await libs();
-  return window.PDFLib;
+function showApp(){$("site").style.display="none";$("app").style.display="block";$("loginModal").classList.remove("open");$("welcome").textContent="Welcome, "+(me()?.name||"User");$("userEmail").textContent=me()?.email||"";renderModules();openModule(activeModule||"dashboard");updatePlanBar();}
+async function afterLogin(){history.replaceState({},document.title,"/");showApp();toast("Welcome to ToolNest")}
+window.openModule=async id=>{activeModule=id;document.querySelectorAll("#sideNav button").forEach(b=>b.classList.toggle("active",b.dataset.id===id));const w=$("workspace");if(!w)return;
+  const render={dashboard:renderDashboard,ai:renderAI,cloud:renderCloud,business:renderBusiness,commerce:renderCommerce,creator:renderCreator,finance:renderFinance,marketplace:renderMarketplace,developer:renderDeveloper,automation:renderAutomation,team:renderTeam,forms:renderForms,website:renderWebsite,app:renderApp,education:renderEducation,history:renderHistory,pricing:renderPricing,recharge:renderRecharge,support:renderSupport};(render[id]||renderDashboard)(w)};
+window.openLoginOrModule=(id,sub)=>{if(!me()){openLogin();return}openModule(id);setTimeout(()=>{if(sub)window.useBusinessSub?.(sub)},80)};window.openPricingInside=()=>openModule("pricing");
+function head(title,sub=""){return `<div class="workspaceHead"><div><div class="kicker">ToolNest Workspace</div><h2>${title}</h2><p class="muted">${sub}</p></div></div>`}
+function renderDashboard(w){w.innerHTML=head("Workspace overview","Everything in one place.")+`<div class="statGrid"><div class="stat"><span class="muted tiny">Plan</span><b>${plan.name}</b></div><div class="stat"><span class="muted tiny">Daily allowance</span><b>${plan.limit===Infinity?"∞":plan.limit}</b></div><div class="stat"><span class="muted tiny">Today used</span><b id="dashUsed">—</b></div><div class="stat"><span class="muted tiny">Recharge</span><b id="dashCredits">—</b></div></div><div style="height:16px"></div><div class="toolGrid">${modules.slice(0,6).map(m=>`<div class="toolbox"><h3>${m.icon} ${m.name}</h3><p>${m.desc}</p><button class="btn secondary" onclick="openModule('${m.id}')">Open</button></div>`).join("")}</div>`;Promise.all([getUsage(),getUsageCredits()]).then(([u,c])=>{$("dashUsed").textContent=u;$(("dashCredits")).textContent=c})}
+function renderBusiness(w){w.innerHTML=head("Business & Document Studio","Invoices, quotations, career documents and PDF utilities.")+`<div class="tabs"><button class="tab active" data-biz="invoice" onclick="useBusinessSub('invoice')">Invoice</button><button class="tab" data-biz="quotation" onclick="useBusinessSub('quotation')">Quotation</button><button class="tab" data-biz="documents" onclick="useBusinessSub('documents')">Business docs</button><button class="tab" data-biz="career" onclick="useBusinessSub('career')">Career & Resume</button><button class="tab" data-biz="pdf" onclick="useBusinessSub('pdf')">PDF Studio</button></div><div id="bizBody"></div>`;useBusinessSub("invoice")}
+window.useBusinessSub=sub=>{document.querySelectorAll("[data-biz]").forEach(b=>b.classList.toggle("active",b.dataset.biz===sub));const box=$("bizBody");if(sub==="pdf"){renderPDFStudio(box);return}if(sub==="career"){renderCareerStudio(box);return}if(sub==="documents"){box.innerHTML=`<div class="toolGrid">${["Receipt / Bill","Purchase Order","Delivery Challan","Salary Slip","Expense Report","Agreement / NOC","Credit Note","Debit Note"].map(t=>`<div class="toolbox"><h3>${t}</h3><p>Create and save a professional ${t.toLowerCase()} document.</p><button class="btn primary" onclick="openGenericDoc('${t}')">Create</button></div>`).join("")}</div>`;return}const prefix=sub==="invoice"?"Invoice":"Quotation";box.innerHTML=`<div class="formGrid"><input id="bizClient" class="input" placeholder="Customer / Client name"><input id="bizNumber" class="input" placeholder="${prefix} number"><input id="bizBusiness" class="input" placeholder="Business name"><input id="bizDate" class="input" type="date"><input id="bizItem" class="input full" placeholder="Product / service"><input id="bizAmount" class="input" type="number" placeholder="Amount"><input id="bizGst" class="input" type="number" placeholder="GST %"><input id="bizDiscount" class="input" type="number" placeholder="Discount ₹"></div><div class="actionsRow"><button class="btn primary" onclick="saveBizDoc('${prefix}')">Save & Download PDF</button><button class="btn secondary" onclick="saveBizDoc('${prefix}',false)">Save only</button></div>`;$("bizDate").value=today()};
+window.saveBizDoc=async(type,download=true)=>saveDoc(type,{client:val("bizClient"),number:val("bizNumber"),business:val("bizBusiness"),date:val("bizDate"),item:val("bizItem"),amount:val("bizAmount"),gst:val("bizGst"),discount:val("bizDiscount")},download);
+window.openGenericDoc=type=>{openModule("business");setTimeout(()=>{const box=$("bizBody");box.innerHTML=`<div class="formGrid"><input id="genTo" class="input" placeholder="Recipient / Company"><input id="genRef" class="input" placeholder="Reference / Number"><input id="genDate" class="input" type="date" value="${today()}"><input id="genAmount" class="input" placeholder="Amount / Value"><input id="genSubject" class="input full" placeholder="Subject"><textarea id="genBody" class="input full" rows="9" placeholder="Enter document details..."></textarea></div><div class="actionsRow"><button class="btn primary" onclick="saveGeneric('${type}',true)">Save & Download PDF</button><button class="btn secondary" onclick="saveGeneric('${type}',false)">Save only</button></div>`},80)};
+window.saveGeneric=(type,download)=>saveDoc(type,{to:val("genTo"),ref:val("genRef"),date:val("genDate"),amount:val("genAmount"),subject:val("genSubject"),body:val("genBody")},download);
+function renderCareerStudio(box){
+  box.innerHTML=`<div class="tabs"><button class="tab active" onclick="renderCareerForm('resume',this)">Resume</button><button class="tab" onclick="renderCareerForm('cover',this)">Cover Letter</button><button class="tab" onclick="renderCareerForm('resign',this)">Resignation</button><button class="tab" onclick="renderCareerForm('offer',this)">Offer Letter</button></div><div id="careerBody"></div>`;
+  renderCareerForm('resume',box.querySelector('.tab'));
 }
-async function downloadBlob(blob,name){
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
-  setTimeout(()=>URL.revokeObjectURL(url),1500);
-}
-
-function isPdfFile(file){
-  return !!file && (file.type === "application/pdf" || /\.pdf$/i.test(file.name || ""));
-}
-async function hasPdfHeader(file){
-  if(!file) return false;
-  if(!isPdfFile(file)) return false;
-  const head=new Uint8Array(await file.slice(0,5).arrayBuffer());
-  return new TextDecoder().decode(head)==="%PDF-";
-}
-async function requirePdfFile(file,label="PDF file"){
-  if(!file){ throw Error(`Choose a ${label}.`); }
-  if(!(await hasPdfHeader(file))){ throw Error(`The selected file is not a valid PDF. Please select a .pdf file in ${label}.`); }
-}
-
-function parsePageSpec(spec,total){
-  const out=[];
-  for(const raw of String(spec||"").split(",")){
-    const t=raw.trim(); if(!t)continue;
-    if(/^\d+\s*-\s*\d+$/.test(t)){
-      let [a,b]=t.split("-").map(x=>parseInt(x.trim(),10));
-      if(a>b)[a,b]=[b,a];
-      for(let p=a;p<=b;p++) if(p>=1&&p<=total&&!out.includes(p)) out.push(p);
-    }else if(/^\d+$/.test(t)){
-      const p=parseInt(t,10); if(p>=1&&p<=total&&!out.includes(p)) out.push(p);
-    }
-  }
-  return out;
-}
-
-window.mergePdfs=async()=>{
-  if(!auth.currentUser){openLogin();toast("Please sign in first.");return}
-  const files=[...($('mergeFiles')?.files||[])];
-  if(files.length<2){toast("Select at least 2 PDF files.");return}
-  try{
-    for(const file of files) await requirePdfFile(file,"PDF files");
-    if(!(await consumeDownload()))return;
-    const {PDFDocument}=await requirePdfLib();
-    const out=await PDFDocument.create();
-    for(const file of files){
-      const src=await PDFDocument.load(await file.arrayBuffer());
-      const pages=await out.copyPages(src,src.getPageIndices());
-      pages.forEach(p=>out.addPage(p));
-    }
-    const bytes=await out.save();
-    await downloadBlob(new Blob([bytes],{type:"application/pdf"}),"merged-toolnest.pdf");
-    toast("PDFs merged successfully.");
-  }catch(e){console.error(e);alert("Merge failed: "+(e?.message||e))}
-};
-
-window.splitPdf=async()=>{
-  if(!auth.currentUser){openLogin();toast("Please sign in first.");return}
-  const file=$("splitFile")?.files?.[0],spec=val("splitPages");
-  if(!file||!spec){toast("Choose a PDF and enter pages.");return}
-  try{
-    await requirePdfFile(file,"Split PDF");
-    if(!(await consumeDownload()))return;
-    const {PDFDocument}=await requirePdfLib();
-    const src=await PDFDocument.load(await file.arrayBuffer());
-    const pages=parsePageSpec(spec,src.getPageCount());
-    if(!pages.length){toast("No valid pages found. Example: 1,3-5");return}
-    const out=await PDFDocument.create();
-    const copied=await out.copyPages(src,pages.map(p=>p-1));
-    copied.forEach(p=>out.addPage(p));
-    const bytes=await out.save();
-    await downloadBlob(new Blob([bytes],{type:"application/pdf"}),"split-toolnest.pdf");
-    toast("PDF split successfully.");
-  }catch(e){console.error(e);alert("Split failed: "+(e?.message||e))}
-};
-
-async function imageBytes(file){return new Uint8Array(await file.arrayBuffer())}
-window.jpgToPdf=async()=>{
-  if(!auth.currentUser){openLogin();toast("Please sign in first.");return}
-  const files=[...($('jpgFiles')?.files||[])];
-  if(!files.length){toast("Select one or more JPG/PNG images.");return}
-  try{
-    for(const file of files){
-      if(!(file.type==="image/jpeg"||file.type==="image/png") && !/\.(jpe?g|png)$/i.test(file.name||""))
-        throw Error(`Unsupported image: ${file.name||"selected file"}. Please choose JPG or PNG.`);
-    }
-    if(!(await consumeDownload()))return;
-    const {PDFDocument}=await requirePdfLib();
-    const out=await PDFDocument.create();
-    for(const file of files){
-      const bytes=await imageBytes(file);
-      const img=file.type==='image/png'?await out.embedPng(bytes):await out.embedJpg(bytes);
-      const maxW=178,maxH=255, scale=Math.min(maxW/img.width,maxH/img.height,1);
-      const w=img.width*scale,h=img.height*scale;
-      const page=out.addPage([210,297]);
-      page.drawImage(img,{x:(210-w)/2,y:(297-h)/2,width:w,height:h});
-    }
-    const bytes=await out.save();
-    await downloadBlob(new Blob([bytes],{type:"application/pdf"}),"jpg-to-pdf-toolnest.pdf");
-    toast("Images converted to PDF.");
-  }catch(e){console.error(e);alert("JPG → PDF failed: "+(e?.message||e))}
-};
-
-async function ensurePdfJs(){
-  if(window.pdfjsLib)return window.pdfjsLib;
-  await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js");
-  if(window.pdfjsLib)window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
-  return window.pdfjsLib;
-}
-window.pdfToJpg=async()=>{
-  if(!auth.currentUser){openLogin();toast("Please sign in first.");return}
-  const file=$("pdfToJpgFile")?.files?.[0], pageNo=Math.max(1,Number($("pdfPage")?.value||1));
-  if(!file){toast("Choose a PDF file.");return}
-  try{
-    await requirePdfFile(file,"PDF → JPG");
-    if(!(await consumeDownload()))return;
-    const pdfjs=await ensurePdfJs();
-    if(!pdfjs)throw Error("PDF renderer could not load.");
-    const pdf=await pdfjs.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise;
-    if(pageNo>pdf.numPages)throw Error(`PDF has only ${pdf.numPages} page(s).`);
-    const page=await pdf.getPage(pageNo);
-    const viewport=page.getViewport({scale:2});
-    const canvas=document.createElement("canvas");canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
-    const ctx=canvas.getContext("2d");
-    await page.render({canvasContext:ctx,viewport}).promise;
-    const blob=await new Promise(res=>canvas.toBlob(res,"image/jpeg",0.92));
-    if(!blob)throw Error("Could not create JPG image.");
-    await downloadBlob(blob,`pdf-page-${pageNo}-toolnest.jpg`);
-    toast("PDF page converted to JPG.");
-  }catch(e){console.error(e);alert("PDF → JPG failed: "+(e?.message||e))}
-};
-
-window.optimizePdf=async()=>{
-  if(!auth.currentUser){openLogin();toast("Please sign in first.");return}
-  const file=$("optFile")?.files?.[0];
-  if(!file){toast("Choose a PDF file.");return}
-  try{
-    await requirePdfFile(file,"PDF Optimize");
-    if(!(await consumeDownload()))return;
-    const {PDFDocument}=await requirePdfLib();
-    const src=await PDFDocument.load(await file.arrayBuffer(),{ignoreEncryption:false});
-    const bytes=await src.save({useObjectStreams:true,addDefaultPage:false});
-    await downloadBlob(new Blob([bytes],{type:"application/pdf"}),"optimized-toolnest.pdf");
-    toast("PDF optimized successfully.");
-  }catch(e){console.error(e);alert("Optimize failed: "+(e?.message||e))}
-};
-
-window.choosePlan=async plan=>{
-  const user=auth.currentUser;
-  if(!user){openLogin();toast("Sign in first to upgrade.");return}
-  try{
-    toast("Creating secure Razorpay order...");
-    const sess=(await supabase.auth.getSession()).data.session;
-    const authHeaders={"Content-Type":"application/json"};
-    if(sess?.access_token)authHeaders.Authorization=`Bearer ${sess.access_token}`;
-    const r=await fetch(RAZORPAY_URL,{method:"POST",headers:authHeaders,body:JSON.stringify({action:"create-order",plan})});
-    const o=await r.json();
-    if(!o.success)throw Error(o.error||"Could not create order");
-    await loadScript("https://checkout.razorpay.com/v1/checkout.js");
-    const rz=new Razorpay({
-      key:o.key_id,amount:o.amount,currency:o.currency,name:"ToolNest",description:o.plan_name,order_id:o.order_id,
-      handler:async resp=>{
-        try{
-          const sess2=(await supabase.auth.getSession()).data.session;
-          const verifyHeaders={"Content-Type":"application/json"};
-          if(sess2?.access_token)verifyHeaders.Authorization=`Bearer ${sess2.access_token}`;
-          const vr=await fetch(RAZORPAY_URL,{method:"POST",headers:verifyHeaders,body:JSON.stringify({action:"verify-payment",...resp})});
-          const v=await vr.json();
-          if(!v.success)throw Error(v.error||"Payment verification failed");
-          const name=plan==="platinum"?"Platinum":"Business";
-          const expires=new Date();expires.setDate(expires.getDate()+30);
-          await saveAccount({
-            plan,planName:name,plan_price:o.amount,activatedAt:new Date().toISOString(),expiresAt:expires.toISOString(),
-            orderId:resp.razorpay_order_id,paymentId:resp.razorpay_payment_id,updatedAt:new Date().toISOString()
-          });
-          await updatePlanUI();
-          alert("Payment successful. Your "+name+" plan is active for 30 days.");
-        }catch(e){console.error(e);alert(e.message||"Payment verification failed.")}
-      },
-      prefill:{name:user.displayName||"",email:user.email||""},theme:{color:"#635bff"}
-    });
-    rz.open();
-  }catch(e){console.error(e);alert(e.message||"Unable to start payment.")}
-};
-$("invDate").value=today();$("qDate").value=today();
+window.renderCareerForm=(type,btn)=>{document.querySelectorAll('#careerBody').forEach(()=>{});const body=$("careerBody");if(!body)return;document.querySelectorAll('[onclick*="renderCareerForm"]').forEach(b=>b.classList.remove('active'));if(btn?.classList)btn.classList.add('active');if(type==='resume'){body.innerHTML=`<div class="formGrid"><input id="cvName" class="input" placeholder="Full name"><input id="cvRole" class="input" placeholder="Professional title"><input id="cvPhone" class="input" placeholder="Phone"><input id="cvEmail" class="input" placeholder="Email"><input id="cvLocation" class="input" placeholder="Location"><textarea id="cvSummary" class="input full" rows="4" placeholder="Professional summary"></textarea><textarea id="cvSkills" class="input full" rows="4" placeholder="Skills"></textarea><textarea id="cvExperience" class="input full" rows="5" placeholder="Experience"></textarea><textarea id="cvEducation" class="input full" rows="4" placeholder="Education"></textarea></div><div class="actionsRow"><button class="btn primary" onclick="saveCareer('Resume',true)">Save & Download PDF</button><button class="btn secondary" onclick="saveCareer('Resume',false)">Save only</button></div>`}else{body.innerHTML=`<div class="formGrid"><input id="cvTo" class="input" placeholder="Recipient / Company"><input id="cvSubject" class="input" placeholder="Subject / Role"><input id="cvDate" class="input" type="date" value="${today()}"><textarea id="cvBody" class="input full" rows="9" placeholder="Write the letter content..."></textarea></div><div class="actionsRow"><button class="btn primary" onclick="saveCareer('${type}',true)">Save & Download PDF</button><button class="btn secondary" onclick="saveCareer('${type}',false)">Save only</button></div>`}};
+window.saveCareer=async(type,download)=>{let d={};if(type==='Resume'){d={name:val('cvName'),role:val('cvRole'),phone:val('cvPhone'),email:val('cvEmail'),location:val('cvLocation'),summary:val('cvSummary'),skills:val('cvSkills'),experience:val('cvExperience'),education:val('cvEducation')}}else d={to:val('cvTo'),subject:val('cvSubject'),date:val('cvDate'),body:val('cvBody')};await saveDoc(type,d,download)};
+function renderPDFStudio(box){box.innerHTML=`<div class="toolGrid"><div class="toolbox"><h3>🔗 Merge PDF</h3><input id="mergeFiles" class="input" type="file" accept="application/pdf,.pdf" multiple><button class="btn primary" style="margin-top:10px" onclick="mergePDF()">Merge & Download</button></div><div class="toolbox"><h3>✂️ Split PDF</h3><input id="splitFile" class="input" type="file" accept="application/pdf,.pdf"><input id="splitPages" class="input" placeholder="Pages: 1,3-5" style="margin-top:8px"><button class="btn primary" style="margin-top:10px" onclick="splitPDF()">Split & Download</button></div><div class="toolbox"><h3>🖼 JPG → PDF</h3><input id="jpgFiles" class="input" type="file" accept="image/jpeg,image/png" multiple><button class="btn primary" style="margin-top:10px" onclick="jpgPDF()">Convert & Download</button></div><div class="toolbox"><h3>📷 PDF → JPG</h3><input id="pdfJpg" class="input" type="file" accept="application/pdf,.pdf"><input id="pdfPage" class="input" type="number" min="1" value="1" style="margin-top:8px"><button class="btn primary" style="margin-top:10px" onclick="pdfJPG()">Convert page</button></div><div class="toolbox"><h3>🗜 PDF Optimize</h3><input id="optPDF" class="input" type="file" accept="application/pdf,.pdf"><button class="btn primary" style="margin-top:10px" onclick="optPDF()">Optimize & Download</button></div></div>`}
+async function ensurePdfLib(){if(!window.PDFLib)await loadScript('https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js');return window.PDFLib}
+window.mergePDF=async()=>{if(!await canDownload())return;try{const files=[...$('mergeFiles').files];if(files.length<2)return toast('Choose at least 2 PDF files');const {PDFDocument}=await ensurePdfLib();const out=await PDFDocument.create();for(const f of files){const src=await PDFDocument.load(await f.arrayBuffer());const pages=await out.copyPages(src,src.getPageIndices());pages.forEach(p=>out.addPage(p))}downloadBlob(new Blob([await out.save()],{type:'application/pdf'}),'toolnest-merged.pdf');await consumeOnePDF();toast('Merged');await updatePlanBar()}catch(e){toast('Merge failed: '+errMsg(e))}};
+window.splitPDF=async()=>{if(!await canDownload())return;try{const f=$('splitFile').files?.[0];if(!f||f.type!=='application/pdf')return toast('Select a PDF file');const {PDFDocument}=await ensurePdfLib();const src=await PDFDocument.load(await f.arrayBuffer());const text=val('splitPages');if(!text)return toast('Enter pages');const pages=new Set();for(const part of text.split(',')){const [a,b]=part.trim().split('-').map(Number);if(!a)continue;if(b){for(let i=a;i<=b;i++)pages.add(i)}else pages.add(a)}const out=await PDFDocument.create();for(const p of [...pages].filter(n=>n>=1&&n<=src.getPageCount()).map(n=>n-1)){const [pg]=await out.copyPages(src,[p]);out.addPage(pg)}if(!out.getPageCount())return toast('No valid pages');downloadBlob(new Blob([await out.save()],{type:'application/pdf'}),'toolnest-split.pdf');await consumeOnePDF();toast('Split');await updatePlanBar()}catch(e){toast('Split failed: '+errMsg(e))}};
+window.jpgPDF=async()=>{if(!await canDownload())return;try{const files=[...$('jpgFiles').files];if(!files.length)return toast('Choose JPG/PNG');const {PDFDocument}=await ensurePdfLib();const out=await PDFDocument.create();for(const f of files){const bytes=await f.arrayBuffer();const img=f.type.includes('png')?await out.embedPng(bytes):await out.embedJpg(bytes);const page=out.addPage([img.width,img.height]);page.drawImage(img,{x:0,y:0,width:img.width,height:img.height})}downloadBlob(new Blob([await out.save()],{type:'application/pdf'}),'toolnest-images.pdf');await consumeOnePDF();toast('Converted');await updatePlanBar()}catch(e){toast('Conversion failed: '+errMsg(e))}};
+window.pdfJPG=async()=>{if(!await canDownload())return;try{const f=$('pdfJpg').files?.[0];if(!f||f.type!=='application/pdf')return toast('Select a PDF file');const pdfjs=await ensurePdfJs();const pdf=await pdfjs.getDocument({data:new Uint8Array(await f.arrayBuffer())}).promise;const pageNo=Number(val('pdfPage')||1);if(pageNo<1||pageNo>pdf.numPages)return toast('Page out of range');const page=await pdf.getPage(pageNo);const viewport=page.getViewport({scale:1.6});const c=document.createElement('canvas');c.width=viewport.width;c.height=viewport.height;await page.render({canvasContext:c.getContext('2d'),viewport}).promise;c.toBlob(blob=>downloadBlob(blob,'toolnest-page-'+pageNo+'.jpg'),'image/jpeg',.92);await consumeOnePDF();toast('JPG ready');await updatePlanBar()}catch(e){toast('PDF to JPG failed: '+errMsg(e))}};
+window.optPDF=async()=>{if(!await canDownload())return;try{const f=$('optPDF').files?.[0];if(!f||f.type!=='application/pdf')return toast('Select a PDF file');const {PDFDocument}=await ensurePdfLib();const src=await PDFDocument.load(await f.arrayBuffer());const out=await PDFDocument.create();for(const page of await out.copyPages(src,src.getPageIndices()))out.addPage(page);downloadBlob(new Blob([await out.save({useObjectStreams:true})],{type:'application/pdf'}),'toolnest-optimized.pdf');await consumeOnePDF();toast('Optimized');await updatePlanBar()}catch(e){toast('Optimize failed: '+errMsg(e))}};
+async function ensurePdfJs(){if(window.pdfjsLib)return window.pdfjsLib;await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js');window.pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';return window.pdfjsLib}
+function renderAI(w){w.innerHTML=head("ToolNest AI","Real AI responses are handled by a secure Supabase Edge Function.")+`<textarea id="aiPrompt" class="input" rows="7" placeholder="Ask ToolNest AI to draft, rewrite, summarize or analyze..."></textarea><div class="actionsRow"><button class="btn primary" onclick="runAI()">Ask AI</button><button class="btn secondary" onclick="document.getElementById('aiPrompt').value=''">Clear</button></div><div id="aiOut" class="preview" style="margin-top:16px">Your AI answer will appear here.</div>`}
+window.runAI=async()=>{const p=val("aiPrompt");if(!p)return toast("Enter a prompt");$("aiOut").textContent="Thinking...";try{const sess=(await supabase.auth.getSession()).data.session;const r=await fetch(AI_URL,{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${sess?.access_token||""}`},body:JSON.stringify({prompt:p})});const d=await r.json();if(!r.ok||!d.success)throw Error(d.error||"AI service failed");$("aiOut").textContent=d.text}catch(e){$("aiOut").textContent="AI service is not configured yet. Deploy the included toolnest-ai Edge Function and add your OPENAI_API_KEY secret.";console.error(e)}};
+function renderCloud(w){w.innerHTML=head("ToolNest Cloud","Private account files. Uploads use Supabase Storage.")+`<div class="actionsRow"><input id="cloudFile" class="input" type="file" style="max-width:420px"><button class="btn primary" onclick="uploadCloud()">Upload file</button></div><div id="cloudList" style="margin-top:18px">Loading...</div>`;loadCloud()}
+async function uploadCloud(){const f=$("cloudFile")?.files?.[0];if(!f)return toast("Choose a file");try{const u=me();const path=`${u.id}/${Date.now()}-${f.name.replace(/[^a-z0-9._-]/gi,"-")}`;const {error}=await supabase.storage.from("toolnest-files").upload(path,f,{upsert:false});if(error)throw error;await record("cloud","upload-"+crypto.randomUUID(),{path,name:f.name,size:f.size,type:f.type});toast("Uploaded");loadCloud()}catch(e){toast("Upload failed: "+errMsg(e))}}
+async function loadCloud(){const box=$("cloudList");try{const rows=await supabase.from("toolnest_data").select("id,payload,created_at").eq("user_id",me().id).eq("kind","cloud").order("created_at",{ascending:false});if(rows.error)throw rows.error;if(!rows.data.length){box.innerHTML='<div class="empty">No cloud files yet.</div>';return}box.innerHTML=rows.data.map(r=>`<div class="historyItem"><div><b>${String(r.payload.name||"File")}</b><div class="muted tiny">${Math.round((r.payload.size||0)/1024)} KB</div></div><button class="btn secondary" onclick="downloadCloud('${r.payload.path}','${encodeURIComponent(r.payload.name||'file')}')">Download</button></div>`).join("")}catch(e){box.innerHTML='<div class="empty">Cloud storage is not configured. Create the toolnest-files bucket using the included SQL.</div>'}}
+window.downloadCloud=async(path,name)=>{const {data,error}=await supabase.storage.from("toolnest-files").download(path);if(error)return toast(error.message);downloadBlob(data,decodeURIComponent(name))};
+function renderCommerce(w){w.innerHTML=head("ToolNest Commerce","Create products, manage stock and run a simple store.")+`<div class="actionsRow"><button class="btn primary" onclick="showAddProduct()">+ Add product</button><button class="btn secondary" onclick="loadProducts()">Refresh</button></div><div id="productList" style="margin-top:18px">Loading...</div><div id="productForm" class="hidden" style="margin-top:18px"></div>`;loadProducts()}
+function productForm(kind="create",row=null){$("productForm").classList.remove("hidden");$("productForm").innerHTML=`<div class="formGrid"><input id="pName" class="input" placeholder="Product name" value="${row?.payload?.name||""}"><input id="pPrice" class="input" type="number" placeholder="Price ₹" value="${row?.payload?.price||""}"><input id="pStock" class="input" type="number" placeholder="Stock" value="${row?.payload?.stock||"0"}"><input id="pCategory" class="input" placeholder="Category" value="${row?.payload?.category||""}"><textarea id="pDesc" class="input full" rows="4" placeholder="Description">${row?.payload?.desc||""}</textarea></div><div class="actionsRow"><button class="btn primary" onclick="saveProduct('${kind}',${row?`'${row.id}'`:"null"})">Save product</button><button class="btn secondary" onclick="$(\"productForm\").classList.add(\"hidden\")">Cancel</button></div>`}
+window.showAddProduct=()=>productForm();
+async function saveProduct(kind,id){try{const p={name:val("pName"),price:Number(val("pPrice")),stock:Number(val("pStock")),category:val("pCategory"),desc:val("pDesc")};if(!p.name||!p.price)return toast("Name and price are required");if(kind==="create")await record("product",crypto.randomUUID(),p);else await supabase.from("toolnest_data").update({payload:p}).eq("id",id).eq("user_id",me().id);toast("Product saved");$("productForm").classList.add("hidden");loadProducts()}catch(e){toast("Product save failed: "+errMsg(e))}}
+window.buyProduct=async(id)=>{try{const {data}=await supabase.from("toolnest_data").select("payload").eq("id",id).eq("kind","product").single();if(!data)throw Error("Product not found");const sess=(await supabase.auth.getSession()).data.session;const r=await fetch(PAYMENT_URL,{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${sess?.access_token||""}`},body:JSON.stringify({action:"create-commerce-order",product_id:id})});const o=await r.json();if(!o.success)throw Error(o.error||"Could not create payment order");await loadScript("https://checkout.razorpay.com/v1/checkout.js");new Razorpay({key:o.key_id,amount:o.amount,currency:o.currency,name:"ToolNest",description:data.payload.name,order_id:o.order_id,handler:async resp=>{const rr=await fetch(PAYMENT_URL,{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${(await supabase.auth.getSession()).data.session?.access_token||""}`},body:JSON.stringify({action:"verify-payment",...resp})});const vr=await rr.json();toast(vr.success?"Payment successful":"Payment verification failed")},prefill:{email:me().email},theme:{color:"#635bff"}}).open()}catch(e){toast("Payment could not start: "+errMsg(e))}};
+async function loadProducts(){const box=$("productList");try{const {data,error}=await supabase.from("toolnest_data").select("id,payload,created_at").eq("kind","product").order("created_at",{ascending:false});if(error)throw error;if(!data.length){box.innerHTML='<div class="empty">No products. Add your first product.</div>';return}box.innerHTML=`<div class="toolGrid">${data.map(r=>`<div class="toolbox"><span class="pill">${r.payload.category||"Product"}</span><h3>${r.payload.name}</h3><p>${r.payload.desc||""}</p><b style="font-size:22px">${money(r.payload.price)}</b><div class="actionsRow"><button class="btn primary" onclick="buyProduct('${r.id}')">Buy</button><button class="btn secondary" onclick='showEditProduct(${JSON.stringify(r)})'>Edit</button></div></div>`).join("")}</div>`}catch(e){box.innerHTML='<div class="empty">Commerce database is not configured yet. Run the included SQL.</div>'}}
+window.showEditProduct=r=>productForm("edit",r);
+function renderCreator(w){w.innerHTML=head("ToolNest Creator","Create copy and creator-ready content.")+`<div class="toolGrid"><div class="toolbox"><h3>Caption Generator</h3><textarea id="capInput" class="input" rows="4" placeholder="Describe your post..."></textarea><button class="btn primary" style="margin-top:10px" onclick="creatorLocal('caption')">Generate</button></div><div class="toolbox"><h3>Hashtags</h3><textarea id="hashInput" class="input" rows="4" placeholder="Topic / niche..."></textarea><button class="btn primary" style="margin-top:10px" onclick="creatorLocal('hashtags')">Generate</button></div><div class="toolbox"><h3>Script Outline</h3><textarea id="scriptInput" class="input" rows="4" placeholder="Video topic..."></textarea><button class="btn primary" style="margin-top:10px" onclick="creatorLocal('script')">Generate</button></div></div><div id="creatorOut" class="preview" style="margin-top:16px">Creator output appears here.</div>`}
+window.creatorLocal=(type)=>{const ids={caption:"capInput",hashtags:"hashInput",script:"scriptInput"};const topic=val(ids[type]);if(!topic)return toast("Enter a topic");const out=type==="caption"?`${topic}\n\nCreate with ToolNest. #ToolNest #CreatorTools #ContentCreator`:type==="hashtags"?`#${topic.replace(/[^a-z0-9]+/gi," ").trim().replace(/\s+/g," #")} #ToolNest #CreatorTools #DigitalCreator`:`Hook: ${topic}\n\nPoint 1: Problem\nPoint 2: Solution\nPoint 3: Proof\nCTA: Try ToolNest.`;$("creatorOut").textContent=out}
+function renderFinance(w){w.innerHTML=head("ToolNest Finance","Track expenses and simple personal/business budgets.")+`<div class="formGrid"><input id="expTitle" class="input" placeholder="Expense title"><input id="expAmount" class="input" type="number" placeholder="Amount ₹"><input id="expCategory" class="input" placeholder="Category"><input id="expDate" class="input" type="date" value="${today()}"></div><div class="actionsRow"><button class="btn primary" onclick="addExpense()">Add expense</button><button class="btn secondary" onclick="loadFinance()">Refresh</button></div><div id="financeList" style="margin-top:18px"></div>`;loadFinance()}
+window.addExpense=async()=>{try{await record("expense",crypto.randomUUID(),{title:val("expTitle"),amount:Number(val("expAmount")),category:val("expCategory"),date:val("expDate")});toast("Expense saved");loadFinance()}catch(e){toast("Expense save failed: "+errMsg(e))}};
+async function loadFinance(){const box=$("financeList");try{const rs=await rows("expense");const total=rs.reduce((s,r)=>s+Number(r.payload.amount||0),0);box.innerHTML=`<div class="statGrid"><div class="stat"><span class="muted tiny">Total expenses</span><b>${money(total)}</b></div></div>`+(rs.map(r=>`<div class="historyItem"><div><b>${r.payload.title||"Expense"}</b><div class="muted tiny">${r.payload.category||""} · ${r.payload.date||""}</div></div><strong>${money(r.payload.amount)}</strong></div>`).join("")||'<div class="empty" style="margin-top:14px">No expenses yet.</div>')}catch(e){box.innerHTML='<div class="empty">Finance data is not available.</div>'}}
+function renderMarketplace(w){w.innerHTML=head("ToolNest Marketplace","Publish digital products and templates using the commerce data layer.")+`<p class="muted">Marketplace items are created from your Commerce products. Buyers can open Razorpay checkout when payment is configured.</p><div class="actionsRow"><button class="btn primary" onclick="openModule('commerce')">Manage products</button></div>`}
+function renderDeveloper(w){w.innerHTML=head("ToolNest Developer","Create API credentials and review your integration data.")+`<div class="formGrid"><input id="apiName" class="input full" placeholder="API key label"></div><div class="actionsRow"><button class="btn primary" onclick="createApiKey()">Generate API key</button></div><div id="apiList" style="margin-top:18px">Loading...</div><div class="preview" style="margin-top:16px">API requests must be routed through a secure backend. The browser never stores your service-role secret.</div>`;loadApiKeys()}
+async function createApiKey(){const label=val("apiName")||"Default key";const raw="tn_"+crypto.randomUUID().replace(/-/g,"");await record("api_key",crypto.randomUUID(),{label,publicKey:raw,createdAt:new Date().toISOString()});toast("API key created. Copy it now.");loadApiKeys()}
+async function loadApiKeys(){const b=$("apiList");try{const rs=await rows("api_key");b.innerHTML=rs.length?rs.map(r=>`<div class="historyItem"><div><b>${r.payload.label}</b><div class="muted tiny">${r.payload.publicKey}</div></div><button class="btn danger" onclick="deleteRow('${r.id}')">Revoke</button></div>`).join(""):'<div class="empty">No API keys yet.</div>'}catch(e){b.textContent="Unable to load API keys."}}
+window.deleteRow=async id=>{await delRow(id);toast("Removed");openModule(activeModule)};
+function renderAutomation(w){w.innerHTML=head("ToolNest Automation","Create reusable workflow definitions in your account.")+`<div class="formGrid"><input id="wfName" class="input" placeholder="Workflow name"><select id="wfTrigger" class="input"><option>Manual</option><option>Daily</option><option>Weekly</option></select><input id="wfAction" class="input full" placeholder="Action, e.g. Create weekly sales PDF and send to support email"></div><div class="actionsRow"><button class="btn primary" onclick="saveWorkflow()">Save workflow</button></div><div id="wfList" style="margin-top:18px"></div>`;loadWorkflows()}
+window.saveWorkflow=async()=>{await record("workflow",crypto.randomUUID(),{name:val("wfName"),trigger:val("wfTrigger"),action:val("wfAction")});toast("Workflow saved");loadWorkflows()};async function loadWorkflows(){const b=$("wfList");try{const rs=await rows("workflow");b.innerHTML=rs.length?rs.map(r=>`<div class="historyItem"><div><b>${r.payload.name}</b><div class="muted tiny">${r.payload.trigger} · ${r.payload.action}</div></div></div>`).join(""):'<div class="empty">No workflows yet.</div>'}catch(e){b.textContent="Unable to load workflows."}}
+function renderTeam(w){w.innerHTML=head("Team Workspace","Create a team and keep role information in one shared record.")+`<div class="formGrid"><input id="teamName" class="input" placeholder="Team name"><input id="teamRole" class="input" placeholder="Your role"><textarea id="teamNotes" class="input full" rows="4" placeholder="Team notes / permissions"></textarea></div><button class="btn primary" style="margin-top:12px" onclick="saveTeam()">Save team workspace</button><div id="teamList" style="margin-top:18px"></div>`;loadTeams()}
+window.saveTeam=async()=>{await record("team",crypto.randomUUID(),{name:val("teamName"),role:val("teamRole"),notes:val("teamNotes")});toast("Team saved");loadTeams()};async function loadTeams(){const b=$("teamList");try{const rs=await rows("team");b.innerHTML=rs.map(r=>`<div class="historyItem"><div><b>${r.payload.name}</b><div class="muted tiny">${r.payload.role||"Member"}</div></div></div>`).join("")||'<div class="empty">No team workspace yet.</div>'}catch(e){b.textContent="Unable to load teams."}}
+function renderForms(w){w.innerHTML=head("ToolNest Forms","Build a public form, save it, and share the generated link.")+`<div class="formGrid"><input id="formTitle" class="input" placeholder="Form title"><textarea id="formFields" class="input full" rows="6" placeholder="One question per line\nFull name\nEmail\nMessage"></textarea></div><div class="actionsRow"><button class="btn primary" onclick="createForm()">Create form</button></div><div id="formList" style="margin-top:18px"></div>`;loadForms()}
+window.createForm=async()=>{const title=val("formTitle"),fields=val("formFields").split(/\n+/).map(s=>s.trim()).filter(Boolean);if(!title||!fields.length)return toast("Add title and fields");const id=crypto.randomUUID();await record("form",id,{title,fields});toast("Form created");loadForms()};async function loadForms(){const b=$("formList");try{const rs=await rows("form");b.innerHTML=rs.map(r=>`<div class="historyItem"><div><b>${r.payload.title}</b><div class="muted tiny">${r.payload.fields.length} fields</div></div><button class="btn secondary" onclick="copyForm('${r.key}')">Copy public link</button></div>`).join("")||'<div class="empty">No forms yet.</div>'}catch(e){b.textContent="Unable to load forms."}}
+window.copyForm=async id=>{const url=location.origin+location.pathname+"?form="+id;await navigator.clipboard.writeText(url);toast("Public form link copied")};
+function renderWebsite(w){w.innerHTML=head("Website Builder","Create a professional one-page site configuration.")+`<div class="formGrid"><input id="siteName" class="input" placeholder="Business name"><input id="siteTag" class="input" placeholder="Tagline"><textarea id="siteAbout" class="input full" rows="5" placeholder="About your business"></textarea><input id="siteEmail" class="input" placeholder="Contact email"></div><div class="actionsRow"><button class="btn primary" onclick="saveWebsite()">Save site</button><button class="btn secondary" onclick="previewWebsite()">Preview</button></div><div id="sitePreview" class="preview" style="margin-top:16px">Your site preview will appear here.</div>`}
+window.saveWebsite=async()=>{await record("website",crypto.randomUUID(),{name:val("siteName"),tagline:val("siteTag"),about:val("siteAbout"),email:val("siteEmail")});toast("Website configuration saved")};window.previewWebsite=()=>{$("sitePreview").textContent=`${val("siteName")||"Your business"}\n\n${val("siteTag")||"Professional digital presence"}\n\n${val("siteAbout")||"Add your business description."}\n\nContact: ${val("siteEmail")||"support@example.com"}`};
+function renderApp(w){w.innerHTML=head("App Builder","Generate a downloadable functional starter app from your specification.")+`<div class="formGrid"><input id="appName" class="input" placeholder="App name"><input id="appPurpose" class="input" placeholder="App purpose"><textarea id="appFeatures" class="input full" rows="6" placeholder="Feature 1\nFeature 2\nFeature 3"></textarea></div><div class="actionsRow"><button class="btn primary" onclick="buildStarterApp()">Build starter app</button></div><div id="appPreview" class="preview" style="margin-top:16px">Your generated starter app summary will appear here.</div>`}
+window.buildStarterApp=()=>{const name=val("appName")||"My App",purpose=val("appPurpose")||"My digital product",features=val("appFeatures").split(/\n+/).filter(Boolean);const code=`<!doctype html><html><body style="font-family:system-ui;padding:40px"><h1>${name}</h1><p>${purpose}</p><ul>${features.map(f=>`<li>${f}</li>`).join("")}</ul></body></html>`;const blob=new Blob([code],{type:"text/html"});downloadBlob(blob,name.toLowerCase().replace(/[^a-z0-9]+/g,"-")+".html");$("appPreview").textContent=`${name}\n${purpose}\n\n${features.map(f=>"• "+f).join("\n")}`;toast("Starter app downloaded")};
+function renderEducation(w){w.innerHTML=head("ToolNest Education","Study tools for notes and quizzes.")+`<div class="formGrid"><input id="studyTitle" class="input" placeholder="Topic"><textarea id="studyNotes" class="input full" rows="8" placeholder="Paste your notes..."></textarea></div><div class="actionsRow"><button class="btn primary" onclick="makeQuiz()">Create quiz</button><button class="btn secondary" onclick="saveStudy()">Save notes</button></div><div id="studyOut" class="preview" style="margin-top:16px">Study output will appear here.</div>`};window.makeQuiz=()=>{const t=val("studyNotes");if(!t)return toast("Add notes first");const words=t.split(/\s+/).filter(Boolean);$("studyOut").textContent=`Quiz from ${val("studyTitle")||"your notes"}\n\n1. What is the main idea?\n2. Name one important term from the notes.\n3. Summarize the topic in one sentence.\n\nKey terms: ${words.slice(0,10).join(", ")}`};window.saveStudy=async()=>{await record("study",crypto.randomUUID(),{title:val("studyTitle"),notes:val("studyNotes")});toast("Notes saved")};
+function renderHistory(w){w.innerHTML=head("Document History","Your saved documents and records.")+`<div id="histBox">Loading...</div>`;loadHistory()};async function loadHistory(){const b=$("histBox");try{const rs=await rows("document");b.innerHTML=rs.length?rs.map(r=>`<div class="historyItem"><div><b>${r.payload.type||"Document"}</b><div class="muted tiny">${r.payload.name||"Document"} · ${new Date(r.created_at).toLocaleString("en-IN")}</div></div><button class="btn danger" onclick="removeRecord('${r.id}')">Delete</button></div>`).join(""):'<div class="empty">No documents saved yet.</div>'}catch(e){b.innerHTML='<div class="empty">Could not load history.</div>'}}window.removeRecord=async id=>{await delRow(id);toast("Deleted");loadHistory()};
+function renderPricing(w){w.innerHTML=head("Plans & Recharge","Choose the access level that matches your usage.")+`<div class="priceGrid"><div class="price"><h3>Basic</h3><div class="amount">₹0</div><ul><li>5 PDFs/day</li><li>Core tools</li></ul><button class="btn secondary" onclick="toast('Basic is free')">Current free</button></div><div class="price featured"><h3>Platinum</h3><div class="amount">₹299</div><ul><li>50 PDFs/day</li><li>All tools</li></ul><button class="btn primary" onclick="buyPlan('platinum')">Pay ₹299</button></div><div class="price"><h3>Business</h3><div class="amount">₹999</div><ul><li>100 PDFs/day</li><li>Business workspace</li></ul><button class="btn primary" onclick="buyPlan('business')">Pay ₹999</button></div><div class="price"><h3>Daily Recharge</h3><div class="amount">+5</div><ul><li>Extra PDFs today</li><li>Stacks on Basic</li></ul><button class="btn dark" onclick="buyRecharge()">Recharge +5</button></div></div>`}
+function renderRecharge(w){w.innerHTML=head("Daily Recharge","When your daily PDF allowance is finished, add 5 more credits for the same day.")+`<div class="price featured" style="max-width:420px"><h3>+5 PDF Recharge</h3><div class="amount">Pay & Add 5</div><ul><li>5 extra PDF downloads today</li><li>Works with Basic/Platinum/Business</li><li>Credits reset with the daily account cycle</li></ul><button class="btn primary" onclick="buyRecharge()">Recharge +5</button></div>`}
+function renderSupport(w){w.innerHTML=head("Support Center","Get help with ToolNest.")+`<div class="toolGrid"><div class="toolbox"><h3>✉ Email support</h3><p>kaammilaga.official@gmail.com</p><a class="btn primary" href="mailto:kaammilaga.official@gmail.com?subject=ToolNest%20Support">Email us</a></div><div class="toolbox"><h3>📝 Support ticket</h3><input id="ticketSubject" class="input" placeholder="Subject"><textarea id="ticketBody" class="input" style="margin-top:10px" rows="5" placeholder="Describe the issue"></textarea><button class="btn primary" style="margin-top:10px" onclick="saveTicket()">Create ticket</button></div></div>`}
+window.saveTicket=async()=>{await record("ticket",crypto.randomUUID(),{subject:val("ticketSubject"),body:val("ticketBody"),status:"Open"});toast("Support ticket created")};
+async function buyPlan(kind){if(!me()){openLogin();return}try{const sess=(await supabase.auth.getSession()).data.session;const r=await fetch(PAYMENT_URL,{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${sess?.access_token||""}`},body:JSON.stringify({action:"create-order",kind:"plan",plan:kind})});const o=await r.json();if(!r.ok||!o.success)throw Error(o.error||"Payment order failed");await loadScript("https://checkout.razorpay.com/v1/checkout.js");new Razorpay({key:o.key_id,amount:o.amount,currency:o.currency,name:"ToolNest",description:o.plan_name,order_id:o.order_id,handler:async response=>{const rr=await fetch(PAYMENT_URL,{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${(await supabase.auth.getSession()).data.session?.access_token||""}`},body:JSON.stringify({action:"verify-payment",...response})});const v=await rr.json();if(!v.success)throw Error(v.error||"Payment verification failed");toast("Payment successful");await updatePlanBar();openModule("pricing")},prefill:{email:me().email,name:me().name},theme:{color:"#635bff"}}).open()}catch(e){toast("Payment error: "+errMsg(e))}}
+window.buyPlan=buyPlan;window.buyRecharge=async()=>{if(!me()){openLogin();return}try{const sess=(await supabase.auth.getSession()).data.session;const r=await fetch(PAYMENT_URL,{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${sess?.access_token||""}`},body:JSON.stringify({action:"create-order",kind:"recharge",credits:5})});const o=await r.json();if(!o.success)throw Error(o.error||"Recharge order failed");await loadScript("https://checkout.razorpay.com/v1/checkout.js");new Razorpay({key:o.key_id,amount:o.amount,currency:o.currency,name:"ToolNest",description:"5 PDF Recharge",order_id:o.order_id,handler:async response=>{const rr=await fetch(PAYMENT_URL,{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${(await supabase.auth.getSession()).data.session?.access_token||""}`},body:JSON.stringify({action:"verify-payment",...response})});const v=await rr.json();if(!v.success)throw Error(v.error||"Recharge verification failed");toast("5 PDF credits added");await updatePlanBar()},prefill:{email:me().email,name:me().name},theme:{color:"#101828"}}).open()}catch(e){toast("Recharge error: "+errMsg(e))}};
+async function handlePublicForm(){const id=new URLSearchParams(location.search).get('form');if(!id)return false;try{const {data,error}=await supabase.rpc('get_toolnest_public_form',{p_share_id:id});if(error||!data)throw error||Error('Form not found');document.body.innerHTML=`<div style="max-width:720px;margin:60px auto;padding:24px;font-family:system-ui"><div class="kicker">TOOLNEST FORM</div><h1>${String(data.title||'Form')}</h1><form id="publicForm">${(data.fields||[]).map((f,i)=>`<label style="display:block;margin:14px 0 6px;font-weight:800">${String(f)}</label><input name="f${i}" required style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px"></input>`).join('')}<button class="btn primary" style="margin-top:20px" type="submit">Submit</button><div id="publicMsg" style="margin-top:12px"></div></form></div>`;document.getElementById('publicForm').onsubmit=async e=>{e.preventDefault();const fd=new FormData(e.target);const response={};for(const [k,v] of fd.entries())response[k]=v;const r=await supabase.rpc('submit_toolnest_public_response',{p_share_id:id,p_payload:response});document.getElementById('publicMsg').textContent=r.error?r.error.message:'Thank you. Your response was submitted.';if(!r.error)e.target.reset()};return true}catch(e){document.body.innerHTML='<div style="font-family:system-ui;max-width:680px;margin:80px auto;padding:20px"><h2>Form unavailable</h2><p>'+errMsg(e)+'</p></div>';return true}}
+async function handleOAuth(){const p=new URLSearchParams(location.search);const code=p.get("code");if(code){try{const {data,error}=await supabase.auth.exchangeCodeForSession(code);if(error)throw error;sessionUser=data.session?.user||null;history.replaceState({},document.title,"/")}catch(e){console.error(e);authMsg("Google login failed: "+errMsg(e),true)}}}
+supabase.auth.onAuthStateChange((_e,s)=>{sessionUser=s?.user||null;if(sessionUser)showApp()});
+(async()=>{if(await handlePublicForm())return;await handleOAuth();const {data}=await supabase.auth.getSession();sessionUser=data.session?.user||null;if(sessionUser){showApp()}else{$("site").style.display="block";$('app').style.display="none"}})();
+renderModules();
 </script>
 </body></html>
