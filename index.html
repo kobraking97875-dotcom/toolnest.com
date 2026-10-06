@@ -197,38 +197,38 @@ window.copyAI=async()=>{const text=$("aiOut")?.textContent||"";if(!text||text.st
 window.useAIResult=()=>{const out=$("aiOut")?.textContent||"";if(!out||out.startsWith("Your AI response"))return toast("Nothing to use");$("aiPrompt").value=out;toast("Response moved to request")};
 window.runAI=async()=>{const p=val("aiPrompt"),c=val("aiContext"),mode=val("aiMode")||"chat";if(!p)return toast("Enter your request");const out=$("aiOut"),status=$("aiStatus");out.textContent="Thinking...";status.textContent="Connecting to ToolNest AI...";try{const sess=(await supabase.auth.getSession()).data.session;if(!sess?.access_token){openLogin();throw Error("Please sign in first.")};const r=await fetch(AI_URL,{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${sess.access_token}`},body:JSON.stringify({prompt:p,context:c,mode})});const raw=await r.text();let d={};try{d=raw?JSON.parse(raw):{}}catch{}if(!r.ok||!d.success)throw Error(d?.error||`AI backend returned HTTP ${r.status}`);out.textContent=d.text||"No response returned.";status.textContent=`Generated with ${d.model||"ToolNest AI"}`;toast("AI response ready")}catch(e){const msg=errMsg(e);out.textContent=msg;status.textContent="AI request failed — deploy toolnest-ai and keep OPENAI_API_KEY in Supabase Secrets.";console.error(e);toast("AI error: "+msg)}};
 
-function renderCloud(w){w.innerHTML=head("ToolNest Cloud","Private account files. Uploads use Supabase Storage.")+`<div class="actionsRow"><input id="cloudFile" class="input" type="file" accept=".pdf,.jpg,.jpeg,.png,.gif,.webp,.mp4,.webm,.mov,.doc,.docx,.xls,.xlsx,.txt,.zip" style="max-width:420px"><button class="btn primary" onclick="uploadCloud()">Upload file</button></div><div id="cloudList" style="margin-top:18px">Loading...</div>`;loadCloud()}
+function renderCloud(w){w.innerHTML=head("ToolNest Cloud","Private account files. Uploads use Supabase Storage.")+`<div class="actionsRow"><input id="cloudFile" class="input" type="file" accept="application/pdf,.pdf,image/*,video/*,.doc,.docx,.xls,.xlsx,.txt,.zip" style="max-width:420px"><button id="cloudUploadBtn" class="btn primary" onclick="uploadCloud()">Upload file</button></div><div id="cloudSelected" class="muted tiny" style="margin-top:8px">No file selected.</div><div id="cloudList" style="margin-top:18px">Loading...</div>`;const input=$("cloudFile");input?.addEventListener("change",()=>{const f=input.files?.[0];const s=$("cloudSelected");if(!f){if(s)s.textContent="No file selected.";return}if(s)s.textContent=`Selected: ${f.name} (${Math.ceil(f.size/1024)} KB)`;if(/\.pdf$/i.test(f.name||"")||String(f.type||"").toLowerCase()==="application/pdf")uploadCloud()});loadCloud()}
 async function uploadCloud(){
-  const input=$("cloudFile");
-  const f=input?.files?.[0];
+  const input=$("cloudFile"),btn=$("cloudUploadBtn"),status=$("cloudSelected"),f=input?.files?.[0];
   if(!f)return toast("Choose a file first");
   if(f.size>50*1024*1024)return toast("File is too large. Maximum size is 50 MB.");
+  if(btn)btn.disabled=true;
+  if(status)status.textContent=`Uploading: ${f.name}...`;
   try{
     const {data,error}=await supabase.auth.getSession();
     if(error)throw error;
     const u=data?.session?.user||me();
-    if(!u?.id){openLogin();return}
+    if(!u?.id){openLogin();throw new Error("Please sign in first.")}
     const safeName=(f.name||"file").replace(/[^a-z0-9._-]/gi,"-").replace(/-+/g,"-").replace(/^[-.]+|[-.]+$/g,"")||"file";
     const path=`${u.id}/${Date.now()}-${safeName}`;
-    const isPDF=/\.pdf$/i.test(f.name||"") || String(f.type||"").toLowerCase()==="application/pdf";
-    let uploadBody=f;
-    let contentType=f.type||"application/octet-stream";
-    // Android/Chrome can provide a PDF File with an inconsistent MIME type.
-    // Rebuild PDF as an explicit application/pdf Blob so Supabase receives the correct type.
+    const isPDF=/\.pdf$/i.test(f.name||"")||String(f.type||"").toLowerCase()==="application/pdf";
+    let body=f,contentType=f.type||"application/octet-stream";
     if(isPDF){
-      const bytes=await f.arrayBuffer();
-      uploadBody=new Blob([bytes],{type:"application/pdf"});
+      const buffer=await f.arrayBuffer();
+      body=new Blob([new Uint8Array(buffer)],{type:"application/pdf"});
       contentType="application/pdf";
     }
-    const result=await supabase.storage.from("toolnest-files").upload(path,uploadBody,{upsert:false,contentType,cacheControl:"3600"});
+    const result=await supabase.storage.from("toolnest-files").upload(path,body,{upsert:false,contentType,cacheControl:"3600"});
     if(result.error)throw new Error("Storage upload failed: "+result.error.message);
+    if(status)status.textContent=`Uploaded: ${f.name}`;
     if(input)input.value="";
     toast("File uploaded successfully");
     await loadCloud();
   }catch(e){
     console.error("ToolNest Cloud upload error",e);
+    if(status)status.textContent=`Upload failed: ${f.name}`;
     toast(errMsg(e)||"Upload failed");
-  }
+  }finally{if(btn)btn.disabled=false}
 }
 async function loadCloud(){
   const box=$("cloudList");
@@ -242,17 +242,11 @@ async function loadCloud(){
     if(error)throw new Error("Storage list failed: "+error.message);
     const files=(data||[]).filter(x=>x?.name&&!x.name.endsWith("/"));
     if(!files.length){box.innerHTML='<div class="empty">No cloud files yet.</div>';return}
-    box.innerHTML=files.map(f=>{
-      const safe=String(f.name).replace(/[<>"']/g,"");
-      const size=Math.round(Number(f.metadata?.size||0)/1024);
-      return `<div class="historyItem"><div><b>${safe}</b><div class="muted tiny">${size} KB</div></div><button class="btn secondary" onclick="downloadCloud('${u.id}/${encodeURIComponent(f.name)}','${encodeURIComponent(f.name)}')">Download</button></div>`
-    }).join("");
-  }catch(e){
-    console.error("ToolNest Cloud list error",e);
-    box.innerHTML=`<div class="empty">${String(errMsg(e)).replace(/[<>]/g,"")}</div>`;
-  }
+    box.innerHTML=files.map(f=>{const safe=String(f.name).replace(/[<>"']/g,"");const size=Math.round(Number(f.metadata?.size||0)/1024);return `<div class="historyItem"><div><b>${safe}</b><div class="muted tiny">${size} KB</div></div><button class="btn secondary" onclick="downloadCloud('${u.id}/${encodeURIComponent(f.name)}','${encodeURIComponent(f.name)}')">Download</button></div>`}).join("");
+  }catch(e){console.error("ToolNest Cloud list error",e);box.innerHTML=`<div class="empty">${String(errMsg(e)).replace(/[<>]/g,"")}</div>`}
 }
 window.downloadCloud=async(path,name)=>{try{const {data,error}=await supabase.storage.from("toolnest-files").download(path);if(error)throw error;downloadBlob(data,decodeURIComponent(name))}catch(e){toast("Download failed: "+errMsg(e))}};
+
 function renderCommerce(w){w.innerHTML=head("ToolNest Commerce","Create products, manage stock and run a simple store.")+`<div class="actionsRow"><button class="btn primary" onclick="showAddProduct()">+ Add product</button><button class="btn secondary" onclick="loadProducts()">Refresh</button></div><div id="productList" style="margin-top:18px">Loading...</div><div id="productForm" class="hidden" style="margin-top:18px"></div>`;loadProducts()}
 function productForm(kind="create",row=null){$("productForm").classList.remove("hidden");$("productForm").innerHTML=`<div class="formGrid"><input id="pName" class="input" placeholder="Product name" value="${row?.payload?.name||""}"><input id="pPrice" class="input" type="number" placeholder="Price ₹" value="${row?.payload?.price||""}"><input id="pStock" class="input" type="number" placeholder="Stock" value="${row?.payload?.stock||"0"}"><input id="pCategory" class="input" placeholder="Category" value="${row?.payload?.category||""}"><textarea id="pDesc" class="input full" rows="4" placeholder="Description">${row?.payload?.desc||""}</textarea></div><div class="actionsRow"><button class="btn primary" onclick="saveProduct('${kind}',${row?`'${row.id}'`:"null"})">Save product</button><button class="btn secondary" onclick="document.getElementById(\"productForm\").classList.add(\"hidden\")">Cancel</button></div>`}
 window.showAddProduct=()=>productForm();
