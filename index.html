@@ -195,11 +195,79 @@ function renderAI(w){w.innerHTML=head("ToolNest AI","Real AI assistant powered b
 window.clearAI=()=>{if($("aiPrompt"))$("aiPrompt").value="";if($("aiContext"))$("aiContext").value="";if($("aiOut"))$("aiOut").textContent="Your AI response will appear here.";if($("aiStatus"))$("aiStatus").textContent=""};
 window.copyAI=async()=>{const text=$("aiOut")?.textContent||"";if(!text||text.startsWith("Your AI response"))return toast("Nothing to copy");try{await navigator.clipboard.writeText(text);toast("AI response copied")}catch(e){toast("Copy failed: "+errMsg(e))}};
 window.useAIResult=()=>{const out=$("aiOut")?.textContent||"";if(!out||out.startsWith("Your AI response"))return toast("Nothing to use");$("aiPrompt").value=out;toast("Response moved to request")};
-window.runAI=async()=>{const p=val("aiPrompt"),c=val("aiContext"),mode=val("aiMode")||"chat";if(!p)return toast("Enter your request");const out=$("aiOut"),status=$("aiStatus");out.textContent="Thinking...";status.textContent="Connecting to ToolNest AI...";try{const sess=(await supabase.auth.getSession()).data.session;if(!sess?.access_token){openLogin();throw Error("Please sign in first.")};const r=await fetch(AI_URL,{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${sess.access_token}`},body:JSON.stringify({prompt:p,context:c,mode})});const raw=await r.text();let d={};try{d=raw?JSON.parse(raw):{}}catch{}if(!r.ok||!d.success)throw Error(d?.error||`AI backend returned HTTP ${r.status}`);out.textContent=d.text||"No response returned.";status.textContent=`Generated with ${d.model||"ToolNest AI"}`;toast("AI response ready")}catch(e){const msg=errMsg(e);out.textContent=msg;status.textContent="AI request failed — deploy toolnest-ai and keep OPENAI_API_KEY in Supabase Secrets.";console.error(e);toast("AI error: "+msg)}};
+window.runAI=async()=>{const p=val("aiPrompt"),c=val("aiContext"),mode=val("aiMode")||"chat";if(!p)return toast("Enter your request");const out=$("aiOut"),status=$("aiStatus");out.textContent="Thinking...";status.textContent="Connecting to ToolNest AI...";try{const sess=(await supabase.auth.getSession()).data.session;if(!sess?.access_token){openLogin();throw Error("Please sign in first.")};const r=await fetch(AI_URL,{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${sess.access_token}`},body:JSON.stringify({prompt:p,context:c,mode})});const raw=await r.text();let d={};try{d=raw?JSON.parse(raw):{}}catch{}if(!r.ok||!d.success)throw Error(d?.error||`AI backend returned HTTP ${r.status}`);out.textContent=d.text||"No response returned.";status.textContent=`Generated with ${d.model||"ToolNest AI"}`;toast("AI response ready")}catch(e){const msg=errMsg(e);out.textContent=msg;status.textContent="AI request failed — deploy toolnest-ai and keep OPENAI_API_KEY in Supabase Secrets.";console.error(e);toast("AI error: "+ms
+function renderCloud(w){
+  w.innerHTML=head(
+    "ToolNest Cloud",
+    "Private account files. Uploads use Supabase Storage."
+  )+`
+    <div class="actionsRow">
+      <input
+        id="cloudFile"
+        class="input"
+        type="file"
+        accept="application/pdf,.pdf,image/*,video/*,.doc,.docx,.xls,.xlsx,.txt,.zip"
+        style="max-width:420px"
+      >
 
-function renderCloud(w){w.innerHTML=head("ToolNest Cloud","Private account files. Uploads use Supabase Storage.")+`<div class="actionsRow"><input id="cloudFile" class="input" type="file" accept="application/pdf,.pdf,image/*,video/*,.doc,.docx,.xls,.xlsx,.txt,.zip" style="max-width:420px"><button id="cloudUploadBtn" class="btn primary" onclick="uploadCloud()">Upload file</button></div><div id="cloudSelected" class="muted tiny" style="margin-top:8px">No file selected.</div><div id="cloudList" style="margin-top:18px">Loading...</div>`;const input=$("cloudFile");input?.addEventListener("change",()=>{const f=input.files?.[0];const s=$("cloudSelected");if(!f){if(s)s.textContent="No file selected.";return}if(s)s.textContent=`Selected: ${f.name} (${Math.ceil(f.size/1024)} KB)`;if(/\.pdf$/i.test(f.name||"")||String(f.type||"").toLowerCase()==="application/pdf")uploadCloud()});loadCloud()}
+      <button
+        id="cloudUploadBtn"
+        class="btn primary"
+        onclick="uploadCloud()"
+      >
+        Upload file
+      </button>
+    </div>
+
+    <div
+      id="cloudSelected"
+      class="muted tiny"
+      style="margin-top:8px"
+    >
+      No file selected.
+    </div>
+
+    <div
+      id="cloudList"
+      style="margin-top:18px"
+    >
+      Loading...
+    </div>
+  `;
+
+  const input=$("cloudFile");
+
+  input?.addEventListener("change",()=>{
+    const f=input.files?.[0];
+    const status=$("cloudSelected");
+
+    if(!f){
+      if(status) status.textContent="No file selected.";
+      return;
+    }
+
+    if(status){
+      status.textContent=
+        `Selected: ${f.name} (${Math.ceil(f.size/1024)} KB)`;
+    }
+
+    const isPDF =
+      /\.pdf$/i.test(f.name||"") ||
+      String(f.type||"").toLowerCase()==="application/pdf";
+
+    if(isPDF){
+  uploadCloud();
+}
+
+loadCloud();
+}
+
 async function uploadCloud(){
-  const input=$("cloudFile"),btn=$("cloudUploadBtn"),status=$("cloudSelected"),f=input?.files?.[0];
+  const input=$("cloudFile");
+  const btn=$("cloudUploadBtn");
+  const status=$("cloudSelected");
+  const f=input?.files?.[0];
+
   if(!f)return toast("Choose a file first");
   if(f.size>50*1024*1024)return toast("File is too large. Maximum size is 50 MB.");
   if(btn)btn.disabled=true;
