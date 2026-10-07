@@ -235,10 +235,10 @@ async function uploadCloud(){
     const isPDF=/\.pdf$/i.test(f.name||"")||String(f.type||"").toLowerCase()==="application/pdf";
     const contentType=isPDF?"application/pdf":(f.type||"application/octet-stream");
 
-    // Upload the original File first. This is the most reliable path on Android/Chrome.
+    // Upload the Any File first. This is the most reliable path on Android/Chrome.
     let result=await supabase.storage.from("toolnest-files").upload(path,f,{upsert:false,contentType,cacheControl:"3600"});
 
-    // PDF fallback: rebuild as an explicit PDF Blob only if the original File upload fails.
+    // PDF fallback: rebuild as an explicit PDF Blob only if the Any File upload fails.
     if(result.error && isPDF){
       console.warn("Original PDF upload; retrying with PDF Blob",result.error);
       const buffer=await f.arrayBuffer();
